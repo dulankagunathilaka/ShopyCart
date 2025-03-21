@@ -158,8 +158,16 @@
 }
 
 .dropdown .dropdown-menu a:hover {
-    background: var(--bs-secondary);
+    background: var(--bs-light);
     color: var(--bs-primary);
+}
+
+.navbar .dropdown-menu {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    min-width: 120px;
+    padding: 5px 10px;
+    font-size: 14px;
 }
 
 .navbar .nav-item:hover .dropdown-menu {
@@ -169,6 +177,7 @@
     border-radius: 10px !important;
     transition: .5s;
     opacity: 1;
+
 }
 
 #searchModal .modal-content {
@@ -415,7 +424,7 @@
 
 /*** Footer Start ***/
 .footer .footer-item .btn-link {
-    line-height: 35px;
+    line-height: 40px;
     color: rgba(255, 255, 255, .5);
     transition: 0.5s;
 }
