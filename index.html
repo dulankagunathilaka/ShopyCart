@@ -51,6 +51,7 @@
                             <a href="#fresh-finds" class="nav-item nav-link">Fresh Finds</a>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
+
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                             <a href="cart.html" class="position-relative me-4 my-auto">
@@ -59,11 +60,17 @@
                             </a>
                             <a href="#" class="my-auto">
                                 <div class="nav-item dropdown">
-                                    <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
+                                    <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                                        <i class="fas fa-user fa-2x"></i>
+                                    </a>
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                        <a href="" class="btn border-secondary py-2 px-2 rounded-pill text-primary">SignIn/SignUp</a>
+                                        <a href="#" class="btn border-secondary py-2 px-2 rounded-pill text-primary w-100 text-center"
+                                           data-bs-toggle="modal" data-bs-target="#authModal">
+                                            SignIn/SignUp
+                                        </a>
+                                        <hr class="dropdown-divider">
                                         <a href="chackout.html" class="dropdown-item">My Orders</a>
-                                        <a href="testimonial.html" class="dropdown-item">Wishlist</a>
+                                        <a href="wishlist.html" class="dropdown-item">Wishlist</a>
                                         <a href="404.html" class="dropdown-item">My Account</a>
                                     </div>
                                 </div>
@@ -73,6 +80,73 @@
                 </nav>
             </div>
         </div>
+
+
+        <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-secondary text-white">
+                            <h5 class="modal-title" id="authModalLabel">Sign In / Sign Up</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Nav Tabs -->
+                            <ul class="nav nav-tabs mb-3" id="authTabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="signin-tab" data-bs-toggle="tab" href="#signin">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="signup-tab" data-bs-toggle="tab" href="#signup">Sign Up</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab Content -->
+                            <div class="tab-content">
+                                <!-- Sign In -->
+                                <div class="tab-pane fade show active" id="signin">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="signinEmail" class="form-label">Email address</label>
+                                            <input type="email" class="form-control" id="signinEmail" placeholder="Enter your email">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="signinPassword" class="form-label">Password</label>
+                                            <input type="password" class="form-control" id="signinPassword" placeholder="Password">
+                                        </div>
+                                        <div class="mb-3 text-end">
+                                            <a href="#" class="text-primary">Forgot password?</a>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                                    </form>
+                                </div>
+
+                                <!-- Sign Up -->
+                                <div class="tab-pane fade" id="signup">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="signupName" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="signupName" placeholder="Your name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="signupEmail" class="form-label">Email address</label>
+                                            <input type="email" class="form-control" id="signupEmail" placeholder="Enter email">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="signupPassword" class="form-label">Password</label>
+                                            <input type="password" class="form-control" id="signupPassword" placeholder="Create password">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
+                                            <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm password">
+                                        </div>
+                                        <button type="submit" class="btn btn-success w-100">Sign Up</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <!-- Navbar End -->
 
         <!-- Modal Search Start -->
@@ -920,16 +994,31 @@
         <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
     <!-- JavaScript Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-    </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const signinTab = document.getElementById('signin-tab');
+                    const signupTab = document.getElementById('signup-tab');
+
+                    signinTab.addEventListener('click', function () {
+                        document.getElementById('authModalLabel').textContent = "Sign In";
+                    });
+
+                    signupTab.addEventListener('click', function () {
+                        document.getElementById('authModalLabel').textContent = "Sign Up";
+                    });
+                });
+            </script>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="lib/easing/easing.min.js"></script>
+            <script src="lib/waypoints/waypoints.min.js"></script>
+            <script src="lib/lightbox/js/lightbox.min.js"></script>
+            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+            <!-- Template Javascript -->
+           <script src="js/main.js"></script>
+        </div>
     </body>
-
 </html>

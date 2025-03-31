@@ -27,6 +27,17 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .wishlist-card img {
+            width: 100px; /* Fixed width */
+            height: 100px; /* Fixed height */
+            object-fit: cover; /* Ensures proper image display */
+        }
+        .stock-status {
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -48,8 +59,8 @@
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <a href="#fresh-finds" class="nav-item nav-link">Wishlist</a>
+                    <a href="index.html" class="nav-item nav-link">Home</a>
+                    <a href="#fresh-finds" class="nav-item nav-link active">Wishlist</a>
                 </div>
                 <div class="d-flex m-3 me-0">
                     <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
@@ -62,7 +73,7 @@
                             <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                 <a href="chackout.html" class="dropdown-item">My Orders</a>
-                                <a href="testimonial.html" class="dropdown-item">Wishlist</a>
+                                <a href="wishlist.html" class="dropdown-item">Wishlist</a>
                                 <a href="404.html" class="dropdown-item">My Account</a>
                             </div>
                         </div>
@@ -96,7 +107,86 @@
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+       <div class="container-fluid py-5 mb-4 mt-5">
+           <div class="row">
+               <!-- Product 1 -->
+               <div class="col-md-4 col-sm-6 mb-4">
+                   <div class="card wishlist-card text-center p-2">
+                       <img src="../img/Apple.jpg" class="card-img-top mx-auto" alt="Apple">
+                       <div class="card-body">
+                           <h5 class="card-title">Apple</h5>
+                           <p class="card-text">100g - Rs.250</p>
+                           <p class="stock-status text-success" data-stock="in">In Stock</p>
+                           <button class="btn btn-sm btn-primary"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                           <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                       </div>
+                   </div>
+               </div>
 
+               <!-- Product 2 (Out of Stock Example) -->
+               <div class="col-md-4 col-sm-6 mb-4">
+                   <div class="card wishlist-card text-center p-2">
+                       <img src="../img/Banana.jpg" class="card-img-top mx-auto" alt="Banana">
+                       <div class="card-body">
+                           <h5 class="card-title">Banana</h5>
+                           <p class="card-text">100g - Rs.150</p>
+                           <p class="stock-status text-danger" data-stock="out">Out of Stock</p>
+                           <button class="btn btn-sm btn-primary" disabled><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                           <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                       </div>
+                   </div>
+               </div>
+
+               <!-- Product 3 -->
+               <div class="col-md-4 col-sm-6 mb-4">
+                   <div class="card wishlist-card text-center p-2">
+                       <img src="../img/Orange.jpg" class="card-img-top mx-auto" alt="Orange">
+                       <div class="card-body">
+                           <h5 class="card-title">Orange</h5>
+                           <p class="card-text">100g - Rs.180</p>
+                           <p class="stock-status text-success" data-stock="in">In Stock</p>
+                           <button class="btn btn-sm btn-primary"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                           <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                       </div>
+                   </div>
+               </div>
+
+               <!-- Product 4 -->
+               <div class="col-md-4 col-sm-6 mb-4">
+                   <div class="card wishlist-card text-center p-2">
+                       <img src="../img/blueberry.jpg" class="card-img-top mx-auto" alt="Apple">
+                       <div class="card-body">
+                           <h5 class="card-title">Blueberry</h5>
+                           <p class="card-text">100g - Rs.240</p>
+                           <p class="stock-status text-success" data-stock="in">In Stock</p>
+                           <button class="btn btn-sm btn-primary"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                           <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                       </div>
+                   </div>
+               </div>
+
+               <!-- Product 5 -->
+               <div class="col-md-4 col-sm-6 mb-4">
+                   <div class="card wishlist-card text-center p-2">
+                       <img src="../img/Carrot.jpg" class="card-img-top mx-auto" alt="Apple">
+                       <div class="card-body">
+                           <h5 class="card-title">Carrot</h5>
+                           <p class="card-text">100g - Rs.250</p>
+                           <p class="stock-status text-danger" data-stock="out">Out of Stock</p>
+                           <button class="btn btn-sm btn-primary" disabled><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                           <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+
+<!-- Go to Shop Button -->
+<div class="text-center mt-4">
+    <a href="index.html" class="btn btn-outline-success"><i class="fas fa-store"></i> Continue Shopping</a>
+</div>
+</div>
         
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
