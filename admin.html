@@ -6,6 +6,7 @@
   <title>Shopy Cart Admin Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     body {
@@ -15,7 +16,7 @@
     }
     .sidebar {
       width: 250px;
-      background-color: #198754;
+      background-color: #81c408;
       color: white;
       padding: 20px;
     }
@@ -61,6 +62,10 @@
       height: 50px;
       object-fit: cover;
     }
+    .card h4 {
+      font-weight: bold;
+      color: #81c408;
+    }
   </style>
 </head>
 <body>
@@ -87,6 +92,42 @@
   <section id="dashboard">
     <h2>Dashboard</h2>
     <p>Welcome, Admin!</p>
+
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="card bg-light mb-3">
+          <div class="card-header fw-bold text-success">Total Sales</div>
+          <div class="card-body">
+            <h4 class="card-title">Rs. 58,390</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card bg-light mb-3">
+          <div class="card-header fw-bold text-success">Total Products</div>
+          <div class="card-body">
+            <h4 class="card-title">124 Products</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card bg-light mb-3">
+          <div class="card-header fw-bold text-success">Top Selling Category</div>
+          <div class="card-body">
+            <h4 class="card-title">Fruits</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header bg-success text-white">Sales by Category</div>
+      <div class="card-body">
+        <canvas id="categoryChart" height="100"></canvas>
+      </div>
+    </div>
   </section>
 
   <!-- Add Product -->
@@ -158,7 +199,7 @@
                 <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
               </td>
             </tr>
-            <!-- Additional product rows can be added here -->
+            <!-- Additional product rows -->
             </tbody>
           </table>
         </div>
@@ -204,6 +245,43 @@
   </section>
 
 </div>
+
+<!-- Chart Script -->
+<script>
+  const ctx = document.getElementById('categoryChart').getContext('2d');
+  const categoryChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Fruits', 'Vegetables', 'Bakery', 'Dairy', 'Snacks'],
+      datasets: [{
+        label: 'Sales (Rs)',
+        data: [21500, 12300, 8900, 7650, 5040],
+        backgroundColor: ['#198754', '#20c997', '#0dcaf0', '#ffc107', '#fd7e14'],
+        borderRadius: 5
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Category-wise Sales Distribution'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return 'Rs. ' + value;
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
