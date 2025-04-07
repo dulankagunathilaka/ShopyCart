@@ -1,288 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shopy Cart Admin Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <title>ShopyCart Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
 
-  <style>
-    body {
-      display: flex;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-    }
-    .sidebar {
-      width: 250px;
-      background-color: #81c408;
-      color: white;
-      padding: 20px;
-    }
-    .sidebar h4 {
-      font-weight: bold;
-      margin-bottom: 30px;
-    }
-    .sidebar a {
-      color: white;
-      display: block;
-      margin: 15px 0;
-      text-decoration: none;
-    }
-    .sidebar a:hover {
-      text-decoration: underline;
-    }
-    .main-content {
-      flex-grow: 1;
-      padding: 20px;
-    }
-    .profile-box {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .profile-box img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 10px;
-      border: 3px solid white;
-    }
-    .profile-box h5 {
-      margin: 0;
-      font-size: 18px;
-    }
-    .profile-box small {
-      font-size: 14px;
-      color: #d4d4d4;
-    }
-    .img-thumbnail {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-    }
-    .card h4 {
-      font-weight: bold;
-      color: #81c408;
-    }
-  </style>
+        .sidebar {
+            background-color: #81c408;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 220px;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            color: #fff;
+            padding: 12px;
+            display: block;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #6aa304;
+        }
+
+        .main-content {
+            margin-left: 230px;
+            padding: 30px;
+        }
+
+        .card-header {
+            background-color: #81c408;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .btn-primary, .btn-success, .btn-warning, .btn-danger {
+            background-color: #81c408;
+            border: none;
+        }
+
+        .btn-primary:hover, .btn-success:hover, .btn-warning:hover, .btn-danger:hover {
+            background-color: #6aa304;
+        }
+
+        .btn-instock {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-outofstock {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-status {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-status:hover, .btn-instock:hover, .btn-outofstock:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        .img-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
 
 <!-- Sidebar -->
 <div class="sidebar">
-  <div class="profile-box">
-    <img src="../img/Admin.jpg" alt="Admin Profile">
-    <h5>Early Bird</h5>
-    <small>Administrator</small>
-  </div>
-  <h4>Shopy Cart Admin</h4>
-  <a href="#dashboard"><i class="fas fa-home me-2"></i>Dashboard</a>
-  <a href="#add-product"><i class="fas fa-plus me-2"></i>Add Product</a>
-  <a href="#manage-products"><i class="fas fa-edit me-2"></i>Manage Products</a>
-  <a href="#orders"><i class="fas fa-box me-2"></i>Orders</a>
-  <a href="#logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+    <h4 class="text-white text-center mb-4">ShopyCart Admin</h4>
+    <a href="#dashboard" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+    <a href="#products"><i class="fas fa-boxes me-2"></i>Manage Products</a>
+    <a href="#orders"><i class="fas fa-truck me-2"></i>Order Tracking</a>
+    <a href="#settings"><i class="fas fa-cog me-2"></i>Settings</a>
+    <a href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
 </div>
 
 <!-- Main Content -->
 <div class="main-content">
-
-  <!-- Dashboard -->
-  <section id="dashboard">
-    <h2>Dashboard</h2>
-    <p>Welcome, Admin!</p>
-
-    <div class="row mt-4">
-      <div class="col-md-4">
-        <div class="card bg-light mb-3">
-          <div class="card-header fw-bold text-success">Total Sales</div>
-          <div class="card-body">
-            <h4 class="card-title">Rs. 58,390</h4>
-          </div>
+    <!-- Dashboard Overview -->
+    <section id="dashboard">
+        <h2>Welcome, Admin!</h2>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Products</h5>
+                        <p class="card-text fs-4">12</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Orders Today</h5>
+                        <p class="card-text fs-4">8</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Revenue</h5>
+                        <p class="card-text fs-4">Rs. 25,000</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div class="col-md-4">
-        <div class="card bg-light mb-3">
-          <div class="card-header fw-bold text-success">Total Products</div>
-          <div class="card-body">
-            <h4 class="card-title">124 Products</h4>
-          </div>
+    <!-- Manage Products -->
+    <section id="products" class="mt-5">
+        <div class="card">
+            <div class="card-header">Manage Products</div>
+            <div class="card-body">
+                <!-- Add Product Form -->
+                <form class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="Product Name">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="Category">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="Description">
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <button class="btn btn-primary">Add Product</button>
+                    </div>
+                </form>
+
+                <!-- Product Table -->
+                <table class="table table-bordered text-center align-middle">
+                    <thead class="table-success">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Stock Status</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Apple</td>
+                        <td>Fruit</td>
+                        <td>Fresh red apples</td>
+                        <td>195</td>
+                        <td>1kg</td>
+                        <td><span class="badge bg-success">In Stock</span></td>
+                        <td><img src="/uploads/Apple.jpg" class="img-thumbnail"></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-sm btn-instock">In Stock</button>
+                            <button class="btn btn-sm btn-outofstock">Out of Stock</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Banana</td>
+                        <td>Fruit</td>
+                        <td>Fresh bananas</td>
+                        <td>120</td>
+                        <td>0kg</td>
+                        <td><span class="badge bg-danger">Out of Stock</span></td>
+                        <td><img src="/uploads/Banana.jpg" class="img-thumbnail"></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-sm btn-instock">In Stock</button>
+                            <button class="btn btn-sm btn-outofstock">Out of Stock</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div class="col-md-4">
-        <div class="card bg-light mb-3">
-          <div class="card-header fw-bold text-success">Top Selling Category</div>
-          <div class="card-body">
-            <h4 class="card-title">Fruits</h4>
-          </div>
+    <!-- Order Tracking -->
+    <section id="orders" class="mt-5">
+        <div class="card">
+            <div class="card-header">Order Tracking</div>
+            <div class="card-body">
+                <table class="table table-bordered text-center align-middle">
+                    <thead class="table-success">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Progress</th>
+                        <th>Order Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>#ORD001</td>
+                        <td>Nimal Perera</td>
+                        <td>Shipped</td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" style="width: 70%;">70%</div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-status">Shipped</button>
+                            <button class="btn btn-sm btn-status">Delivered</button>
+                            <button class="btn btn-sm btn-status">Processing</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#ORD002</td>
+                        <td>Kasun Silva</td>
+                        <td>Delivered</td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" style="width: 100%;">100%</div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-status">Shipped</button>
+                            <button class="btn btn-sm btn-status">Delivered</button>
+                            <button class="btn btn-sm btn-status">Processing</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#ORD003</td>
+                        <td>Sachini Madushani</td>
+                        <td>Processing</td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" style="width: 40%;">40%</div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-status">Shipped</button>
+                            <button class="btn btn-sm btn-status">Delivered</button>
+                            <button class="btn btn-sm btn-status">Processing</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
-    </div>
+    </section>
 
-    <div class="card mt-4">
-      <div class="card-header bg-success text-white">Sales by Category</div>
-      <div class="card-body">
-        <canvas id="categoryChart" height="100"></canvas>
-      </div>
-    </div>
-  </section>
-
-  <!-- Add Product -->
-  <section id="add-product" class="mt-5">
-    <div class="card mb-4">
-      <div class="card-header bg-success text-white">Add Product</div>
-      <div class="card-body">
-        <form>
-          <div class="mb-3">
-            <label class="form-label">Product Name</label>
-            <input type="text" class="form-control" placeholder="Enter product name">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Category</label>
-            <input type="text" class="form-control" placeholder="e.g., Fruits">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea class="form-control" rows="2" placeholder="Enter product description"></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Price</label>
-            <input type="text" class="form-control" placeholder="e.g., 2.99">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Quantity</label>
-            <input type="text" class="form-control" placeholder="e.g., 100g or 1">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Image URL</label>
-            <input type="text" class="form-control" placeholder="http://...">
-          </div>
-          <button type="submit" class="btn btn-success">Add Product</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- Manage Products -->
-  <section id="manage-products" class="mt-5">
-    <div class="card mb-4">
-      <div class="card-header bg-success text-white">Manage Products</div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover text-center align-middle">
-            <thead class="table-success">
-            <tr>
-              <th>Product ID</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Image</th>
-              <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>0001</td>
-              <td>Apple</td>
-              <td>Fruits</td>
-              <td>Fresh Fruits, Eat Healthy</td>
-              <td>Rs.195</td>
-              <td>100g</td>
-              <td><img src="../img/Apple.jpg" class="img-thumbnail" /></td>
-              <td>
-                <button class="btn btn-sm btn-primary me-1"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-              </td>
-            </tr>
-            <!-- Additional product rows -->
-            </tbody>
-          </table>
+    <!-- Settings -->
+    <section id="settings" class="mt-5">
+        <div class="card">
+            <div class="card-header">Settings</div>
+            <div class="card-body">
+                <p>Here you can update admin preferences, theme colors, and account information.</p>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Orders -->
-  <section id="orders" class="mt-5">
-    <div class="card mb-4">
-      <div class="card-header bg-success text-white">Orders</div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered text-center align-middle">
-            <thead class="table-success">
-            <tr>
-              <th>Order ID</th>
-              <th>Customer</th>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>001</td>
-              <td>Jane Doe</td>
-              <td>Wireless Mouse</td>
-              <td>2</td>
-              <td><span class="badge bg-warning">Processing</span></td>
-              <td>
-                <button class="btn btn-sm btn-success me-1">Mark as Shipped</button>
-                <button class="btn btn-sm btn-danger">Delete</button>
-              </td>
-            </tr>
-            <!-- More orders go here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
 </div>
 
-<!-- Chart Script -->
-<script>
-  const ctx = document.getElementById('categoryChart').getContext('2d');
-  const categoryChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Fruits', 'Vegetables', 'Bakery', 'Dairy', 'Snacks'],
-      datasets: [{
-        label: 'Sales (Rs)',
-        data: [21500, 12300, 8900, 7650, 5040],
-        backgroundColor: ['#198754', '#20c997', '#0dcaf0', '#ffc107', '#fd7e14'],
-        borderRadius: 5
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: {
-          display: true,
-          text: 'Category-wise Sales Distribution'
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            callback: function(value) {
-              return 'Rs. ' + value;
-            }
-          }
-        }
-      }
-    }
-  });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap & Font Awesome -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
