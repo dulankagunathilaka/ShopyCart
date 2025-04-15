@@ -52,6 +52,9 @@
             background-color: #6aa304;
         }
 
+        .btn{
+            border-radius: 25px;
+        }
         .btn-instock {
             background-color: #28a745;
             color: white;
@@ -179,13 +182,14 @@
                         <td>Fresh red apples</td>
                         <td>195</td>
                         <td>1kg</td>
-                        <td><span class="badge bg-success">In Stock</span></td>
-                        <td><img src="/uploads/Apple.jpg" class="img-thumbnail"></td>
                         <td>
-                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                             <button class="btn btn-sm btn-instock">In Stock</button>
                             <button class="btn btn-sm btn-outofstock">Out of Stock</button>
+                        </td>
+                        <td><img src="/uploads/Apple.jpg" class="img-thumbnail"></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">Edit</button>
+                            <button class="btn btn-sm btn-danger">Remove</i></button>
                         </td>
                     </tr>
                     <tr>
@@ -195,13 +199,14 @@
                         <td>Fresh bananas</td>
                         <td>120</td>
                         <td>0kg</td>
-                        <td><span class="badge bg-danger">Out of Stock</span></td>
-                        <td><img src="/uploads/Banana.jpg" class="img-thumbnail"></td>
                         <td>
-                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                             <button class="btn btn-sm btn-instock">In Stock</button>
                             <button class="btn btn-sm btn-outofstock">Out of Stock</button>
+                        </td>
+                        <td><img src="/uploads/Banana.jpg" class="img-thumbnail"></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">Edit</button>
+                            <button class="btn btn-sm btn-danger">Remove</button>
                         </td>
                     </tr>
                     </tbody>
@@ -236,9 +241,9 @@
                             </div>
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-status">Shipped</button>
-                            <button class="btn btn-sm btn-status">Delivered</button>
-                            <button class="btn btn-sm btn-status">Processing</button>
+                            <button class="btn btn-sm btn-status" style="background-color: orange; color: white;">Confirm the Order</button>
+                            <button class="btn btn-sm btn-status" style="background-color: blue; color: white;">Order Processing</button>
+                            <button class="btn btn-sm btn-status" style="background-color: green; color: white;">Delivered</button>
                         </td>
                     </tr>
                     <tr>
@@ -251,10 +256,11 @@
                             </div>
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-status">Shipped</button>
-                            <button class="btn btn-sm btn-status">Delivered</button>
-                            <button class="btn btn-sm btn-status">Processing</button>
+                            <button class="btn btn-sm btn-status" style="background-color: orange; color: white;">Confirm the Order</button>
+                            <button class="btn btn-sm btn-status" style="background-color: blue; color: white;">Order Processing</button>
+                            <button class="btn btn-sm btn-status" style="background-color: green; color: white;">Delivered</button>
                         </td>
+
                     </tr>
                     <tr>
                         <td>#ORD003</td>
@@ -266,9 +272,9 @@
                             </div>
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-status">Shipped</button>
-                            <button class="btn btn-sm btn-status">Delivered</button>
-                            <button class="btn btn-sm btn-status">Processing</button>
+                            <button class="btn btn-sm btn-status" style="background-color: orange; color: white;">Confirm the Order</button>
+                            <button class="btn btn-sm btn-status" style="background-color: blue; color: white;">Order Processing</button>
+                            <button class="btn btn-sm btn-status" style="background-color: green; color: white;">Delivered</button>
                         </td>
                     </tr>
                     </tbody>
