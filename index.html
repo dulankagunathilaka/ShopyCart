@@ -104,14 +104,16 @@
                             <div class="tab-content">
                                 <!-- Sign In -->
                                 <div class="tab-pane fade show active" id="signin">
-                                    <form>
+                                    <form method="POST" action="auth.php">
+                                        <input type="hidden" name="signin" value="1"> <!-- to detect sign-in -->
+                                    
                                         <div class="mb-3">
                                             <label for="signinEmail" class="form-label">Email address</label>
-                                            <input type="email" class="form-control" id="signinEmail" placeholder="Enter your email">
+                                            <input type="email" class="form-control" id="signinEmail" name="signinEmail" placeholder="Enter your email">
                                         </div>
                                         <div class="mb-3">
                                             <label for="signinPassword" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="signinPassword" placeholder="Password">
+                                            <input type="password" class="form-control" id="signinPassword" name="signinPassword" placeholder="Password">
                                         </div>
                                         <div class="mb-3 text-end">
                                             <a href="#" class="text-primary">Forgot password?</a>
@@ -122,25 +124,27 @@
 
                                 <!-- Sign Up -->
                                 <div class="tab-pane fade" id="signup">
-                                    <form>
+                                    <form method="POST" action="auth.php">
+                                        <input type="hidden" name="signup" value="1"> <!-- to detect sign-up -->
+                                    
                                         <div class="mb-3">
                                             <label for="signupName" class="form-label">Full Name</label>
-                                            <input type="text" class="form-control" id="signupName" placeholder="Your name">
+                                            <input type="text" class="form-control" id="signupName" name="signupName" placeholder="Your name">
                                         </div>
                                         <div class="mb-3">
                                             <label for="signupEmail" class="form-label">Email address</label>
-                                            <input type="email" class="form-control" id="signupEmail" placeholder="Enter email">
+                                            <input type="email" class="form-control" id="signupEmail" name="signupEmail" placeholder="Enter email">
                                         </div>
                                         <div class="mb-3">
                                             <label for="signupPassword" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="signupPassword" placeholder="Create password">
+                                            <input type="password" class="form-control" id="signupPassword" name="signupPassword" placeholder="Create password">
                                         </div>
                                         <div class="mb-3">
                                             <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
-                                            <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm password">
+                                            <input type="password" class="form-control" id="signupConfirmPassword" name="signupConfirmPassword" placeholder="Confirm password">
                                         </div>
                                         <button type="submit" class="btn btn-success w-100">Sign Up</button>
-                                    </form>
+                                    </form>                                    
                                 </div>
                             </div>
                         </div>
