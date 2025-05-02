@@ -42,14 +42,14 @@
 <div class="container-fluid fixed-top">
     <div class="container px-0">
         <nav class="navbar navbar-light bg-white navbar-expand-xl">
-            <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
+            <a href="index.php" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
             <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars text-primary"></span>
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="index.html" class="nav-item nav-link">Home</a>
-                    <a href="freshfinds.html" class="nav-item nav-link">Fresh Finds</a>
+                    <a href="index.php" class="nav-item nav-link">Home</a>
+                    <a href="freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
                     <a href="#fresh-finds" class="nav-item nav-link active">Checkout</a>
 
                 </div>
@@ -63,9 +63,9 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                <a href="checkout.html" class="dropdown-item">My Orders</a>
-                                <a href="wishlist.html" class="dropdown-item">Wishlist</a>
-                                <a href="myaccount.html" class="dropdown-item">My Account</a>
+                                <a href="checkout.php" class="dropdown-item">My Orders</a>
+                                <a href="wishlist.php" class="dropdown-item">Wishlist</a>
+                                <a href="myaccount.php" class="dropdown-item">My Account</a>
                             </div>
                         </div>
                     </a>

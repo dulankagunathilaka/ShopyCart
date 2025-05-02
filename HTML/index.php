@@ -18,15 +18,15 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
         <!-- Libraries Stylesheet -->
-        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
         <!-- Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
+        <link href="../css/style.css" rel="stylesheet">
     </head>
 
     <body>
@@ -47,14 +47,14 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
+                            <a href="../index.php" class="nav-item nav-link active">Home</a>
                             <a href="#fresh-finds" class="nav-item nav-link">Fresh Finds</a>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="../contact.php" class="nav-item nav-link">Contact</a>
                         </div>
 
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                            <a href="cart.html" class="position-relative me-4 my-auto">
+                            <a href="../cart.php" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
@@ -69,9 +69,9 @@
                                             SignIn/SignUp
                                         </a>
                                         <hr class="dropdown-divider">
-                                        <a href="checkout.html" class="dropdown-item">My Orders</a>
-                                        <a href="wishlist.html" class="dropdown-item">Wishlist</a>
-                                        <a href="myaccount.html" class="dropdown-item">My Account</a>
+                                        <a href="../checkout.php" class="dropdown-item">My Orders</a>
+                                        <a href="../wishlist.php" class="dropdown-item">Wishlist</a>
+                                        <a href="../myaccount.php" class="dropdown-item">My Account</a>
                                     </div>
                                 </div>
                             </a>
@@ -104,16 +104,14 @@
                             <div class="tab-content">
                                 <!-- Sign In -->
                                 <div class="tab-pane fade show active" id="signin">
-                                    <form method="POST" action="auth.php">
-                                        <input type="hidden" name="signin" value="1"> <!-- to detect sign-in -->
-                                    
+                                    <form>
                                         <div class="mb-3">
                                             <label for="signinEmail" class="form-label">Email address</label>
-                                            <input type="email" class="form-control" id="signinEmail" name="signinEmail" placeholder="Enter your email">
+                                            <input type="email" class="form-control" id="signinEmail" placeholder="Enter your email">
                                         </div>
                                         <div class="mb-3">
                                             <label for="signinPassword" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="signinPassword" name="signinPassword" placeholder="Password">
+                                            <input type="password" class="form-control" id="signinPassword" placeholder="Password">
                                         </div>
                                         <div class="mb-3 text-end">
                                             <a href="#" class="text-primary">Forgot password?</a>
@@ -124,27 +122,25 @@
 
                                 <!-- Sign Up -->
                                 <div class="tab-pane fade" id="signup">
-                                    <form method="POST" action="auth.php">
-                                        <input type="hidden" name="signup" value="1"> <!-- to detect sign-up -->
-                                    
+                                    <form>
                                         <div class="mb-3">
                                             <label for="signupName" class="form-label">Full Name</label>
-                                            <input type="text" class="form-control" id="signupName" name="signupName" placeholder="Your name">
+                                            <input type="text" class="form-control" id="signupName" placeholder="Your name">
                                         </div>
                                         <div class="mb-3">
                                             <label for="signupEmail" class="form-label">Email address</label>
-                                            <input type="email" class="form-control" id="signupEmail" name="signupEmail" placeholder="Enter email">
+                                            <input type="email" class="form-control" id="signupEmail" placeholder="Enter email">
                                         </div>
                                         <div class="mb-3">
                                             <label for="signupPassword" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="signupPassword" name="signupPassword" placeholder="Create password">
+                                            <input type="password" class="form-control" id="signupPassword" placeholder="Create password">
                                         </div>
                                         <div class="mb-3">
                                             <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
-                                            <input type="password" class="form-control" id="signupConfirmPassword" name="signupConfirmPassword" placeholder="Confirm password">
+                                            <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm password">
                                         </div>
                                         <button type="submit" class="btn btn-success w-100">Sign Up</button>
-                                    </form>                                    
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -186,22 +182,22 @@
                         <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item active rounded">
-                                    <img src="img/hero-img-1.png" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
+                                    <img src="../img/hero-img-1.png" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img src="img/hero-img-2.jpg" class="img-fluid w-100 h-100 rounded" alt="Second slide">
+                                    <img src="../img/hero-img-2.jpg" class="img-fluid w-100 h-100 rounded" alt="Second slide">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img src="img/Bakery.jpg" class="img-fluid w-100 h-100 rounded" alt="Third slide">
+                                    <img src="../img/Bakery.jpg" class="img-fluid w-100 h-100 rounded" alt="Third slide">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img src="img/drinks.png" class="img-fluid w-100 h-100 rounded" alt="Fourth slide">
+                                    <img src="../img/drinks.png" class="img-fluid w-100 h-100 rounded" alt="Fourth slide">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img src="img/snacks.jpg" class="img-fluid w-100 h-100 rounded" alt="Fifth slide">
+                                    <img src="../img/snacks.jpg" class="img-fluid w-100 h-100 rounded" alt="Fifth slide">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img src="img/meat.jpg" class="img-fluid w-100 h-100 rounded" alt="Sixth slide">
+                                    <img src="../img/meat.jpg" class="img-fluid w-100 h-100 rounded" alt="Sixth slide">
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
@@ -329,7 +325,7 @@
                                             <div class="rounded position-relative fruite-item">
                                                 <a href="product-details.html">
                                                 <div class="fruite-img">
-                                                    <img src="img/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="i../mg/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -346,7 +342,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Tomato.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Tomato.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Vegetables</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -362,7 +358,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Raspberry.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Raspberry.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -378,7 +374,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/watermelon.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/watermelon.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -394,7 +390,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Banana.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Banana.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -410,7 +406,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -426,7 +422,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Cherry.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Cherry.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -442,7 +438,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/mango.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/mango.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -466,7 +462,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Tomato.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Tomato.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -482,7 +478,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Carrot.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Carrot.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -506,7 +502,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -522,7 +518,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/pineapple.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/pineapple.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -538,7 +534,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Raspberry.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Raspberry.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -554,7 +550,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/watermelon.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/watermelon.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -570,7 +566,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Banana.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Banana.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -586,7 +582,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -602,7 +598,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Cherry.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Cherry.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -618,7 +614,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/mango.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/mango.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -642,7 +638,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/WheatBread.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/WheatBread.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Bakery</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -666,7 +662,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/ChickenMeat.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/ChickenMeat.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Meat</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -690,7 +686,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/CasavaChips.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/CasavaChips.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Snacks</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -714,7 +710,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="img/Sprit.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/Sprit.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Drinks</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -744,7 +740,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#">
                             <div class="service-item bg-secondary rounded border border-secondary">
-                                <img src="img/Freshness.jpg" class="img-fluid rounded-top w-100" alt="">
+                                <img src="../img/Freshness.jpg" class="img-fluid rounded-top w-100" alt="">
                                 <div class="px-4 rounded-bottom">
                                     <div class="service-content bg-primary text-center p-4 rounded">
                                         <h5 class="text-white">Freshness</h5>
@@ -757,7 +753,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#">
                             <div class="service-item bg-dark rounded border border-dark">
-                                <img src="img/Delivery.jpg" class="img-fluid rounded-top w-100" alt="">
+                                <img src="../img/Delivery.jpg" class="img-fluid rounded-top w-100" alt="">
                                 <div class="px-4 rounded-bottom">
                                     <div class="service-content bg-light text-center p-4 rounded">
                                         <h5 class="text-primary">Fast Delivery</h5>
@@ -770,7 +766,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#">
                             <div class="service-item bg-primary rounded border border-primary">
-                                <img src="img/Discount.jpg" class="img-fluid rounded-top w-100" alt="">
+                                <img src="../img/Discount.jpg" class="img-fluid rounded-top w-100" alt="">
                                 <div class="px-4 rounded-bottom">
                                     <div class="service-content bg-secondary text-center p-4 rounded">
                                         <h5 class="text-white">More Discounnts</h5>
@@ -792,7 +788,7 @@
                 <div class="owl-carousel vegetable-carousel justify-content-center">
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="vesitable-img">
-                            <img src="img/CasavaChips.jpg" class="img-fluid w-100 rounded-top" alt="">
+                            <img src="../img/CasavaChips.jpg" class="img-fluid w-100 rounded-top" alt="">
                         </div>
                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Snacks</div>
                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -806,7 +802,7 @@
                     </div>
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="fruite-img">
-                            <img src="img/WheatBread.jpg" class="img-fluid w-100 rounded-top" alt="">
+                            <img src="../img/WheatBread.jpg" class="img-fluid w-100 rounded-top" alt="">
                         </div>
                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Bakery</div>
                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -820,7 +816,7 @@
                     </div>
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="fruite-img">
-                            <img src="img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
+                            <img src="../img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
                         </div>
                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -834,7 +830,7 @@
                     </div>
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="fruite-img">
-                            <img src="img/pineapple.jpg" class="img-fluid w-100 rounded-top" alt="">
+                            <img src="../img/pineapple.jpg" class="img-fluid w-100 rounded-top" alt="">
                         </div>
                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -865,7 +861,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="position-relative">
-                            <img src="img/baner-1.png" class="img-fluid w-100 rounded" alt="">
+                            <img src="../img/baner-1.png" class="img-fluid w-100 rounded" alt="">
                             <div class="d-flex align-items-center justify-content-center bg-white rounded-circle position-absolute" style="width: 140px; height: 140px; top: 0; left: 0;">
                                 <h1 style="font-size: 100px;">1</h1>
                                 <div class="d-flex flex-column">
@@ -1005,13 +1001,13 @@
             <!-- JavaScript Libraries -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="lib/easing/easing.min.js"></script>
-            <script src="lib/waypoints/waypoints.min.js"></script>
-            <script src="lib/lightbox/js/lightbox.min.js"></script>
-            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+            <script src="../lib/easing/easing.min.js"></script>
+            <script src="../lib/waypoints/waypoints.min.js"></script>
+            <script src="../lib/lightbox/js/lightbox.min.js"></script>
+            <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
 
             <!-- Template Javascript -->
-            <script src="js/main.js"></script>
+            <script src="../js/main.js"></script>
     </body>
 
 </html>
