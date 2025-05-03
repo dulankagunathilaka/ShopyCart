@@ -42,13 +42,13 @@
 <div class="container-fluid fixed-top">
     <div class="container px-0">
         <nav class="navbar navbar-light bg-white navbar-expand-xl">
-            <a href="../index.php" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
+            <a href="../HTML/index.php" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
             <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars text-primary"></span>
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="../index.php" class="nav-item nav-link">Home</a>
+                    <a href="../HTML/index.php" class="nav-item nav-link">Home</a>
                     <a href="#fresh-finds" class="nav-item nav-link active">Fresh Finds</a>
 
                 </div>
@@ -62,9 +62,9 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                <a href="../checkout.php" class="dropdown-item">My Orders</a>
-                                <a href="../wishlist.php" class="dropdown-item">Wishlist</a>
-                                <a href="../myaccount.php" class="dropdown-item">My Account</a>
+                                <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
+                                <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                             </div>
                         </div>
                     </a>
@@ -147,9 +147,9 @@
                             <div class="row g-4">
                                 <div class="col-md-6 col-lg-4 col-xl-3">
                                     <div class="rounded position-relative fruite-item">
-                                        <a href="../product-details.html">
+                                        <a href="../HTML/product-details.html">
                                             <div class="fruite-img">
-                                                <img src="img/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                <img src="../img/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
                                             </div>
                                             <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -157,7 +157,7 @@
                                                 <p>Blueberry is a small, sweet, and nutritious berry rich in antioxidants.</p>
                                                 <div class="d-flex justify-content-between flex-lg-wrap">
                                                     <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="../product-details.html" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                    <a href="../HTML/product-details.html" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                 </div>
                                             </div>
                                         </a>

@@ -43,14 +43,14 @@
 <div class="container-fluid fixed-top">
     <div class="container px-0">
         <nav class="navbar navbar-light bg-white navbar-expand-xl">
-            <a href="../index.php" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
+            <a href="../HTML/index.php" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
             <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars text-primary"></span>
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="../index.php" class="nav-item nav-link">Home</a>
-                    <a href="../freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
+                    <a href="../HTML/index.php" class="nav-item nav-link">Home</a>
+                    <a href="../HTML/freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
                     <a href="#fresh-finds" class="nav-item nav-link active">Cart</a>
                 </div>
                 <div class="d-flex m-3 me-0">
@@ -63,9 +63,9 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                <a href="../checkout.php" class="dropdown-item">My Orders</a>
-                                <a href="../wishlist.php" class="dropdown-item">Wishlist</a>
-                                <a href="../myaccount.php" class="dropdown-item">My Account</a>
+                                <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
+                                <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                             </div>
                         </div>
                     </a>
@@ -250,7 +250,7 @@
                                 <h5 class="mb-0 ps-4 me-4">Total</h5>
                                 <p class="mb-0 pe-4">$99.00</p>
                             </div>
-                            <a href="../checkout.html"><button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button></a>
+                            <a href="../HTML/checkout.php"><button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button></a>
                         </div>
                     </div>
                 </div>

@@ -42,18 +42,18 @@
 <div class="container-fluid fixed-top">
     <div class="container px-0">
         <nav class="navbar navbar-light bg-white navbar-expand-xl">
-            <a href="../index.html" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
+            <a href="../HTML/index.php" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
             <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars text-primary"></span>
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="../index.html" class="nav-item nav-link">Home</a>
+                    <a href="../HTML/index.php" class="nav-item nav-link">Home</a>
                     <a href="#fresh-finds" class="nav-item nav-link active">My Account</a>
                 </div>
                 <div class="d-flex m-3 me-0">
                     <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                    <a href="cart.html" class="position-relative me-4 my-auto">
+                    <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                         <i class="fa fa-shopping-bag fa-2x"></i>
                         <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                     </a>
@@ -62,9 +62,9 @@
                             <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                 <a href="" class="btn border-secondary py-2 px-2 rounded-pill text-primary">Sign Out</a>
-                                <a href="../checkout.html" class="dropdown-item">My Orders</a>
-                                <a href="../wishlist.html" class="dropdown-item">Wishlist</a>
-                                <a href="../myaccount.html" class="dropdown-item">My Account</a>
+                                <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
+                                <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                             </div>
                         </div>
                     </a>

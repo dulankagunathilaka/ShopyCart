@@ -48,7 +48,7 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link ">Home</a>
+                            <a href="../HTML/index.php" class="nav-item nav-link ">Home</a>
                             <a href="../HTML/freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
                             <a href="../HTML/product-details.php" class="nav-item nav-link active">Product Details</a>
                         </div>
@@ -62,9 +62,9 @@
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                        <a href="../checkout.html" class="dropdown-item">My Orders</a>
-                                        <a href="../wishlist.html" class="dropdown-item">Wishlist</a>
-                                        <a href="../myaccount.html" class="dropdown-item">My Account</a>
+                                        <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
+                                        <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                        <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                                     </div>
                                 </div>
                             </a>
@@ -255,7 +255,7 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-start mb-4">
                                     <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/Cherry.jpg" class="img-fluid rounded" alt="">
+                                        <img src="../img/Cherry.jpg" class="img-fluid rounded" alt="">
                                     </div>
                                     <div>
                                         <h6 class="mb-2">Cherry</h6>
@@ -364,7 +364,7 @@
                     </div>
                 </div>
 
-                <! Related Products -->
+                <!-- Related Products -->
                 <div class="container-fluid vesitable py-5">
                     <div class="container py-5">
                         <h1 class="mb-0">Related Products</h1>
