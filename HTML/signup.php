@@ -4,6 +4,7 @@ require 'db_connection.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
+    $address = trim($_POST['address']);
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
 
@@ -14,8 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $name, $email, $hashedPassword);
+    $stmt = $conn->prepare("INSERT INTO users (full_name, email, address, password) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $name, $email, $address, $hashedPassword);
 
     if ($stmt->execute()) {
         echo "<script>alert('Signup successful'); window.location.href='../HTML/index.php';</script>";

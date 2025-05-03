@@ -133,6 +133,10 @@
                                             <input type="email" name="email" class="form-control" id="signupEmail" placeholder="Enter email" required>
                                         </div>
                                         <div class="mb-3">
+                                            <label for="address" class="form-label">Address</label>
+                                            <input type="text" name="address" class="form-control" id="signupaddress" placeholder="Address" required>
+                                        </div>
+                                        <div class="mb-3">
                                             <label for="signupPassword" class="form-label">Password</label>
                                             <input type="password" name="password" class="form-control" id="signupPassword" placeholder="Create password" required>
                                         </div>
