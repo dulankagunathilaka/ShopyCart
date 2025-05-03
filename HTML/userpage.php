@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../index.php");
+    exit;
+}
+
+$fullName = $_SESSION['full_name'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,7 +76,9 @@
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                         <a href="#" class="btn border-secondary py-2 px-2 rounded-pill text-primary w-100 text-center"
                                            data-bs-toggle="modal" data-bs-target="#authModal">
-                                            SignIn/SignUp
+
+                                           <h6><?php echo htmlspecialchars($fullName); ?></h6>
+
                                         </a>
                                         <hr class="dropdown-divider">
                                         <a href="../checkout.php" class="dropdown-item">My Orders</a>
@@ -79,75 +92,6 @@
                 </nav>
             </div>
         </div>
-
-
-        <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-secondary text-white">
-                            <h5 class="modal-title" id="authModalLabel">Sign In / Sign Up</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Nav Tabs -->
-                            <ul class="nav nav-tabs mb-3" id="authTabs">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="signin-tab" data-bs-toggle="tab" href="#signin">Sign In</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="signup-tab" data-bs-toggle="tab" href="#signup">Sign Up</a>
-                                </li>
-                            </ul>
-
-                            <!-- Tab Content -->
-                            <div class="tab-content">
-                                <!-- Sign In -->
-                                <div class="tab-pane fade show active" id="signin">
-                                    <form>
-                                        <div class="mb-3">
-                                            <label for="signinEmail" class="form-label">Email address</label>
-                                            <input type="email" class="form-control" id="signinEmail" placeholder="Enter your email">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="signinPassword" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="signinPassword" placeholder="Password">
-                                        </div>
-                                        <div class="mb-3 text-end">
-                                            <a href="#" class="text-primary">Forgot password?</a>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary w-100">Sign In</button>
-                                    </form>
-                                </div>
-
-                                <!-- Sign Up -->
-                            
-                                <div class="tab-pane fade" id="signup">
-                                     <form method="POST" action="../HTML/signup.php">
-        <div class="mb-3">
-            <label for="signupName" class="form-label">Full Name</label>
-            <input type="text" name="name" class="form-control" id="signupName" placeholder="Your name" required>
-        </div>
-        <div class="mb-3">
-            <label for="signupEmail" class="form-label">Email address</label>
-            <input type="email" name="email" class="form-control" id="signupEmail" placeholder="Enter email" required>
-        </div>
-        <div class="mb-3">
-            <label for="signupPassword" class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" id="signupPassword" placeholder="Create password" required>
-        </div>
-        <div class="mb-3">
-            <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
-            <input type="password" name="confirmPassword" class="form-control" id="signupConfirmPassword" placeholder="Confirm password" required>
-        </div>
-        <button type="submit" class="btn btn-success w-100">Sign Up</button>
-    </form>
-</div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         <!-- Navbar End -->
 
         <!-- Modal Search Start -->
