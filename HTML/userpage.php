@@ -64,7 +64,7 @@ $fullName = $_SESSION['full_name'];
 
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                            <a href="../cart.php" class="position-relative me-4 my-auto">
+                            <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
@@ -270,7 +270,7 @@ $fullName = $_SESSION['full_name'];
                                             <div class="rounded position-relative fruite-item">
                                                 <a href="product-details.html">
                                                 <div class="fruite-img">
-                                                    <img src="i../mg/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                                    <img src="../img/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
