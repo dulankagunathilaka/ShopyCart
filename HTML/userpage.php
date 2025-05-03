@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="utf-8">
         <title>ShopyCart Super Market</title>
@@ -27,7 +28,6 @@
         <!-- Template Stylesheet -->
         <link href="../css/style.css" rel="stylesheet">
     </head>
-
     <body>
 
         <!-- Spinner Start -->
@@ -89,7 +89,6 @@
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            
                             <!-- Nav Tabs -->
                             <ul class="nav nav-tabs mb-3" id="authTabs">
                                 <li class="nav-item">
@@ -102,17 +101,16 @@
 
                             <!-- Tab Content -->
                             <div class="tab-content">
-
                                 <!-- Sign In -->
                                 <div class="tab-pane fade show active" id="signin">
-                                    <form method="POST" action="../HTML/signin.php">
+                                    <form>
                                         <div class="mb-3">
                                             <label for="signinEmail" class="form-label">Email address</label>
-                                            <input type="email" class="form-control" id="signinEmail" name="email" placeholder="Enter your email" required>
+                                            <input type="email" class="form-control" id="signinEmail" placeholder="Enter your email">
                                         </div>
                                         <div class="mb-3">
                                             <label for="signinPassword" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="signinPassword" name="password" placeholder="Password" required>
+                                            <input type="password" class="form-control" id="signinPassword" placeholder="Password">
                                         </div>
                                         <div class="mb-3 text-end">
                                             <a href="#" class="text-primary">Forgot password?</a>
@@ -122,27 +120,29 @@
                                 </div>
 
                                 <!-- Sign Up -->
+                            
                                 <div class="tab-pane fade" id="signup">
-                                    <form method="POST" action="../HTML/signup.php">
-                                        <div class="mb-3">
-                                            <label for="signupName" class="form-label">Full Name</label>
-                                            <input type="text" name="name" class="form-control" id="signupName" placeholder="Your name" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="signupEmail" class="form-label">Email address</label>
-                                            <input type="email" name="email" class="form-control" id="signupEmail" placeholder="Enter email" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="signupPassword" class="form-label">Password</label>
-                                            <input type="password" name="password" class="form-control" id="signupPassword" placeholder="Create password" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
-                                            <input type="password" name="confirmPassword" class="form-control" id="signupConfirmPassword" placeholder="Confirm password" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-success w-100">Sign Up</button>
-                                    </form>
-                                </div>
+                                     <form method="POST" action="../HTML/signup.php">
+        <div class="mb-3">
+            <label for="signupName" class="form-label">Full Name</label>
+            <input type="text" name="name" class="form-control" id="signupName" placeholder="Your name" required>
+        </div>
+        <div class="mb-3">
+            <label for="signupEmail" class="form-label">Email address</label>
+            <input type="email" name="email" class="form-control" id="signupEmail" placeholder="Enter email" required>
+        </div>
+        <div class="mb-3">
+            <label for="signupPassword" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="signupPassword" placeholder="Create password" required>
+        </div>
+        <div class="mb-3">
+            <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
+            <input type="password" name="confirmPassword" class="form-control" id="signupConfirmPassword" placeholder="Confirm password" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Sign Up</button>
+    </form>
+</div>
+
                             </div>
                         </div>
                     </div>
@@ -1009,6 +1009,31 @@
 
             <!-- Template Javascript -->
             <script src="../js/main.js"></script>
+
+            <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        <?php if (!empty($signupMessage)): ?>
+            const message = <?= json_encode($signupMessage) ?>;
+            const status = <?= json_encode($signupStatus) ?>;
+            alert(message); // Show alert popup
+
+            // Optionally switch to Sign In tab after successful sign up
+            <?php if ($signupStatus === 'success'): ?>
+                const signInTab = document.querySelector('#signin-tab');
+                authModal = authModal || new bootstrap.Modal(document.getElementById('authModal'));
+                signInTab?.click();
+                authModal.show();
+            <?php else: ?>
+                // Stay on Sign Up tab
+                const signUpTab = document.querySelector('#signup-tab');
+                const authModal = new bootstrap.Modal(document.getElementById('authModal'));
+                signUpTab?.click();
+                authModal.show();
+            <?php endif; ?>
+        <?php endif; ?>
+    });
+</script>
+
     </body>
 
 </html>
