@@ -186,7 +186,7 @@
                             <button class="btn btn-sm btn-instock">In Stock</button>
                             <button class="btn btn-sm btn-outofstock">Out of Stock</button>
                         </td>
-                        <td><img src="/uploads/Apple.jpg" class="img-thumbnail"></td>
+                        <td><img src="../uploads/Apple.jpg" class="img-thumbnail"></td>
                         <td>
                             <button class="btn btn-sm btn-primary">Edit</button>
                             <button class="btn btn-sm btn-danger">Remove</i></button>
@@ -203,7 +203,7 @@
                             <button class="btn btn-sm btn-instock">In Stock</button>
                             <button class="btn btn-sm btn-outofstock">Out of Stock</button>
                         </td>
-                        <td><img src="/uploads/Banana.jpg" class="img-thumbnail"></td>
+                        <td><img src="../uploads/Banana.jpg" class="img-thumbnail"></td>
                         <td>
                             <button class="btn btn-sm btn-primary">Edit</button>
                             <button class="btn btn-sm btn-danger">Remove</button>
