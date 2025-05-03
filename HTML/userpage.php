@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
+    header("Location: ../HTML/index.php");
     exit;
 }
 
@@ -51,15 +51,15 @@ $fullName = $_SESSION['full_name'];
         <div class="container-fluid fixed-top">
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
+                    <a href="../HTML/index.php" class="navbar-brand"><h1 class="text-primary display-6">Shopy Cart</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="../index.php" class="nav-item nav-link active">Home</a>
+                            <a href="../HTML/index.php" class="nav-item nav-link active">Home</a>
                             <a href="#fresh-finds" class="nav-item nav-link">Fresh Finds</a>
-                            <a href="../contact.php" class="nav-item nav-link">Contact</a>
+                            <a href="../HTML/contact.php" class="nav-item nav-link">Contact</a>
                         </div>
 
                         <div class="d-flex m-3 me-0">
@@ -81,9 +81,9 @@ $fullName = $_SESSION['full_name'];
 
                                         </a>
                                         <hr class="dropdown-divider">
-                                        <a href="../checkout.php" class="dropdown-item">My Orders</a>
-                                        <a href="../wishlist.php" class="dropdown-item">Wishlist</a>
-                                        <a href="../myaccount.php" class="dropdown-item">My Account</a>
+                                        <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
+                                        <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                        <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                                     </div>
                                 </div>
                             </a>
@@ -278,7 +278,7 @@ $fullName = $_SESSION['full_name'];
                                                     <p>Blueberry is a small, sweet, and nutritious berry rich in antioxidants.</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="product-details.html" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                        <a href="../HTML/product-details.php" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                     </div>
                                                 </div>
                                                 </a>
@@ -917,7 +917,7 @@ $fullName = $_SESSION['full_name'];
                                 <p>Email: shopycartsupermarket@gmail.com</p>
                                 <p>Phone: +94 70 528 3688</p>
                                 <p>Payment Accepted</p>
-                                <img src="img/payment.png" class="img-fluid" alt="">
+                                <img src="../img/payment.png" class="img-fluid" alt="">
                             </div>
                         </div>
                     </div>
