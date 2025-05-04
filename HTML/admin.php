@@ -1,10 +1,43 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../HTML/index.php");
+    exit;
+}
+
+$fullName = $_SESSION['full_name'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>ShopyCart Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>ShopyCart Super Market</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
@@ -28,7 +61,8 @@
             font-weight: 500;
         }
 
-        .sidebar a:hover, .sidebar a.active {
+        .sidebar a:hover,
+        .sidebar a.active {
             background-color: #6aa304;
         }
 
@@ -43,18 +77,25 @@
             font-weight: bold;
         }
 
-        .btn-primary, .btn-success, .btn-warning, .btn-danger {
+        .btn-primary,
+        .btn-success,
+        .btn-warning,
+        .btn-danger {
             background-color: #81c408;
             border: none;
         }
 
-        .btn-primary:hover, .btn-success:hover, .btn-warning:hover, .btn-danger:hover {
+        .btn-primary:hover,
+        .btn-success:hover,
+        .btn-warning:hover,
+        .btn-danger:hover {
             background-color: #6aa304;
         }
 
-        .btn{
+        .btn {
             border-radius: 10px;
         }
+
         .btn-instock {
             background-color: #28a745;
             color: white;
@@ -70,7 +111,9 @@
             color: white;
         }
 
-        .btn-status:hover, .btn-instock:hover, .btn-outofstock:hover {
+        .btn-status:hover,
+        .btn-instock:hover,
+        .btn-outofstock:hover {
             opacity: 0.8;
         }
 
@@ -93,209 +136,305 @@
         }
     </style>
 </head>
+
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
-    <h4 class="text-white text-center mb-4">ShopyCart Admin</h4>
-    <a href="#dashboard" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-    <a href="#products"><i class="fas fa-boxes me-2"></i>Manage Products</a>
-    <a href="#orders"><i class="fas fa-truck me-2"></i>Order Tracking</a>
-    <a href="#settings"><i class="fas fa-cog me-2"></i>Settings</a>
-    <a href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
-</div>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
 
-<!-- Main Content -->
-<div class="main-content">
-    <!-- Dashboard Overview -->
-    <section id="dashboard">
-        <h2>Welcome, Admin!</h2>
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card text-white bg-success mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Products</h5>
-                        <p class="card-text fs-4">12</p>
+    <!-- Navbar start -->
+    <div class="container-fluid fixed-top">
+        <div class="container px-0">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                <a href="../HTML/userpage.php" class="navbar-brand">
+                    <h1 class="text-primary display-6">Shopy Cart</h1>
+                </a>
+                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars text-primary"></span>
+                </button>
+                <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto">
+                        <a href="../HTML/userpage.php" class="nav-item nav-link active">Home</a>
+                        <a href="#fresh-finds" class="nav-item nav-link">Fresh Finds</a>
+                        <a href="../HTML/contact.php" class="nav-item nav-link">Contact</a>
+                    </div>
+
+                    <div class="d-flex m-3 me-0">
+                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                        <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
+                            <i class="fa fa-shopping-bag fa-2x"></i>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                        </a>
+                        <a href="#" class="my-auto">
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user fa-2x"></i>
+                                </a>
+                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                    <a href="#" class="btn border-secondary py-2 px-2 rounded-pill text-primary w-100 text-center"
+                                        data-bs-toggle="modal" data-bs-target="#authModal">
+
+                                        <h6><?php echo htmlspecialchars($fullName); ?></h6>
+
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
+                                    <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                    <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4 class="text-white text-center mb-4">ShopyCart Admin</h4>
+        <a href="#dashboard" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+        <a href="#products"><i class="fas fa-boxes me-2"></i>Manage Products</a>
+        <a href="#orders"><i class="fas fa-truck me-2"></i>Order Tracking</a>
+        <a href="#settings"><i class="fas fa-cog me-2"></i>Settings</a>
+        <a href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Overview -->
+        <section id="dashboard">
+            <h2>Welcome, Admin!</h2>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Products</h5>
+                            <p class="card-text fs-4">12</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Orders Today</h5>
+                            <p class="card-text fs-4">8</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Revenue</h5>
+                            <p class="card-text fs-4">Rs. 25,000</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-white bg-success mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Orders Today</h5>
-                        <p class="card-text fs-4">8</p>
-                    </div>
+        </section>
+
+        <!-- Manage Products -->
+        <section id="products" class="mt-5">
+            <div class="card">
+                <div class="card-header">Manage Products</div>
+                <div class="card-body">
+                    <!-- Add Product Form -->
+                    <form class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Product Name">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Category">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Description">
+                        </div>
+                        <div class="col-md-2 d-grid">
+                            <button class="btn btn-primary">Add Product</button>
+                        </div>
+                    </form>
+
+                    <!-- Product Table -->
+                    <table class="table table-bordered text-center align-middle">
+                        <thead class="table-success">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Stock Status</th>
+                                <th>Image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>001</td>
+                                <td>Apple</td>
+                                <td>Fruit</td>
+                                <td>Fresh red apples</td>
+                                <td>195</td>
+                                <td>1kg</td>
+                                <td>
+                                    <button class="btn btn-sm btn-instock">In Stock</button>
+                                    <button class="btn btn-sm btn-outofstock">Out of Stock</button>
+                                </td>
+                                <td><img src="../uploads/Apple.jpg" class="img-thumbnail"></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Remove</i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>002</td>
+                                <td>Banana</td>
+                                <td>Fruit</td>
+                                <td>Fresh bananas</td>
+                                <td>120</td>
+                                <td>0kg</td>
+                                <td>
+                                    <button class="btn btn-sm btn-instock">In Stock</button>
+                                    <button class="btn btn-sm btn-outofstock">Out of Stock</button>
+                                </td>
+                                <td><img src="../uploads/Banana.jpg" class="img-thumbnail"></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Remove</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-white bg-success mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Revenue</h5>
-                        <p class="card-text fs-4">Rs. 25,000</p>
-                    </div>
+        </section>
+
+        <!-- Order Tracking -->
+        <section id="orders" class="mt-5">
+            <div class="card">
+                <div class="card-header">Order Tracking</div>
+                <div class="card-body">
+                    <table class="table table-bordered text-center align-middle">
+                        <thead class="table-success">
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Progress</th>
+                                <th>Order Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD001</td>
+                                <td>Nimal Perera</td>
+                                <td>Shipped</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" style="width: 70%;">70%</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-status" style="background-color: orange; color: white;">Confirm the Order</button>
+                                    <button class="btn btn-sm btn-status" style="background-color: blue; color: white;">Order Processing</button>
+                                    <button class="btn btn-sm btn-status" style="background-color: green; color: white;">Delivered</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD002</td>
+                                <td>Kasun Silva</td>
+                                <td>Delivered</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" style="width: 100%;">100%</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-status" style="background-color: orange; color: white;">Confirm the Order</button>
+                                    <button class="btn btn-sm btn-status" style="background-color: blue; color: white;">Order Processing</button>
+                                    <button class="btn btn-sm btn-status" style="background-color: green; color: white;">Delivered</button>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>#ORD003</td>
+                                <td>Sachini Madushani</td>
+                                <td>Processing</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" style="width: 40%;">40%</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-status" style="background-color: orange; color: white;">Confirm the Order</button>
+                                    <button class="btn btn-sm btn-status" style="background-color: blue; color: white;">Order Processing</button>
+                                    <button class="btn btn-sm btn-status" style="background-color: green; color: white;">Delivered</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Manage Products -->
-    <section id="products" class="mt-5">
-        <div class="card">
-            <div class="card-header">Manage Products</div>
-            <div class="card-body">
-                <!-- Add Product Form -->
-                <form class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Product Name">
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="Category">
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="Description">
-                    </div>
-                    <div class="col-md-2 d-grid">
-                        <button class="btn btn-primary">Add Product</button>
-                    </div>
-                </form>
-
-                <!-- Product Table -->
-                <table class="table table-bordered text-center align-middle">
-                    <thead class="table-success">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Stock Status</th>
-                        <th>Image</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>Apple</td>
-                        <td>Fruit</td>
-                        <td>Fresh red apples</td>
-                        <td>195</td>
-                        <td>1kg</td>
-                        <td>
-                            <button class="btn btn-sm btn-instock">In Stock</button>
-                            <button class="btn btn-sm btn-outofstock">Out of Stock</button>
-                        </td>
-                        <td><img src="../uploads/Apple.jpg" class="img-thumbnail"></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary">Edit</button>
-                            <button class="btn btn-sm btn-danger">Remove</i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>Banana</td>
-                        <td>Fruit</td>
-                        <td>Fresh bananas</td>
-                        <td>120</td>
-                        <td>0kg</td>
-                        <td>
-                            <button class="btn btn-sm btn-instock">In Stock</button>
-                            <button class="btn btn-sm btn-outofstock">Out of Stock</button>
-                        </td>
-                        <td><img src="../uploads/Banana.jpg" class="img-thumbnail"></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary">Edit</button>
-                            <button class="btn btn-sm btn-danger">Remove</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+        <!-- Settings -->
+        <section id="settings" class="mt-5">
+            <div class="card">
+                <div class="card-header">Settings</div>
+                <div class="card-body">
+                    <p>Here you can update admin preferences, theme colors, and account information.</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Order Tracking -->
-    <section id="orders" class="mt-5">
-        <div class="card">
-            <div class="card-header">Order Tracking</div>
-            <div class="card-body">
-                <table class="table table-bordered text-center align-middle">
-                    <thead class="table-success">
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Status</th>
-                        <th>Progress</th>
-                        <th>Order Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>#ORD001</td>
-                        <td>Nimal Perera</td>
-                        <td>Shipped</td>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" style="width: 70%;">70%</div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-status" style="background-color: orange; color: white;">Confirm the Order</button>
-                            <button class="btn btn-sm btn-status" style="background-color: blue; color: white;">Order Processing</button>
-                            <button class="btn btn-sm btn-status" style="background-color: green; color: white;">Delivered</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#ORD002</td>
-                        <td>Kasun Silva</td>
-                        <td>Delivered</td>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" style="width: 100%;">100%</div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-status" style="background-color: orange; color: white;">Confirm the Order</button>
-                            <button class="btn btn-sm btn-status" style="background-color: blue; color: white;">Order Processing</button>
-                            <button class="btn btn-sm btn-status" style="background-color: green; color: white;">Delivered</button>
-                        </td>
+    </div>
 
-                    </tr>
-                    <tr>
-                        <td>#ORD003</td>
-                        <td>Sachini Madushani</td>
-                        <td>Processing</td>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" style="width: 40%;">40%</div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-status" style="background-color: orange; color: white;">Confirm the Order</button>
-                            <button class="btn btn-sm btn-status" style="background-color: blue; color: white;">Order Processing</button>
-                            <button class="btn btn-sm btn-status" style="background-color: green; color: white;">Delivered</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+    <!-- Bootstrap & Font Awesome -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Settings -->
-    <section id="settings" class="mt-5">
-        <div class="card">
-            <div class="card-header">Settings</div>
-            <div class="card-body">
-                <p>Here you can update admin preferences, theme colors, and account information.</p>
-            </div>
-        </div>
-    </section>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
 
-</div>
 
-<!-- Bootstrap & Font Awesome -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/easing/easing.min.js"></script>
+    <script src="../lib/waypoints/waypoints.min.js"></script>
+    <script src="../lib/lightbox/js/lightbox.min.js"></script>
+    <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="../js/main.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            <?php if (!empty($signupMessage)): ?>
+                const message = <?= json_encode($signupMessage) ?>;
+                const status = <?= json_encode($signupStatus) ?>;
+                alert(message); // Show alert popup
+
+                // Optionally switch to Sign In tab after successful sign up
+                <?php if ($signupStatus === 'success'): ?>
+                    const signInTab = document.querySelector('#signin-tab');
+                    authModal = authModal || new bootstrap.Modal(document.getElementById('authModal'));
+                    signInTab?.click();
+                    authModal.show();
+                <?php else: ?>
+                    // Stay on Sign Up tab
+                    const signUpTab = document.querySelector('#signup-tab');
+                    const authModal = new bootstrap.Modal(document.getElementById('authModal'));
+                    signUpTab?.click();
+                    authModal.show();
+                <?php endif; ?>
+            <?php endif; ?>
+        });
+    </script>
+
 </body>
+
 </html>
