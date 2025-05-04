@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../HTML/index.php");
+    exit;
+}
+
+$fullName = $_SESSION['full_name'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,10 +74,17 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
-                                <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
-                                <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
-                            </div>
+                                        <a href="#" class="btn border-secondary py-2 px-2 rounded-pill text-primary w-100 text-center"
+                                           data-bs-toggle="modal" data-bs-target="#authModal">
+
+                                           <h6><?php echo htmlspecialchars($fullName); ?></h6>
+
+                                        </a>
+                                        <hr class="dropdown-divider">
+                                        <a href="../HTML/checkout.php" class="dropdown-item">Checkout</a>
+                                        <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                        <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
+                                    </div>
                         </div>
                     </a>
                 </div>

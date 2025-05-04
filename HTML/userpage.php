@@ -81,7 +81,7 @@ $fullName = $_SESSION['full_name'];
 
                                         </a>
                                         <hr class="dropdown-divider">
-                                        <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
+                                        <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
                                         <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
                                         <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                                     </div>
