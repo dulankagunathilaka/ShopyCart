@@ -144,7 +144,7 @@
                                             <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
                                             <input type="password" name="confirmPassword" class="form-control" id="signupConfirmPassword" placeholder="Confirm password" required>
                                         </div>
-                                        <button type="submit" class="btn btn-success w-100">Sign Up</button>
+                                        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
                                     </form>
                                 </div>
                             </div>
