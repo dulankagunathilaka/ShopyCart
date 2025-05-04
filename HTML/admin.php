@@ -36,6 +36,7 @@ $fullName = $_SESSION['full_name'];
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
+
     <!-- Template Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
     <style>
@@ -157,9 +158,8 @@ $fullName = $_SESSION['full_name'];
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="../HTML/userpage.php" class="nav-item nav-link active">Home</a>
-                        <a href="#fresh-finds" class="nav-item nav-link">Fresh Finds</a>
-                        <a href="../HTML/contact.php" class="nav-item nav-link">Contact</a>
+                        <a href="../HTML/userpage.php" class="nav-item nav-link">Home</a>
+                        <a href="#" class="nav-item nav-link active">Admin</a>
                     </div>
 
                     <div class="d-flex m-3 me-0">
@@ -194,15 +194,16 @@ $fullName = $_SESSION['full_name'];
     </div>
     <!-- Navbar End -->
     <!-- Sidebar -->
-    <div class="sidebar">
-        <h4 class="text-white text-center mb-4">ShopyCart Admin</h4>
-        <a href="#dashboard" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-        <a href="#products"><i class="fas fa-boxes me-2"></i>Manage Products</a>
-        <a href="#orders"><i class="fas fa-truck me-2"></i>Order Tracking</a>
-        <a href="#settings"><i class="fas fa-cog me-2"></i>Settings</a>
-        <a href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
-    </div>
-
+    <section style="padding-top: 100px;">
+        <div class="sidebar">
+            <section style="padding-top: 80px;">
+                <a href="#dashboard" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a href="#products"><i class="fas fa-boxes me-2"></i>Manage Products</a>
+                <a href="#orders"><i class="fas fa-truck me-2"></i>Order Tracking</a>
+                <a href="#settings"><i class="fas fa-cog me-2"></i>Settings</a>
+                <a href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+        </div>
+    </section>
     <!-- Main Content -->
     <div class="main-content">
         <!-- Dashboard Overview -->
@@ -390,6 +391,7 @@ $fullName = $_SESSION['full_name'];
                 </div>
             </div>
         </section>
+
 
     </div>
 
