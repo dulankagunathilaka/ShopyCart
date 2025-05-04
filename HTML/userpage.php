@@ -801,7 +801,7 @@ $fullName = $_SESSION['full_name'];
                             <h1 class="display-3 text-white">Fresh & Quality Products at</h1>
                             <p class="fw-normal display-3 text-dark mb-4">Shopy Cart</p>
                             <p class="mb-4 text-dark">Discover a wide selection of fresh, high-quality groceries and products, carefully sourced for your convenience and satisfaction.</p>
-                            <a href="#" class="banner-btn btn border-2 border-white rounded-pill text-dark py-3 px-5">BUY</a>
+                            <a href="#fresh-finds" class="banner-btn btn border-2 border-white rounded-pill text-dark py-3 px-5">BUY</a>
                         </div>
                     </div>
                     <div class="col-lg-6">

@@ -965,7 +965,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="d-flex flex-column text-start footer-item">
-                                <h4 class="text-light mb-3">Account</h4>
+                                <h4 class="text-light mb-3">Accounts</h4>
                                 <a class="btn-link" href="">My Account</a>
                                 <a class="btn-link" href="">Shopping Cart</a>
                             </div>
