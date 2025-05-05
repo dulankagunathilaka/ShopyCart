@@ -243,18 +243,21 @@ $fullName = $_SESSION['full_name'];
                 <div class="card-header">Manage Products</div>
                 <div class="card-body">
                     <!-- Add Product Form -->
-                    <form class="row g-3 mb-4">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="Product Name">
+                    <form class="row g-3 mb-4" method="POST" action="upload_product.php" enctype="multipart/form-data">
+                        <div class="col-md-3">
+                            <input type="text" name="product_name" class="form-control" placeholder="Product Name" required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="category" class="form-control" placeholder="Category" required>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="Category">
+                            <input type="text" name="description" class="form-control" placeholder="Description" required>
                         </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="Description">
+                        <div class="col-md-2">
+                            <input type="file" name="product_image" class="form-control" required>
                         </div>
                         <div class="col-md-2 d-grid">
-                            <button class="btn btn-primary">Add Product</button>
+                            <button type="submit" class="btn btn-primary">Add Product</button>
                         </div>
                     </form>
 
