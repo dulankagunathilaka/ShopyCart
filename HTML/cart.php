@@ -1,20 +1,18 @@
 <?php
-// Include database connection
-include_once('../HTML/db_connection.php');
+session_start();
 
-// Get the current user (for example, from session)
-$user_id = 1; // You can dynamically get this from the session or authentication
+$cart = $_SESSION['cart'] ?? [];
 
-// Fetch the cart items from the database
-$sql = "SELECT ci.cart_item_id, ci.quantity, p.name, p.price, p.image_url 
-        FROM cart_items ci
-        JOIN products p ON ci.product_id = p.product_id
-        WHERE ci.user_id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$user_id]);
+// Reset total
+$total = 0;
 
-$cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Loop to calculate total once
+foreach ($cart as $item) {
+    $total += $item['price'] * $item['quantity'];
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +26,6 @@ $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
@@ -115,55 +112,108 @@ $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <!-- Modal Search End -->
 
-    <!-- Cart Start-->
-    <div class="container py-5">
-        <h2 class="mb-4">Shopping Cart</h2>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($cart_items)): ?>
-                        <?php
-                        $subtotal = 0;
-                        foreach ($cart_items as $item):
-                            $total = $item['price'] * $item['quantity'];
-                            $subtotal += $total;
-                        ?>
+    <!-- Cart Page Start -->
+    <div class="container-fluid py-5 mb-4 mt-5">
+        <div class="container py-5">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Products</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($cart as $id => $item): ?>
                             <tr>
-                                <td><img src="<?= htmlspecialchars($item['image_url']) ?>" alt="" style="width: 80px; height: 80px;" class="rounded-circle"></td>
-                                <td><?= htmlspecialchars($item['name']) ?></td>
-                                <td>$<?= number_format($item['price'], 2) ?></td>
-                                <td><?= $item['quantity'] ?></td>
-                                <td>$<?= number_format($total, 2) ?></td>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <img src="<?= htmlspecialchars($item['image']) ?>" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                    </div>
+                                </th>
+                                <td>
+                                    <p class="mb-0 mt-4"><?= htmlspecialchars($item['name']) ?></p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4">$<?= number_format($item['price'], 2) ?></p>
+                                </td>
+                                <td>
+                                    <div class="input-group quantity mt-4" style="width: 100px;">
+                                        <form method="POST" action="../PHP/update_cart.php" style="display: flex;">
+                                            <input type="hidden" name="product_id" value="<?= $id ?>">
+                                            <input type="number" name="quantity" value="<?= $item['quantity'] ?>" class="form-control form-control-sm text-center border-0">
+                                            <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border ms-1">
+                                                <i class="fa fa-sync"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4">$<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
+                                </td>
+                                <td>
+                                    <form method="POST" action="../PHP/remove_from_cart.php">
+                                        <input type="hidden" name="product_id" value="<?= $id ?>">
+                                        <button class="btn btn-md rounded-circle bg-light border mt-4" type="submit">
+                                            <i class="fa fa-times text-danger"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="5" class="text-center">Your cart is empty.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-
-        <?php if (!empty($cart_items)): ?>
-            <div class="mt-4 text-end">
-                <h4>Subtotal: $<?= number_format($subtotal, 2) ?></h4>
-                <h5>Shipping: $3.00</h5>
-                <h3>Total: $<?= number_format($subtotal + 3.00, 2) ?></h3>
-                <a href="checkout.php" class="btn btn-primary mt-3">Proceed to Checkout</a>
+                    </tbody>
+                </table>
             </div>
-        <?php endif; ?>
+
+            <!-- Coupon -->
+            <div class="mt-5">
+                <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
+                <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Apply Coupon</button>
+            </div>
+
+            <!-- Totals -->
+            <div class="row g-4 justify-content-end">
+                <div class="col-8"></div>
+                <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
+                    <div class="bg-light rounded">
+                        <div class="p-4">
+                            <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
+
+                            <!-- Subtotal -->
+                            <div class="d-flex justify-content-between mb-4">
+                                <h5 class="mb-0 me-4">Subtotal:</h5>
+                                <p class="mb-0">$<?= number_format($total, 2) ?></p>
+                            </div>
+
+                            <!-- Shipping -->
+                            <div class="d-flex justify-content-between">
+                                <h5 class="mb-0 me-4">Shipping</h5>
+                                <div class="">
+                                    <p class="mb-0">Flat rate: $3.00</p>
+                                </div>
+                            </div>
+                            <p class="mb-0 text-end">Shipping to Colombo, Sri Lanka</p>
+                        </div>
+
+                        <!-- Total -->
+                        <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
+                            <h5 class="mb-0 ps-4 me-4">Total</h5>
+                            <p class="mb-0 pe-4">$<?= number_format($total + 3.00, 2) ?></p>
+                        </div>
+
+                        <a href="../HTML/checkout.php">
+                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- Cart end-->
+    <!-- Cart Page End -->
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>

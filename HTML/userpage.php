@@ -228,7 +228,7 @@ $fullName = $_SESSION['full_name'];
     </div>
     <!-- Features Section End -->
 
-    
+
     <!-- Shop Start -->
     <div id="fresh-finds" class="container-fluid fruite py-5">
         <div class="container py-5">
@@ -290,43 +290,40 @@ $fullName = $_SESSION['full_name'];
     <!-- Shop End -->
 
     <?php
-function renderProductCard($product)
-{
-    ob_start(); ?>
-    <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-        <form action="cart.php" method="POST" class="h-100">
-            <!-- Hidden inputs for POST data -->
-            <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
-            <input type="hidden" name="product_name" value="<?= htmlspecialchars($product['name']) ?>">
-            <input type="hidden" name="product_price" value="<?= htmlspecialchars($product['price']) ?>">
-            <input type="hidden" name="product_image" value="<?= htmlspecialchars($product['image_url']) ?>">
-            <input type="hidden" name="product_category" value="<?= htmlspecialchars($product['category']) ?>">
-            <input type="hidden" name="quantity" value="1"> <!-- default quantity is 1 -->
-
+    // Reusable product card rendering function
+    function renderProductCard($product)
+    {
+        ob_start(); ?>
+        <div class="col-md-6 col-lg-4 col-xl-3">
             <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning">
-                <div class="fruite-img">
-                    <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
-                </div>
-                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                    <?= htmlspecialchars($product['category']) ?>
-                </div>
-                <div class="p-4 border-top-0 rounded-bottom d-flex flex-column justify-content-between flex-grow-1">
-                    <h4><?= htmlspecialchars($product['name']) ?></h4>
-                    <p><?= htmlspecialchars($product['description']) ?></p>
-                    <div class="d-flex justify-content-between flex-wrap mt-auto">
-                        <p class="text-dark fs-5 fw-bold mb-0">$<?= htmlspecialchars($product['price']) ?> / kg</p>
-                        <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
-                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                        </button>
+                <a href="#" onclick="showLoginMessage()" class="d-flex flex-column h-100 text-decoration-none">
+                    <div class="fruite-img">
+                        <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
                     </div>
-                </div>
-            </div>
-        </form>
-    </div>
-<?php return ob_get_clean();
-}
-?>
+                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                        <?= htmlspecialchars($product['category']) ?>
+                    </div>
+                    <div class="p-4 border-top-0 rounded-bottom d-flex flex-column justify-content-between flex-grow-1">
+                        <h4><?= htmlspecialchars($product['name']) ?></h4>
+                        <p><?= htmlspecialchars($product['description']) ?></p>
+                        <div class="d-flex justify-content-between flex-wrap mt-auto">
+                            <p class="text-dark fs-5 fw-bold mb-0">$<?= htmlspecialchars($product['price']) ?> / kg</p>
+                            <form method="POST" action="../PHP/add_to_cart.php">
+                                <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+                                <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                </button>
+                            </form>
 
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    <?php return ob_get_clean();
+    }
+    ?>
 
     <!-- Fruits Shop End-->
 
@@ -378,12 +375,12 @@ function renderProductCard($product)
     </div>
     <!-- Features End -->
 
-     <!--Featured Section Start-->
+    <!--Featured Section Start-->
     <div class="container-fluid vesitable py-5">
         <div class="container py-5">
             <h1 class="mb-0">Featured Products</h1>
             <div class="owl-carousel vegetable-carousel justify-content-center">
-            <?php while ($product = $featured_result->fetch_assoc()): ?>
+                <?php while ($product = $featured_result->fetch_assoc()): ?>
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="vesitable-img">
                             <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
