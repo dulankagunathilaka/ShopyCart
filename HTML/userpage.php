@@ -5,6 +5,18 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../HTML/index.php");
     exit;
 }
+// Include your database connection
+include '../HTML/db_connection.php';
+// Fetch categories from the database (to ensure the products can be filtered)
+$query = "SELECT DISTINCT category FROM products";
+$category_result = $conn->query($query);
+
+// Fetch all products for the All Products tab
+$all_products_query = "SELECT * FROM products";
+$all_products_result = $conn->query($all_products_query);
+
+$query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";
+$featured_result = $conn->query($query);
 
 $fullName = $_SESSION['full_name'];
 ?>
@@ -278,35 +290,42 @@ $fullName = $_SESSION['full_name'];
     <!-- Shop End -->
 
     <?php
-    // Reusable product card rendering function
-    function renderProductCard($product)
-    {
-        ob_start(); ?>
-        <div class="col-md-6 col-lg-4 col-xl-3">
+function renderProductCard($product)
+{
+    ob_start(); ?>
+    <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+        <form action="cart.php" method="POST" class="h-100">
+            <!-- Hidden inputs for POST data -->
+            <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
+            <input type="hidden" name="product_name" value="<?= htmlspecialchars($product['name']) ?>">
+            <input type="hidden" name="product_price" value="<?= htmlspecialchars($product['price']) ?>">
+            <input type="hidden" name="product_image" value="<?= htmlspecialchars($product['image_url']) ?>">
+            <input type="hidden" name="product_category" value="<?= htmlspecialchars($product['category']) ?>">
+            <input type="hidden" name="quantity" value="1"> <!-- default quantity is 1 -->
+
             <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning">
-                <a href="#" onclick="showLoginMessage()" class="d-flex flex-column h-100 text-decoration-none">
-                    <div class="fruite-img">
-                        <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
+                <div class="fruite-img">
+                    <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
+                </div>
+                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                    <?= htmlspecialchars($product['category']) ?>
+                </div>
+                <div class="p-4 border-top-0 rounded-bottom d-flex flex-column justify-content-between flex-grow-1">
+                    <h4><?= htmlspecialchars($product['name']) ?></h4>
+                    <p><?= htmlspecialchars($product['description']) ?></p>
+                    <div class="d-flex justify-content-between flex-wrap mt-auto">
+                        <p class="text-dark fs-5 fw-bold mb-0">$<?= htmlspecialchars($product['price']) ?> / kg</p>
+                        <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                        </button>
                     </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                        <?= htmlspecialchars($product['category']) ?>
-                    </div>
-                    <div class="p-4 border-top-0 rounded-bottom d-flex flex-column justify-content-between flex-grow-1">
-                        <h4><?= htmlspecialchars($product['name']) ?></h4>
-                        <p><?= htmlspecialchars($product['description']) ?></p>
-                        <div class="d-flex justify-content-between flex-wrap mt-auto">
-                            <p class="text-dark fs-5 fw-bold mb-0">$<?= htmlspecialchars($product['price']) ?> / kg</p>
-                            <span class="btn border border-secondary rounded-pill px-3 text-primary">
-                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                            </span>
-                        </div>
-                    </div>
-                </a>
+                </div>
             </div>
-        </div>
-    <?php return ob_get_clean();
-    }
-    ?>
+        </form>
+    </div>
+<?php return ob_get_clean();
+}
+?>
 
 
     <!-- Fruits Shop End-->
@@ -359,71 +378,35 @@ $fullName = $_SESSION['full_name'];
     </div>
     <!-- Features End -->
 
-    <!-- Vegetable Shop Start-->
+     <!--Featured Section Start-->
     <div class="container-fluid vesitable py-5">
         <div class="container py-5">
             <h1 class="mb-0">Featured Products</h1>
             <div class="owl-carousel vegetable-carousel justify-content-center">
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="../img/CasavaChips.jpg" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Snacks</div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4>Casava Chips</h4>
-                        <p>Cassava chips are crispy, flavorful snacks made from fried cassava root</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+            <?php while ($product = $featured_result->fetch_assoc()): ?>
+                    <div class="border border-primary rounded position-relative vesitable-item">
+                        <div class="vesitable-img">
+                            <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
+                        </div>
+                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                            <?php echo htmlspecialchars($product['category']); ?>
+                        </div>
+                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4><?php echo htmlspecialchars($product['name']); ?></h4>
+                            <p><?php echo htmlspecialchars($product['description']); ?></p>
+                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
+                                <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="fruite-img">
-                        <img src="../img/WheatBread.jpg" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Bakery</div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4>Wheat Bread</h4>
-                        <p>Wheat bread is a healthy, fiber-rich bread made from whole wheat flour !</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="fruite-img">
-                        <img src="../img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4>Orange</h4>
-                        <p>Orange is a citrus fruit with a juicy, sweet-tangy taste, rich in vitamin C.</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="fruite-img">
-                        <img src="../img/pineapple.jpg" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4>Pineapple</h4>
-                        <p>Pineapple is a tropical fruit with a sweet, tangy taste and juicy, golden flesh.</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
+                <?php endwhile; ?>
             </div>
         </div>
     </div>
-    <!-- Vegetable Shop End -->
+    <!--Featured Section End-->
 
     <!-- Banner Section Start-->
     <div class="container-fluid banner bg-secondary my-5">
