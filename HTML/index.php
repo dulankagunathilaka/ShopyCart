@@ -10,9 +10,8 @@ $category_result = $conn->query($query);
 $all_products_query = "SELECT * FROM products";
 $all_products_result = $conn->query($all_products_query);
 
-// Fetch the latest 5 products for the vegetable shop section
 $query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";
-$result = $conn->query($query);
+$featured_result = $conn->query($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -292,7 +291,7 @@ $result = $conn->query($query);
     </div>
     <!-- Features Section End -->
 
-    <!-- Shop Start-->
+    <!-- Shop Start -->
     <div id="fresh-finds" class="container-fluid fruite py-5">
         <div class="container py-5">
             <div class="tab-class text-center">
@@ -304,107 +303,84 @@ $result = $conn->query($query);
                     </div>
                     <div class="col-lg-8 text-end">
                         <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                            <!-- Dynamic Category Tabs -->
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-all">
-                                    <span class="text-dark" style="width: 130px;">All Products</span>
-                                </a>
-                            </li>
-
-                            <?php while ($category_row = $category_result->fetch_assoc()): ?>
+                            <?php
+                            $categories = ['All Products', 'Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
+                            foreach ($categories as $index => $category):
+                                $id = strtolower(str_replace(' ', '-', $category));
+                            ?>
                                 <li class="nav-item">
-                                    <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-<?php echo strtolower($category_row['category']); ?>">
-                                        <span class="text-dark" style="width: 130px;"><?php echo $category_row['category']; ?></span>
+                                    <a class="d-flex m-2 py-2 bg-light rounded-pill <?= $index === 0 ? 'active' : '' ?>" data-bs-toggle="pill" href="#tab-<?= $id ?>">
+                                        <span class="text-dark" style="width: 130px;"><?= $category ?></span>
                                     </a>
                                 </li>
-                            <?php endwhile; ?>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
+                </div>
 
-                    <div class="tab-content">
-                        <!-- All Products Tab -->
-                        <div id="tab-all" class="tab-pane fade show p-0 active">
+                <div class="tab-content">
+                    <!-- All Products Tab -->
+                    <div id="tab-all-products" class="tab-pane fade show active p-0">
+                        <div class="row g-4">
+                            <?php while ($product = $all_products_result->fetch_assoc()): ?>
+                                <?= renderProductCard($product); ?>
+                            <?php endwhile; ?>
+                        </div>
+                    </div>
+
+                    <!-- Individual Category Tabs -->
+                    <?php
+                    $categoryNames = ['Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
+                    foreach ($categoryNames as $categoryName):
+                        $stmt = $conn->prepare("SELECT * FROM products WHERE category = ?");
+                        $stmt->bind_param("s", $categoryName);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                    ?>
+                        <div id="tab-<?= strtolower($categoryName) ?>" class="tab-pane fade p-0">
                             <div class="row g-4">
-                                <div class="col-lg-12">
-                                    <div class="row g-4">
-                                        <?php while ($product = $all_products_result->fetch_assoc()): ?>
-                                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                                <div class="rounded position-relative fruite-item">
-                                                    <a href="#" onclick="showLoginMessage()">
-                                                        <div class="fruite-img">
-                                                            <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
-                                                        </div>
-                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                                            <?php echo htmlspecialchars($product['category']); ?>
-                                                        </div>
-                                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                            <h4><?php echo htmlspecialchars($product['name']); ?></h4>
-                                                            <p><?php echo htmlspecialchars($product['description']); ?></p>
-                                                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
-                                                                <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary">
-                                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        <?php endwhile; ?>
-                                    </div>
-                                </div>
+                                <?php while ($product = $result->fetch_assoc()): ?>
+                                    <?= renderProductCard($product); ?>
+                                <?php endwhile; ?>
                             </div>
                         </div>
-
-                        <!-- Category Tabs -->
-                        <?php
-                        $category_result = $conn->query($query); // Re-fetch categories
-                        while ($category_row = $category_result->fetch_assoc()):
-                            $category = strtolower($category_row['category']);
-                            $category_products_query = "SELECT * FROM products WHERE category = ?";
-                            $stmt = $conn->prepare($category_products_query);
-                            $stmt->bind_param("s", $category_row['category']);
-                            $stmt->execute();
-                            $category_products_result = $stmt->get_result();
-                        ?>
-                            <div id="tab-<?php echo $category; ?>" class="tab-pane fade p-0">
-                                <div class="row g-4">
-                                    <div class="col-lg-12">
-                                        <div class="row g-4">
-                                            <?php while ($product = $category_products_result->fetch_assoc()): ?>
-                                                <div class="col-md-6 col-lg-4 col-xl-3">
-                                                    <div class="rounded position-relative fruite-item">
-                                                        <a href="#" onclick="showLoginMessage()">
-                                                            <div class="fruite-img">
-                                                                <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
-                                                            </div>
-                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                                                <?php echo htmlspecialchars($product['category']); ?>
-                                                            </div>
-                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                <h4><?php echo htmlspecialchars($product['name']); ?></h4>
-                                                                <p><?php echo htmlspecialchars($product['description']); ?></p>
-                                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                    <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
-                                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary">
-                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            <?php endwhile; ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endwhile; ?>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Shop End -->
+
+    <?php
+    // Reusable product card rendering function
+    function renderProductCard($product)
+    {
+        ob_start(); ?>
+        <div class="col-md-6 col-lg-4 col-xl-3">
+            <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning">
+                <a href="#" onclick="showLoginMessage()" class="d-flex flex-column h-100 text-decoration-none">
+                    <div class="fruite-img">
+                        <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
+                    </div>
+                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                        <?= htmlspecialchars($product['category']) ?>
+                    </div>
+                    <div class="p-4 border-top-0 rounded-bottom d-flex flex-column justify-content-between flex-grow-1">
+                        <h4><?= htmlspecialchars($product['name']) ?></h4>
+                        <p><?= htmlspecialchars($product['description']) ?></p>
+                        <div class="d-flex justify-content-between flex-wrap mt-auto">
+                            <p class="text-dark fs-5 fw-bold mb-0">$<?= htmlspecialchars($product['price']) ?> / kg</p>
+                            <span class="btn border border-secondary rounded-pill px-3 text-primary">
+                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    <?php return ob_get_clean();
+    }
+    ?>
 
 
     <!-- Fruits Shop End-->
@@ -457,12 +433,12 @@ $result = $conn->query($query);
     </div>
     <!-- Features End -->
 
-    <!-- Vegetable Shop Start -->
+    <!--Featured Section Start-->
     <div class="container-fluid vesitable py-5">
         <div class="container py-5">
             <h1 class="mb-0">Featured Products</h1>
             <div class="owl-carousel vegetable-carousel justify-content-center">
-                <?php while ($product = $result->fetch_assoc()): ?>
+            <?php while ($product = $featured_result->fetch_assoc()): ?>
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="vesitable-img">
                             <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
@@ -485,7 +461,7 @@ $result = $conn->query($query);
             </div>
         </div>
     </div>
-    <!-- Vegetable Shop End -->
+    <!--Featured Section End-->
 
     <!-- Banner Section Start-->
     <div class="container-fluid banner bg-secondary my-5">
