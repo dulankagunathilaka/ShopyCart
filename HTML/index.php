@@ -1,3 +1,19 @@
+<?php
+// Include your database connection
+include '../HTML/db_connection.php';
+
+// Fetch categories from the database (to ensure the products can be filtered)
+$query = "SELECT DISTINCT category FROM products";
+$category_result = $conn->query($query);
+
+// Fetch all products for the All Products tab
+$all_products_query = "SELECT * FROM products";
+$all_products_result = $conn->query($all_products_query);
+
+// Fetch the latest 5 products for the vegetable shop section
+$query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";
+$result = $conn->query($query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -288,459 +304,109 @@
                     </div>
                     <div class="col-lg-8 text-end">
                         <ul class="nav nav-pills d-inline-flex text-center mb-5">
+                            <!-- Dynamic Category Tabs -->
                             <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-all">
                                     <span class="text-dark" style="width: 130px;">All Products</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                    <span class="text-dark" style="width: 130px;">Vegetables</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                                    <span class="text-dark" style="width: 130px;">Fruits</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                                    <span class="text-dark" style="width: 130px;">Bakery</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                                    <span class="text-dark" style="width: 130px;">Meat</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-6">
-                                    <span class="text-dark" style="width: 130px;">Snacks</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-7">
-                                    <span class="text-dark" style="width: 130px;">Drinks</span>
-                                </a>
-                            </li>
+
+                            <?php while ($category_row = $category_result->fetch_assoc()): ?>
+                                <li class="nav-item">
+                                    <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-<?php echo strtolower($category_row['category']); ?>">
+                                        <span class="text-dark" style="width: 130px;"><?php echo $category_row['category']; ?></span>
+                                    </a>
+                                </li>
+                            <?php endwhile; ?>
                         </ul>
                     </div>
-                </div>
-                <div class="tab-content">
-                    <div id="tab-1" class="tab-pane fade show p-0 active">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <a href="#" onclick="showLoginMessage()">
-                                                <div class="fruite-img">
-                                                    <img src="../img/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
+
+                    <div class="tab-content">
+                        <!-- All Products Tab -->
+                        <div id="tab-all" class="tab-pane fade show p-0 active">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        <?php while ($product = $all_products_result->fetch_assoc()): ?>
+                                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                                <div class="rounded position-relative fruite-item">
+                                                    <a href="#" onclick="showLoginMessage()">
+                                                        <div class="fruite-img">
+                                                            <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
+                                                        </div>
+                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                                                            <?php echo htmlspecialchars($product['category']); ?>
+                                                        </div>
+                                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                            <h4><?php echo htmlspecialchars($product['name']); ?></h4>
+                                                            <p><?php echo htmlspecialchars($product['description']); ?></p>
+                                                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
+                                                                <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Blueberry</h4>
-                                                    <p>Blueberry is a small, sweet, and nutritious berry rich in antioxidants.</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                            </div>
+                                        <?php endwhile; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category Tabs -->
+                        <?php
+                        $category_result = $conn->query($query); // Re-fetch categories
+                        while ($category_row = $category_result->fetch_assoc()):
+                            $category = strtolower($category_row['category']);
+                            $category_products_query = "SELECT * FROM products WHERE category = ?";
+                            $stmt = $conn->prepare($category_products_query);
+                            $stmt->bind_param("s", $category_row['category']);
+                            $stmt->execute();
+                            $category_products_result = $stmt->get_result();
+                        ?>
+                            <div id="tab-<?php echo $category; ?>" class="tab-pane fade p-0">
+                                <div class="row g-4">
+                                    <div class="col-lg-12">
+                                        <div class="row g-4">
+                                            <?php while ($product = $category_products_result->fetch_assoc()): ?>
+                                                <div class="col-md-6 col-lg-4 col-xl-3">
+                                                    <div class="rounded position-relative fruite-item">
+                                                        <a href="#" onclick="showLoginMessage()">
+                                                            <div class="fruite-img">
+                                                                <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                                                                <?php echo htmlspecialchars($product['category']); ?>
+                                                            </div>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4><?php echo htmlspecialchars($product['name']); ?></h4>
+                                                                <p><?php echo htmlspecialchars($product['description']); ?></p>
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
+                                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </a>
                                                     </div>
                                                 </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Tomato.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Vegetables</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Tomato</h4>
-                                                <p>Tomato is a juicy, tangy fruit rich in vitamins, antioxidants, and widely used in cooking..</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Raspberry.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Raspberry</h4>
-                                                <p>Raspberry is a small, tangy, and nutritious berry rich in fiber and vitamins.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/watermelon.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Watermelon</h4>
-                                                <p>Watermelon is a juicy, sweet fruit with a refreshing taste and high water content.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Banana.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Banana</h4>
-                                                <p>Banana is a soft, sweet fruit high in potassium and a great source of energy.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Orange</h4>
-                                                <p>Orange is a citrus fruit with a juicy, sweet-tangy taste, rich in vitamin C.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Cherry.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Cherry</h4>
-                                                <p>Cherry is a small, sweet or tart fruit rich in antioxidants and vitamins.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/mango.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Mango</h4>
-                                                <p>Mango is a tropical fruit with a sweet, juicy flavor, rich in vitamins and antioxidants.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
+                                            <?php endwhile; ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div id="tab-2" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Tomato.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Tomato</h4>
-                                                <p>Tomato is a juicy, tangy fruit rich in vitamins and antioxidants.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Carrot.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Carrot</h4>
-                                                <p>Carrot is a crunchy, sweet vegetable rich in vitamins</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-3" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/blueberry.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Blueberry</h4>
-                                                <p>Blueberry is a small, sweet, and nutritious berry rich in antioxidants.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/pineapple.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Pineapple</h4>
-                                                <p>Pineapple is a tropical fruit with a sweet, tangy taste and juicy, golden flesh.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Raspberry.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Raspberry</h4>
-                                                <p>Raspberry is a small, tangy, and nutritious berry rich in fiber and vitamins.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/watermelon.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Watermelon</h4>
-                                                <p>Watermelon is a juicy, sweet fruit with a refreshing taste and high water content.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Banana.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Banana</h4>
-                                                <p>Banana is a soft, sweet fruit high in potassium and a great source of energy.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Orange</h4>
-                                                <p>Orange is a citrus fruit with a juicy, sweet-tangy taste, rich in vitamin C.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Cherry.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Cherry</h4>
-                                                <p>Cherry is a small, sweet or tart fruit rich in antioxidants and vitamins.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/mango.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Mango</h4>
-                                                <p>Mango is a tropical fruit with a sweet, juicy flavor, rich in vitamins and antioxidants.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-4" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/WheatBread.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Bakery</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Wheat Bread</h4>
-                                                <p>Wheat bread is a healthy, fiber-rich bread made from whole wheat flour, providing essential nutrients.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-5" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/ChickenMeat.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Meat</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Chicken</h4>
-                                                <p>Chicken meat is a lean, protein-rich food that is nutritious, versatile, and widely consumed.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-6" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/CasavaChips.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Snacks</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Casava Chips</h4>
-                                                <p>Cassava chips are crispy, flavorful snacks made from thinly sliced and fried cassava root.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-7" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="../img/Sprit.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Drinks</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Sprit</h4>
-                                                <p>Sprite is a clear, lemon-lime flavored soft drink known for its refreshing and crisp taste.</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php endwhile; ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
     <!-- Fruits Shop End-->
 
     <!-- Features Start -->
@@ -791,67 +457,31 @@
     </div>
     <!-- Features End -->
 
-    <!-- Vegetable Shop Start-->
+    <!-- Vegetable Shop Start -->
     <div class="container-fluid vesitable py-5">
         <div class="container py-5">
             <h1 class="mb-0">Featured Products</h1>
             <div class="owl-carousel vegetable-carousel justify-content-center">
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="../img/CasavaChips.jpg" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Snacks</div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4>Casava Chips</h4>
-                        <p>Cassava chips are crispy, flavorful snacks made from fried cassava root</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                <?php while ($product = $result->fetch_assoc()): ?>
+                    <div class="border border-primary rounded position-relative vesitable-item">
+                        <div class="vesitable-img">
+                            <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
+                        </div>
+                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                            <?php echo htmlspecialchars($product['category']); ?>
+                        </div>
+                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4><?php echo htmlspecialchars($product['name']); ?></h4>
+                            <p><?php echo htmlspecialchars($product['description']); ?></p>
+                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
+                                <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="fruite-img">
-                        <img src="../img/WheatBread.jpg" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Bakery</div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4>Wheat Bread</h4>
-                        <p>Wheat bread is a healthy, fiber-rich bread made from whole wheat flour !</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="fruite-img">
-                        <img src="../img/Orange.jpg" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4>Orange</h4>
-                        <p>Orange is a citrus fruit with a juicy, sweet-tangy taste, rich in vitamin C.</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="fruite-img">
-                        <img src="../img/pineapple.jpg" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4>Pineapple</h4>
-                        <p>Pineapple is a tropical fruit with a sweet, tangy taste and juicy, golden flesh.</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
+                <?php endwhile; ?>
             </div>
         </div>
     </div>

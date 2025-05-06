@@ -438,4 +438,50 @@
 }
 /*** Footer End ***/
 
+.fruite-item {
+    height: 100%; /* ensure card fills column */
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    height: 460px; /* fixed card height */
+}
+
+.fruite-img {
+    height: 200px; /* fixed image height */
+    overflow: hidden;
+}
+
+.fruite-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ensure image fits without distortion */
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.fruite-item .p-4 {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.fruite-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fruite-item p {
+    font-size: 0.875rem;
+    height: 42px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
