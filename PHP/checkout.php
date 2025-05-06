@@ -35,8 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantitiesStr = implode(", ", $quantities);
 
     // Insert into database
-    $stmt = $conn->prepare("INSERT INTO order_tracking (customer_name, email, address, contact_number, items, quantities, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $customerName, $email, $address, $contactNumber, $itemsStr, $quantitiesStr, $paymentMethod);
+    $stmt = $conn->prepare("INSERT INTO order_tracking (customer_name, email, address, contact_number, items, quantities, total_price, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssds", $customerName, $email, $address, $contactNumber, $itemsStr, $quantitiesStr, $total, $paymentMethod);
+
     $stmt->execute();
     $stmt->close();
 
@@ -46,4 +47,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location:../PHP/thank_you.php");
     exit;
 }
-?>

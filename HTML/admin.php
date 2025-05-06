@@ -483,7 +483,7 @@ $fullName = $_SESSION['full_name'];
                             <th>Total Price</th>
                             <th class="hide-mobile">Payment Method</th>
                             <th class="hide-mobile">Order Date</th>
-                            <th>Actions</th> <!-- New Actions Column -->
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -495,11 +495,9 @@ $fullName = $_SESSION['full_name'];
                         $orderResults = $conn->query("SELECT * FROM order_tracking ORDER BY order_date DESC LIMIT $start_from, $results_per_page");
 
                         while ($order = $orderResults->fetch_assoc()):
-                            // Break items and quantities into arrays
                             $items = explode(", ", $order['items']);
                             $quantities = explode(", ", $order['quantities']);
 
-                            // Combine items with their quantities
                             $combinedItems = [];
                             for ($i = 0; $i < count($items); $i++) {
                                 $item = $items[$i] ?? '';
@@ -518,9 +516,7 @@ $fullName = $_SESSION['full_name'];
                                 <td class="hide-mobile"><?= htmlspecialchars($order['payment_method']); ?></td>
                                 <td class="hide-mobile"><?= htmlspecialchars($order['order_date']); ?></td>
                                 <td>
-                                    <!-- Accept Order Button -->
                                     <button class="btn btn-sm btn-warning" onclick="updateStatus('accept', <?= $order['order_id']; ?>)">Accept</button>
-                                    <!-- Delivered Button -->
                                     <button class="btn btn-sm btn-success" onclick="updateStatus('delivered', <?= $order['order_id']; ?>)">Delivered</button>
                                 </td>
                             </tr>
@@ -529,8 +525,18 @@ $fullName = $_SESSION['full_name'];
                 </table>
             </div>
 
+            <!-- Grand Total -->
+            <div class="mt-3 text-end">
+                <?php
+                $totalQuery = $conn->query("SELECT SUM(total_price) AS grand_total FROM order_tracking");
+                $totalRow = $totalQuery->fetch_assoc();
+                $grandTotal = number_format($totalRow['grand_total'], 2);
+                ?>
+                <h5><strong>Grand Total of All Orders: Rs. <?= $grandTotal; ?></strong></h5>
+            </div>
+
             <!-- Pagination -->
-            <div class="pagination">
+            <div class="pagination mt-3">
                 <a href="?page=<?= $page - 1; ?>" class="btn btn-sm btn-secondary <?= ($page <= 1) ? 'disabled' : ''; ?>">Previous</a>
                 <a href="?page=<?= $page + 1; ?>" class="btn btn-sm btn-secondary">Next</a>
             </div>
