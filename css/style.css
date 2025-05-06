@@ -439,3 +439,21 @@
 /*** Footer End ***/
 
 
+/* Add some custom CSS for overflow handling */
+.address-column {
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.items-column {
+    max-width: 300px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none;
+    }
+}

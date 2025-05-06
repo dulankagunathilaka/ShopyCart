@@ -465,68 +465,78 @@ $fullName = $_SESSION['full_name'];
         </section>
 
 
-        <!-- Order Tracking -->
         <section id="orders" class="mt-5">
-            <div class="card">
-                <div class="card-header">Order Table</div>
-                <div class="card-body">
-                    <!-- Order Table -->
-                    <table class="table table-bordered text-center align-middle">
-                        <thead class="table-success">
+    <div class="card">
+        <div class="card-header">Order Table</div>
+        <div class="card-body">
+            <!-- Responsive Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle">
+                    <thead class="table-success">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer Name</th>
+                            <th>Email</th>
+                            <th class="address-column">Address</th>
+                            <th>Contact Number</th>
+                            <th class="items-column">Items Ordered</th>
+                            <th>Total Price</th>
+                            <th class="hide-mobile">Payment Method</th>
+                            <th class="hide-mobile">Order Date</th>
+                            <th>Actions</th> <!-- New Actions Column -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $results_per_page = 10;
+                        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                        $start_from = ($page - 1) * $results_per_page;
+
+                        $orderResults = $conn->query("SELECT * FROM order_tracking ORDER BY order_date DESC LIMIT $start_from, $results_per_page");
+
+                        while ($order = $orderResults->fetch_assoc()):
+                            // Break items and quantities into arrays
+                            $items = explode(", ", $order['items']);
+                            $quantities = explode(", ", $order['quantities']);
+
+                            // Combine items with their quantities
+                            $combinedItems = [];
+                            for ($i = 0; $i < count($items); $i++) {
+                                $item = $items[$i] ?? '';
+                                $qty = $quantities[$i] ?? '';
+                                $combinedItems[] = htmlspecialchars("$item - $qty");
+                            }
+                        ?>
                             <tr>
-                                <th>Order ID</th>
-                                <th>Customer Name</th>
-                                <th>Email</th>
-                                <th>Address</th>
-                                <th>Contact Number</th>
-                                <th>Items Ordered</th>
-                                <th>Total Price</th>
-                                <th>Payment Method</th>
-                                <th>Order Date</th>
-                                <th>Actions</th> <!-- New Actions Column -->
+                                <td>#<?= htmlspecialchars($order['order_id']); ?></td>
+                                <td><?= htmlspecialchars($order['customer_name']); ?></td>
+                                <td><?= htmlspecialchars($order['email']); ?></td>
+                                <td class="address-column"><?= htmlspecialchars($order['address']); ?></td>
+                                <td><?= htmlspecialchars($order['contact_number']); ?></td>
+                                <td class="items-column"><?= implode("<br>", $combinedItems); ?></td>
+                                <td>Rs. <?= htmlspecialchars(number_format($order['total_price'], 2)); ?></td>
+                                <td class="hide-mobile"><?= htmlspecialchars($order['payment_method']); ?></td>
+                                <td class="hide-mobile"><?= htmlspecialchars($order['order_date']); ?></td>
+                                <td>
+                                    <!-- Accept Order Button -->
+                                    <button class="btn btn-sm btn-warning" onclick="updateStatus('accept', <?= $order['order_id']; ?>)">Accept</button>
+                                    <!-- Delivered Button -->
+                                    <button class="btn btn-sm btn-success" onclick="updateStatus('delivered', <?= $order['order_id']; ?>)">Delivered</button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $orderResults = $conn->query("SELECT * FROM order_tracking ORDER BY order_date DESC");
-
-                            while ($order = $orderResults->fetch_assoc()):
-                                // Break items and quantities into arrays
-                                $items = explode(", ", $order['items']);
-                                $quantities = explode(", ", $order['quantities']);
-
-                                // Combine items with their quantities
-                                $combinedItems = [];
-                                for ($i = 0; $i < count($items); $i++) {
-                                    $item = $items[$i] ?? '';
-                                    $qty = $quantities[$i] ?? '';
-                                    $combinedItems[] = htmlspecialchars("$item - $qty");
-                                }
-                            ?>
-                                <tr>
-                                    <td>#<?= htmlspecialchars($order['order_id']); ?></td>
-                                    <td><?= htmlspecialchars($order['customer_name']); ?></td>
-                                    <td><?= htmlspecialchars($order['email']); ?></td>
-                                    <td><?= htmlspecialchars($order['address']); ?></td>
-                                    <td><?= htmlspecialchars($order['contact_number']); ?></td>
-                                    <td><?= implode("<br>", $combinedItems); ?></td>
-                                    <td>Rs. <?= htmlspecialchars(number_format($order['total_price'], 2)); ?></td>
-                                    <td><?= htmlspecialchars($order['payment_method']); ?></td>
-                                    <td><?= htmlspecialchars($order['order_date']); ?></td>
-                                    <td>
-                                        <!-- Accept Order Button -->
-                                        <button class="btn btn-sm btn-warning" onclick="updateStatus('accept', <?= $order['id']; ?>)">Accept</button>
-                                        <!-- Delivered Button -->
-                                        <button class="btn btn-sm btn-success" onclick="updateStatus('delivered', <?= $order['id']; ?>)">Delivered</button>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
             </div>
-        </section>
 
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="?page=<?= $page - 1; ?>" class="btn btn-sm btn-secondary <?= ($page <= 1) ? 'disabled' : ''; ?>">Previous</a>
+                <a href="?page=<?= $page + 1; ?>" class="btn btn-sm btn-secondary">Next</a>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 
