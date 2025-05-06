@@ -308,14 +308,13 @@ $fullName = $_SESSION['full_name'];
                         <p><?= htmlspecialchars($product['description']) ?></p>
                         <div class="d-flex justify-content-between flex-wrap mt-auto">
                             <p class="text-dark fs-5 fw-bold mb-0">$<?= htmlspecialchars($product['price']) ?> / kg</p>
-                            <form method="POST" action="../PHP/add_to_cart.php">
+                            <!-- Add to cart form with AJAX -->
+                            <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
                                 <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-                                <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addToCart(<?= $product['product_id'] ?>)">
                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                 </button>
                             </form>
-
-
                         </div>
                     </div>
                 </a>
@@ -324,6 +323,7 @@ $fullName = $_SESSION['full_name'];
     <?php return ob_get_clean();
     }
     ?>
+
 
     <!-- Fruits Shop End-->
 
@@ -375,35 +375,40 @@ $fullName = $_SESSION['full_name'];
     </div>
     <!-- Features End -->
 
-    <!--Featured Section Start-->
-    <div class="container-fluid vesitable py-5">
-        <div class="container py-5">
-            <h1 class="mb-0">Featured Products</h1>
-            <div class="owl-carousel vegetable-carousel justify-content-center">
-                <?php while ($product = $featured_result->fetch_assoc()): ?>
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
-                        </div>
-                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                            <?php echo htmlspecialchars($product['category']); ?>
-                        </div>
-                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                            <h4><?php echo htmlspecialchars($product['name']); ?></h4>
-                            <p><?php echo htmlspecialchars($product['description']); ?></p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
-                                <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary">
+   <!-- Featured Section Start -->
+<div class="container-fluid vesitable py-5">
+    <div class="container py-5">
+        <h1 class="mb-0">Featured Products</h1>
+        <div class="owl-carousel vegetable-carousel justify-content-center">
+            <?php while ($product = $featured_result->fetch_assoc()): ?>
+                <div class="border border-primary rounded position-relative vesitable-item">
+                    <div class="vesitable-img">
+                        <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
+                    </div>
+                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                        <?php echo htmlspecialchars($product['category']); ?>
+                    </div>
+                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                        <h4><?php echo htmlspecialchars($product['name']); ?></h4>
+                        <p><?php echo htmlspecialchars($product['description']); ?></p>
+                        <div class="d-flex justify-content-between flex-lg-wrap">
+                            <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
+                            <!-- Add to cart form with AJAX -->
+                            <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
+                                <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+                                <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addToCart(<?= $product['product_id'] ?>)">
                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                </a>
-                            </div>
+                                </button>
+                            </form>
                         </div>
                     </div>
-                <?php endwhile; ?>
-            </div>
+                </div>
+            <?php endwhile; ?>
         </div>
     </div>
-    <!--Featured Section End-->
+</div>
+<!-- Featured Section End -->
+
 
     <!-- Banner Section Start-->
     <div class="container-fluid banner bg-secondary my-5">
@@ -589,6 +594,126 @@ $fullName = $_SESSION['full_name'];
                 <?php endif; ?>
             <?php endif; ?>
         });
+    </script>
+
+    <!-- JavaScript for Add to Cart and Success Message -->
+    <script>
+        // Function to handle the Add to Cart functionality
+        function addToCart(productId) {
+            // Get the form using the product ID
+            const form = document.getElementById('addToCartForm' + productId);
+
+            // Create a FormData object to capture form data
+            const formData = new FormData(form);
+
+            // Use AJAX to send the form data to the PHP script without reloading the page
+            fetch('../PHP/add_to_cart.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    if (data.trim() === 'Item added to cart') {
+                        // Show the success message once the item is added to the cart
+                        showSuccessMessage();
+                    } else {
+                        // Handle errors, if any
+                        console.error('Error:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Function to handle the Add to Cart functionality
+        function addToCart(productId) {
+            // Get the form using the product ID
+            const form = document.getElementById('addToCartForm' + productId);
+
+            // Create a FormData object to capture form data
+            const formData = new FormData(form);
+
+            // Use AJAX to send the form data to the PHP script without reloading the page
+            fetch('../PHP/add_to_cart.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    if (data.trim() === 'Item added to cart') {
+                        // Show the success message once the item is added to the cart
+                        showSuccessMessage();
+                    } else {
+                        // Handle errors, if any
+                        console.error('Error:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Function to handle the Add to Cart functionality
+        function addToCart(productId) {
+            // Get the form using the product ID
+            const form = document.getElementById('addToCartForm' + productId);
+
+            // Create a FormData object to capture form data
+            const formData = new FormData(form);
+
+            // Use AJAX to send the form data to the PHP script without reloading the page
+            fetch('../PHP/add_to_cart.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    if (data.trim() === 'Item added to cart') {
+                        // Show the success message once the item is added to the cart
+                        showSuccessMessage();
+                    } else {
+                        // Handle errors, if any
+                        console.error('Error:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Function to show a pop-up success message at the center with transparent background
+        function showSuccessMessage() {
+            // Create a div element for the pop-up
+            const successMessage = document.createElement('div');
+            successMessage.textContent = 'Item added successfully!';
+
+            // Style the success message
+            successMessage.style.position = 'fixed';
+            successMessage.style.top = '50%';
+            successMessage.style.left = '50%';
+            successMessage.style.transform = 'translate(-50%, -50%)'; // Center the message
+            successMessage.style.padding = '10px 20px'; // Smaller padding for a smaller message
+            successMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // More transparent black background
+            successMessage.style.color = 'white';
+            successMessage.style.borderRadius = '8px'; // Smaller border radius
+            successMessage.style.fontSize = '14px'; // Smaller font size
+            successMessage.style.zIndex = '9999';
+            successMessage.style.textAlign = 'center';
+            successMessage.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.3)'; // Optional: Add shadow for better visibility
+            successMessage.style.opacity = '1'; // Initially fully visible
+
+            // Append the success message to the body
+            document.body.appendChild(successMessage);
+
+            // Add the animation to shrink and fade out
+            successMessage.style.animation = 'shrinkAndFade 3s forwards'; // Apply animation
+
+            // Remove the message after the animation completes (3 seconds)
+            setTimeout(() => {
+                successMessage.remove();
+            }, 3000);
+        }
     </script>
 
 </body>

@@ -57,7 +57,7 @@ foreach ($cart as $item) {
     <div class="container-fluid fixed-top">
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                <a href="../HTML/index.php" class="navbar-brand">
+                <a href="../HTML/userpage.php" class="navbar-brand">
                     <h1 class="text-primary display-6">Shopy Cart</h1>
                 </a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -65,7 +65,7 @@ foreach ($cart as $item) {
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="../HTML/index.php" class="nav-item nav-link">Home</a>
+                        <a href="../HTML/userpage.php" class="nav-item nav-link">Home</a>
                         <a href="../HTML/freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
                         <a href="#fresh-finds" class="nav-item nav-link active">Cart</a>
                     </div>
