@@ -468,39 +468,56 @@ $fullName = $_SESSION['full_name'];
         <!-- Order Tracking -->
         <section id="orders" class="mt-5">
             <div class="card">
-                <div class="card-header">Order Tracking</div>
+                <div class="card-header">Order Table</div>
                 <div class="card-body">
-                    <!-- Order Tracking Table -->
+                    <!-- Order Table -->
                     <table class="table table-bordered text-center align-middle">
                         <thead class="table-success">
                             <tr>
                                 <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Progress</th>
-                                <th>Order Status</th>
+                                <th>Customer Name</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Contact Number</th>
+                                <th>Items Ordered</th>
+                                <th>Total Price</th>
+                                <th>Payment Method</th>
+                                <th>Order Date</th>
+                                <th>Actions</th> <!-- New Actions Column -->
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $orderResults = $conn->query("SELECT * FROM order_tracking");
+                            $orderResults = $conn->query("SELECT * FROM order_tracking ORDER BY order_date DESC");
+
                             while ($order = $orderResults->fetch_assoc()):
+                                // Break items and quantities into arrays
+                                $items = explode(", ", $order['items']);
+                                $quantities = explode(", ", $order['quantities']);
+
+                                // Combine items with their quantities
+                                $combinedItems = [];
+                                for ($i = 0; $i < count($items); $i++) {
+                                    $item = $items[$i] ?? '';
+                                    $qty = $quantities[$i] ?? '';
+                                    $combinedItems[] = htmlspecialchars("$item - $qty");
+                                }
                             ?>
                                 <tr>
-                                    <td>#<?php echo htmlspecialchars($order['order_id']); ?></td>
-                                    <td><?php echo htmlspecialchars($order['customer']); ?></td>
-                                    <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                    <td>#<?= htmlspecialchars($order['order_id']); ?></td>
+                                    <td><?= htmlspecialchars($order['customer_name']); ?></td>
+                                    <td><?= htmlspecialchars($order['email']); ?></td>
+                                    <td><?= htmlspecialchars($order['address']); ?></td>
+                                    <td><?= htmlspecialchars($order['contact_number']); ?></td>
+                                    <td><?= implode("<br>", $combinedItems); ?></td>
+                                    <td>Rs. <?= htmlspecialchars(number_format($order['total_price'], 2)); ?></td>
+                                    <td><?= htmlspecialchars($order['payment_method']); ?></td>
+                                    <td><?= htmlspecialchars($order['order_date']); ?></td>
                                     <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-<?php echo $order['progress'] < 50 ? 'warning' : 'success'; ?>" style="width: <?php echo $order['progress']; ?>%;">
-                                                <?php echo htmlspecialchars($order['progress']); ?>%
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-status" style="background-color: orange;">Confirm the Order</button>
-                                        <button class="btn btn-sm btn-status" style="background-color: blue;">Order Processing</button>
-                                        <button class="btn btn-sm btn-status" style="background-color: green;">Delivered</button>
+                                        <!-- Accept Order Button -->
+                                        <button class="btn btn-sm btn-warning" onclick="updateStatus('accept', <?= $order['id']; ?>)">Accept</button>
+                                        <!-- Delivered Button -->
+                                        <button class="btn btn-sm btn-success" onclick="updateStatus('delivered', <?= $order['id']; ?>)">Delivered</button>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
@@ -509,6 +526,10 @@ $fullName = $_SESSION['full_name'];
                 </div>
             </div>
         </section>
+
+
+
+
 
         <!-- Settings -->
         <section id="settings" class="mt-5">
@@ -562,6 +583,23 @@ $fullName = $_SESSION['full_name'];
             <?php endif; ?>
         });
     </script>
+
+<script>
+    // JavaScript function to handle order status updates
+    function updateStatus(status, orderId) {
+        if (status === 'accept') {
+            if (confirm('Are you sure you want to accept this order?')) {
+                // Send a request to the server to update the order status
+                window.location.href = `update_order_status.php?status=accept&order_id=${orderId}`;
+            }
+        } else if (status === 'delivered') {
+            if (confirm('Are you sure this order is delivered?')) {
+                // Send a request to the server to update the order status
+                window.location.href = `update_order_status.php?status=delivered&order_id=${orderId}`;
+            }
+        }
+    }
+</script>
 
 </body>
 
