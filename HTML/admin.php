@@ -259,6 +259,9 @@ $fullName = $_SESSION['full_name'];
                                 <option value="Drinks">Drinks</option>
                             </select>
                         </div>
+                        <div class="col-md-2">
+                            <input type="text" name="quantity" class="form-control" placeholder="Quantity" min="1" required>
+                        </div>
                         <div class="col-md-3">
                             <input type="text" name="description" class="form-control" placeholder="Description" required>
                         </div>
@@ -269,6 +272,7 @@ $fullName = $_SESSION['full_name'];
                             <button type="submit" class="btn btn-primary">Add Product</button>
                         </div>
                     </form>
+
 
 
                     <!-- Product Table -->
