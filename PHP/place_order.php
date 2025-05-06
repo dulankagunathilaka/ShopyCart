@@ -1,30 +1,30 @@
 <?php
-session_start();
+require_once '../HTML/db_connection.php';
 
-$cart = $_SESSION['cart'] ?? [];
-$total = $_SESSION['cart_total'] ?? 0;
-$shipping = 3.00;
-$grand_total = $total + $shipping;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get customer input
+    $customerName = $_POST['customer_name'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $contactNumber = $_POST['contact_number'];
+    $items = $_POST['items']; // e.g., "Product A, Product B"
+    $quantities = $_POST['quantities']; // e.g., "2,1"
+    $totalPrice = $_POST['total_price'];
+    $paymentMethod = $_POST['payment_method'];
+    $orderDate = date('Y-m-d H:i:s'); // Current date and time
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $firstName = $_POST['first_name'] ?? '';
-    $lastName = $_POST['last_name'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $address = $_POST['address'] ?? '';
-    $payment = $_POST['payment_method'] ?? '';
+    // Insert into order_tracking
+    $stmt = $conn->prepare("INSERT INTO order_tracking (customer_name, email, address, contact_number, items, quantities, total_price, payment_method, order_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssdss", $customerName, $email, $address, $contactNumber, $items, $quantities, $totalPrice, $paymentMethod, $orderDate);
 
-    // TODO: Validate input
+    if ($stmt->execute()) {
+        echo "Order placed successfully!";
+        // Redirect or display confirmation
+    } else {
+        echo "Failed to place order.";
+    }
 
-    // TODO: Save to database (orders table and order_items table)
-
-    // Clear cart
-    unset($_SESSION['cart']);
-    unset($_SESSION['cart_total']);
-
-    // Redirect to success page
-    header("Location: ../HTML/order_success.php");
-    exit;
-} else {
-    echo "Invalid request.";
+    $stmt->close();
+    $conn->close();
 }
 ?>

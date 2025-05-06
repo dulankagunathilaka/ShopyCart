@@ -1,6 +1,6 @@
 <?php
 // Include the database connection
-require_once 'db_connection.php';
+require_once '../HTML/db_connection.php';
 
 // Fetch the total number of products from the database
 $productCountResult = $conn->query("SELECT COUNT(*) AS total FROM products");
