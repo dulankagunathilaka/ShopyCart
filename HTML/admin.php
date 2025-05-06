@@ -248,7 +248,16 @@ $fullName = $_SESSION['full_name'];
                             <input type="text" name="product_name" class="form-control" placeholder="Product Name" required>
                         </div>
                         <div class="col-md-2">
-                            <input type="text" name="category" class="form-control" placeholder="Category" required>
+                            <select name="category" class="form-select" required>
+                                <option value="">Select Category</option>
+                                <option value="All Products">All Products</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Bakery">Bakery</option>
+                                <option value="Meat">Meat</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Drinks">Drinks</option>
+                            </select>
                         </div>
                         <div class="col-md-3">
                             <input type="text" name="description" class="form-control" placeholder="Description" required>
@@ -260,6 +269,7 @@ $fullName = $_SESSION['full_name'];
                             <button type="submit" class="btn btn-primary">Add Product</button>
                         </div>
                     </form>
+
 
                     <!-- Product Table -->
                     <table class="table table-bordered text-center align-middle">
