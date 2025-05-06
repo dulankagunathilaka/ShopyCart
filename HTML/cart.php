@@ -205,9 +205,10 @@ foreach ($cart as $item) {
                             <p class="mb-0 pe-4">$<?= number_format($total + 3.00, 2) ?></p>
                         </div>
 
-                        <a href="../HTML/checkout.php">
-                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
-                        </a>
+                        <form action="../HTML/checkout.php" method="post">
+                            <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+                        </form>
+
                     </div>
                 </div>
             </div>

@@ -375,39 +375,39 @@ $fullName = $_SESSION['full_name'];
     </div>
     <!-- Features End -->
 
-   <!-- Featured Section Start -->
-<div class="container-fluid vesitable py-5">
-    <div class="container py-5">
-        <h1 class="mb-0">Featured Products</h1>
-        <div class="owl-carousel vegetable-carousel justify-content-center">
-            <?php while ($product = $featured_result->fetch_assoc()): ?>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                        <?php echo htmlspecialchars($product['category']); ?>
-                    </div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4><?php echo htmlspecialchars($product['name']); ?></h4>
-                        <p><?php echo htmlspecialchars($product['description']); ?></p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
-                            <!-- Add to cart form with AJAX -->
-                            <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
-                                <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-                                <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addToCart(<?= $product['product_id'] ?>)">
-                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                </button>
-                            </form>
+    <!-- Featured Section Start -->
+    <div class="container-fluid vesitable py-5">
+        <div class="container py-5">
+            <h1 class="mb-0">Featured Products</h1>
+            <div class="owl-carousel vegetable-carousel justify-content-center">
+                <?php while ($product = $featured_result->fetch_assoc()): ?>
+                    <div class="border border-primary rounded position-relative vesitable-item">
+                        <div class="vesitable-img">
+                            <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
+                        </div>
+                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                            <?php echo htmlspecialchars($product['category']); ?>
+                        </div>
+                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4><?php echo htmlspecialchars($product['name']); ?></h4>
+                            <p><?php echo htmlspecialchars($product['description']); ?></p>
+                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
+                                <!-- Add to cart form with AJAX -->
+                                <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
+                                    <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+                                    <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addToCart(<?= $product['product_id'] ?>)">
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endwhile; ?>
+                <?php endwhile; ?>
+            </div>
         </div>
     </div>
-</div>
-<!-- Featured Section End -->
+    <!-- Featured Section End -->
 
 
     <!-- Banner Section Start-->
