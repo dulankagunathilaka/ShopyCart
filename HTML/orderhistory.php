@@ -93,7 +93,7 @@ if (!isset($_SESSION['user_id'])) {
 
         /* Add margin-top to avoid overlap with fixed navbar */
         .order-history-section {
-            margin-top: 120px;
+            margin-top: 80px;
             /* Adjust this value if needed */
         }
 
