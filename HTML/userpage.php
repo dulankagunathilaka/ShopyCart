@@ -290,14 +290,14 @@ $fullName = $_SESSION['full_name'];
     <!-- Shop End -->
 
     <?php
-    // Reusable product card rendering function for Featured Products
+    // Reusable product card rendering function
     function renderProductCard($product)
     {
         ob_start();
         $isOutOfStock = $product['stock_status'] === 'Out of Stock';
     ?>
         <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning <?= $isOutOfStock ? 'opacity-50 pointer-events-none' : '' ?>">
+            <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning">
                 <a href="#" onclick="showLoginMessage()" class="d-flex flex-column h-100 text-decoration-none">
                     <div class="fruite-img">
                         <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
@@ -313,13 +313,18 @@ $fullName = $_SESSION['full_name'];
                         <div class="text-dark px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.7); font-weight: bold;">
                             Out of Stock
                         </div>
+
                     <?php endif; ?>
 
                     <div class="p-4 border-top-0 rounded-bottom d-flex flex-column justify-content-between flex-grow-1">
                         <h4><?= htmlspecialchars($product['name']) ?></h4>
                         <p><?= htmlspecialchars($product['description']) ?></p>
                         <div class="d-flex justify-content-between flex-wrap mt-auto">
-                            <p class="text-dark fs-5 fw-bold mb-0">$<?= htmlspecialchars($product['price']) ?> / kg</p>
+                            <p class="text-dark fs-5 fw-bold mb-0">
+                                $<?php echo htmlspecialchars($product['price']); ?> /
+                                <?php echo htmlspecialchars($product['quantity']); ?>
+                            </p>
+
 
                             <!-- Add to cart form -->
                             <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
@@ -337,6 +342,7 @@ $fullName = $_SESSION['full_name'];
     <?php
         return ob_get_clean();
     }
+
     ?>
 
 
@@ -417,7 +423,10 @@ $fullName = $_SESSION['full_name'];
                             <h4><?php echo htmlspecialchars($product['name']); ?></h4>
                             <p><?php echo htmlspecialchars($product['description']); ?></p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
+                                <p class="text-dark fs-5 fw-bold mb-0">
+                                    $<?php echo htmlspecialchars($product['price']); ?> /
+                                    <?php echo htmlspecialchars($product['quantity']); ?>
+                                </p>
 
                                 <!-- Add to cart form with AJAX -->
                                 <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
@@ -434,7 +443,6 @@ $fullName = $_SESSION['full_name'];
         </div>
     </div>
     <!-- Featured Section End -->
-
 
 
     <!-- Banner Section Start-->

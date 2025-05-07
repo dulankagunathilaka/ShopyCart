@@ -146,9 +146,6 @@ foreach ($cart as $item) {
                                         <form method="POST" action="../PHP/update_cart.php" style="display: flex;">
                                             <input type="hidden" name="product_id" value="<?= $id ?>">
                                             <input type="number" name="quantity" value="<?= $item['quantity'] ?>" class="form-control form-control-sm text-center border-0">
-                                            <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border ms-1">
-                                                <i class="fa fa-sync"></i>
-                                            </button>
                                         </form>
                                     </div>
                                 </td>
