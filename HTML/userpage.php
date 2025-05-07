@@ -290,14 +290,14 @@ $fullName = $_SESSION['full_name'];
     <!-- Shop End -->
 
     <?php
-    // Reusable product card rendering function
+    // Reusable product card rendering function for Featured Products
     function renderProductCard($product)
     {
         ob_start();
         $isOutOfStock = $product['stock_status'] === 'Out of Stock';
     ?>
         <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning">
+            <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning <?= $isOutOfStock ? 'opacity-50 pointer-events-none' : '' ?>">
                 <a href="#" onclick="showLoginMessage()" class="d-flex flex-column h-100 text-decoration-none">
                     <div class="fruite-img">
                         <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
@@ -313,7 +313,6 @@ $fullName = $_SESSION['full_name'];
                         <div class="text-dark px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.7); font-weight: bold;">
                             Out of Stock
                         </div>
-
                     <?php endif; ?>
 
                     <div class="p-4 border-top-0 rounded-bottom d-flex flex-column justify-content-between flex-grow-1">
@@ -338,7 +337,6 @@ $fullName = $_SESSION['full_name'];
     <?php
         return ob_get_clean();
     }
-
     ?>
 
 
@@ -397,23 +395,34 @@ $fullName = $_SESSION['full_name'];
         <div class="container py-5">
             <h1 class="mb-0">Featured Products</h1>
             <div class="owl-carousel vegetable-carousel justify-content-center">
-                <?php while ($product = $featured_result->fetch_assoc()): ?>
-                    <div class="border border-primary rounded position-relative vesitable-item">
+                <?php while ($product = $featured_result->fetch_assoc()):
+                    $isOutOfStock = $product['stock_status'] === 'Out of Stock'; // Check if product is out of stock
+                ?>
+                    <div class="border border-primary rounded position-relative vesitable-item <?= $isOutOfStock ? 'opacity-50 pointer-events-none' : '' ?>">
                         <div class="vesitable-img">
                             <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
                         </div>
                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                             <?php echo htmlspecialchars($product['category']); ?>
                         </div>
+
+                        <!-- Out of Stock Badge -->
+                        <?php if ($isOutOfStock): ?>
+                            <div class="text-dark px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.7); font-weight: bold;">
+                                Out of Stock
+                            </div>
+                        <?php endif; ?>
+
                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                             <h4><?php echo htmlspecialchars($product['name']); ?></h4>
                             <p><?php echo htmlspecialchars($product['description']); ?></p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
                                 <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
+
                                 <!-- Add to cart form with AJAX -->
                                 <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-                                    <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addToCart(<?= $product['product_id'] ?>)">
+                                    <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addToCart(<?= $product['product_id'] ?>)" <?= $isOutOfStock ? 'disabled' : '' ?>>
                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                     </button>
                                 </form>
@@ -425,6 +434,7 @@ $fullName = $_SESSION['full_name'];
         </div>
     </div>
     <!-- Featured Section End -->
+
 
 
     <!-- Banner Section Start-->
