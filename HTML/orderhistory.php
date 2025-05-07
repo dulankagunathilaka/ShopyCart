@@ -23,6 +23,99 @@ if (!isset($_SESSION['user_id'])) {
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
+
+    <style>
+        .order-card {
+            border-left: 5px solid #81c408;
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .order-card .card-body {
+            padding: 20px;
+        }
+
+        .order-card h5 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #81c408;
+        }
+
+        .order-card p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-card .btn {
+            transition: all 0.3s ease;
+        }
+
+        .order-card .btn-warning:hover {
+            background-color: #ffcc00;
+            border-color: #ffcc00;
+        }
+
+        .order-card .btn-success:hover {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .order-card .btn-secondary:hover {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .order-card .btn-dark:hover {
+            background-color: #343a40;
+            border-color: #343a40;
+        }
+
+        .order-card .btn-light {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+
+        .order-card .order-status {
+            font-weight: bold;
+            color: #81c408;
+            background-color: #e8f5e9;
+            padding: 0.3rem 0.5rem;
+            border-radius: 5px;
+        }
+
+        /* Add margin-top to avoid overlap with fixed navbar */
+        .order-history-section {
+            margin-top: 120px;
+            /* Adjust this value if needed */
+        }
+
+        /* Style for "Continue Shopping" Button */
+        .continue-shopping-btn {
+            background-color: white;
+            border: 2px solid #81c408;
+            color: #81c408;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .continue-shopping-btn:hover {
+            background-color: #81c408;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -82,7 +175,7 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 
     <!-- Order History Section -->
-    <div class="container-fluid py-5 mb-4 mt-5">
+    <div class="container-fluid py-5 mb-4 order-history-section">
         <div class="row">
             <?php
             require_once '../HTML/db_connection.php';
@@ -96,10 +189,11 @@ if (!isset($_SESSION['user_id'])) {
             if ($result->num_rows > 0) {
                 while ($order = $result->fetch_assoc()) {
                     $status = $order['status'];
-                    echo '<div class="card mb-3">';
+                    echo '<div class="col-md-6 col-lg-4">';
+                    echo '<div class="order-card card shadow-lg">';
                     echo '<div class="card-body">';
                     echo '<h5 class="card-title">Order #' . $order['order_id'] . '</h5>';
-                    echo '<p><strong>Status:</strong> ' . htmlspecialchars($status ?? 'Pending') . '</p>';
+                    echo '<p><strong>Status:</strong> <span class="order-status">' . htmlspecialchars($status ?? 'Pending') . '</span></p>';
                     echo '<p><strong>Items:</strong> ' . htmlspecialchars($order['items']) . '</p>';
                     echo '<p><strong>Total:</strong> Rs. ' . number_format($order['total_price'], 2) . '</p>';
                     echo '<p><strong>Date:</strong> ' . $order['order_date'] . '</p>';
@@ -117,13 +211,14 @@ if (!isset($_SESSION['user_id'])) {
                     }
 
                     echo '</div></div>';
+                    echo '</div>';
                 }
             } else {
                 echo "<p class='text-center'>You have no orders yet.</p>";
             }
             ?>
             <div class="text-center mt-4">
-                <a href="../HTML/userpage.php" class="btn btn-outline-success"><i class="fas fa-store"></i> Continue Shopping</a>
+                <a href="../HTML/userpage.php" class="btn continue-shopping-btn"><i class="fas fa-store"></i> Continue Shopping</a>
             </div>
         </div>
     </div>

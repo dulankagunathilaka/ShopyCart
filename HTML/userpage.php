@@ -78,7 +78,6 @@ $fullName = $_SESSION['full_name'];
                     </div>
 
                     <div class="d-flex m-3 me-0">
-                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
                             <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
@@ -108,27 +107,6 @@ $fullName = $_SESSION['full_name'];
         </div>
     </div>
     <!-- Navbar End -->
-
-    <!-- Modal Search Start -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content rounded-0">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body d-flex align-items-center">
-                    <div class="input-group w-75 mx-auto d-flex">
-                        <label>
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                        </label>
-                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Search End -->
 
     <!-- Hero Start -->
     <div class="container-fluid py-5 mb-5 hero-header">
@@ -234,12 +212,13 @@ $fullName = $_SESSION['full_name'];
         <div class="container py-5">
             <div class="tab-class text-center">
                 <div class="row g-4">
-                    <div class="col-lg-4 text-start">
-                        <a href="freshfinds.html">
-                            <h1>Fresh Finds</h1>
+                    <div class="bg-light rounded p-4 mb-4 shadow-sm" style="border-left: 5px solid #81c408;">
+                        <a href="../HTML/freshfinds.php" class="text-decoration-none">
+                            <h3 class="text-dark fw-semibold mb-0">Fresh Finds</h3>
                         </a>
                     </div>
-                    <div class="col-lg-8 text-end">
+
+                    <div class="col-lg-12 text-center">
                         <ul class="nav nav-pills d-inline-flex text-center mb-5">
                             <?php
                             $categories = ['All Products', 'Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
@@ -423,10 +402,10 @@ $fullName = $_SESSION['full_name'];
                             <h4><?php echo htmlspecialchars($product['name']); ?></h4>
                             <p><?php echo htmlspecialchars($product['description']); ?></p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">
-                                Rs.<?php echo htmlspecialchars($product['price']); ?> /
-                                <?php echo htmlspecialchars($product['quantity']); ?>
-                            </p>
+                                <p class="text-dark fs-5 fw-bold mb-0">
+                                    Rs.<?php echo htmlspecialchars($product['price']); ?> /
+                                    <?php echo htmlspecialchars($product['quantity']); ?>
+                                </p>
                                 <!-- Add to cart form with AJAX -->
                                 <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
@@ -462,7 +441,7 @@ $fullName = $_SESSION['full_name'];
                         <div class="d-flex align-items-center justify-content-center bg-white rounded-circle position-absolute" style="width: 140px; height: 140px; top: 0; left: 0;">
                             <h1 style="font-size: 100px;">1</h1>
                             <div class="d-flex flex-column">
-                                <span class="h2 mb-0">50$</span>
+                                <span class="h2 mb-0">Rs.110</span>
                                 <span class="h4 text-muted mb-0">kg</span>
                             </div>
                         </div>

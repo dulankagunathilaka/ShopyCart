@@ -68,11 +68,10 @@ $featured_result = $conn->query($query);
                     <div class="navbar-nav mx-auto">
                         <a href="../HTML/index.php" class="nav-item nav-link active">Home</a>
                         <a href="#fresh-finds" class="nav-item nav-link">Fresh Finds</a>
-                        <a href="../HTML/contact.php" class="nav-item nav-link">Contact</a>
+                        <a href="#" onclick="showLoginMessage()" class="nav-item nav-link">Contact</a>
                     </div>
 
                     <div class="d-flex m-3 me-0">
-                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                         <a href="#" onclick="showLoginMessage()" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
                             <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
@@ -88,7 +87,7 @@ $featured_result = $conn->query($query);
                                         SignIn/SignUp
                                     </a>
                                     <hr class="dropdown-divider">
-                                    <a href="#" onclick="showLoginMessage()" class="dropdown-item">My Orders</a>
+                                    <a href="#" onclick="showLoginMessage()" class="dropdown-item">Ready to Checkout</a>
                                     <a href="#" onclick="showLoginMessage()" class="dropdown-item">Order History</a>
                                     <a href="#" onclick="showLoginMessage()" class="dropdown-item">My Account</a>
                                 </div>
@@ -189,27 +188,6 @@ $featured_result = $conn->query($query);
     </div>
     </div>
     <!-- Navbar End -->
-
-    <!-- Search Start -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content rounded-0">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body d-flex align-items-center">
-                    <div class="input-group w-75 mx-auto d-flex">
-                        <label>
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                        </label>
-                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Search End -->
 
     <!-- Top Head/after nav bar Start -->
     <div class="container-fluid py-5 mb-5 hero-header">
@@ -314,12 +292,13 @@ $featured_result = $conn->query($query);
         <div class="container py-5">
             <div class="tab-class text-center">
                 <div class="row g-4">
-                    <div class="col-lg-4 text-start">
-                        <a href="freshfinds.html">
-                            <h1>Fresh Finds</h1>
+                    <div class="bg-light rounded p-4 mb-4 shadow-sm" style="border-left: 5px solid #81c408;">
+                        <a href="#" onclick="showLoginMessage()" class="text-decoration-none">
+                            <h3 class="text-dark fw-semibold mb-0">Fresh Finds</h3>
                         </a>
                     </div>
-                    <div class="col-lg-8 text-end">
+
+                    <div class="col-lg-12 text-center">
                         <ul class="nav nav-pills d-inline-flex text-center mb-5">
                             <?php
                             $categories = ['All Products', 'Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
