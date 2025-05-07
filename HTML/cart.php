@@ -193,7 +193,7 @@ foreach ($cart as $item) {
                                     <p class="mb-0">Flat rate: $3.00</p>
                                 </div>
                             </div>
-                            <p class="mb-0 text-end">Shipping to Colombo, Sri Lanka</p>
+                            <p class="mb-0 text-end">Shipping From Colombo, Sri Lanka</p>
                         </div>
 
                         <!-- Total -->
