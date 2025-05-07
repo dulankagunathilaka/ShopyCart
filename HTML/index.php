@@ -1,8 +1,8 @@
 <?php
-// Include your database connection
+// Include database connection
 include '../HTML/db_connection.php';
 
-// Fetch categories from the database (to ensure the products can be filtered)
+// Fetch categories from the database
 $query = "SELECT DISTINCT category FROM products";
 $category_result = $conn->query($query);
 
@@ -10,9 +10,11 @@ $category_result = $conn->query($query);
 $all_products_query = "SELECT * FROM products";
 $all_products_result = $conn->query($all_products_query);
 
+// Fetch featured products
 $query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";
 $featured_result = $conn->query($query);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,10 +39,10 @@ $featured_result = $conn->query($query);
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
-    <!-- Customized Bootstrap Stylesheet -->
+    <!-- Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
+    <!-- CSS Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 </head>
 
@@ -87,7 +89,7 @@ $featured_result = $conn->query($query);
                                     </a>
                                     <hr class="dropdown-divider">
                                     <a href="#" onclick="showLoginMessage()" class="dropdown-item">My Orders</a>
-                                    <a href="#" onclick="showLoginMessage()" class="dropdown-item">Wishlist</a>
+                                    <a href="#" onclick="showLoginMessage()" class="dropdown-item">Order History</a>
                                     <a href="#" onclick="showLoginMessage()" class="dropdown-item">My Account</a>
                                 </div>
                             </div>
@@ -172,7 +174,7 @@ $featured_result = $conn->query($query);
     </div>
     <!-- Navbar End -->
 
-    <!-- Modal Search Start -->
+    <!-- Search Start -->
     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content rounded-0">
@@ -191,9 +193,9 @@ $featured_result = $conn->query($query);
             </div>
         </div>
     </div>
-    <!-- Modal Search End -->
+    <!-- Search End -->
 
-    <!-- Hero Start -->
+    <!-- Top Head/after nav bar Start -->
     <div class="container-fluid py-5 mb-5 hero-header">
         <div class="container py-5">
             <div class="row g-5 align-items-center">
@@ -236,7 +238,7 @@ $featured_result = $conn->query($query);
             </div>
         </div>
     </div>
-    <!-- Hero End -->
+    <!-- Top Head/after nav bar End -->
 
     <!-- Features Section Start -->
     <div class="container-fluid featurs py-5">
@@ -318,8 +320,8 @@ $featured_result = $conn->query($query);
                     </div>
                 </div>
 
+                <!-- All Products Tab -->
                 <div class="tab-content">
-                    <!-- All Products Tab -->
                     <div id="tab-all-products" class="tab-pane fade show active p-0">
                         <div class="row g-4">
                             <?php while ($product = $all_products_result->fetch_assoc()): ?>
@@ -349,7 +351,6 @@ $featured_result = $conn->query($query);
             </div>
         </div>
     </div>
-    <!-- Shop End -->
 
     <?php
     // Reusable product card rendering function
@@ -369,7 +370,10 @@ $featured_result = $conn->query($query);
                         <h4><?= htmlspecialchars($product['name']) ?></h4>
                         <p><?= htmlspecialchars($product['description']) ?></p>
                         <div class="d-flex justify-content-between flex-wrap mt-auto">
-                            <p class="text-dark fs-5 fw-bold mb-0">$<?= htmlspecialchars($product['price']) ?> / kg</p>
+                            <p class="text-dark fs-5 fw-bold mb-0">
+                                $<?php echo htmlspecialchars($product['price']); ?> /
+                                <?php echo htmlspecialchars($product['quantity']); ?>
+                            </p>
                             <span class="btn border border-secondary rounded-pill px-3 text-primary">
                                 <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                             </span>
@@ -381,9 +385,7 @@ $featured_result = $conn->query($query);
     <?php return ob_get_clean();
     }
     ?>
-
-
-    <!-- Fruits Shop End-->
+    <!--Shop End-->
 
     <!-- Features Start -->
     <div class="container-fluid service py-5">
@@ -438,7 +440,7 @@ $featured_result = $conn->query($query);
         <div class="container py-5">
             <h1 class="mb-0">Featured Products</h1>
             <div class="owl-carousel vegetable-carousel justify-content-center">
-            <?php while ($product = $featured_result->fetch_assoc()): ?>
+                <?php while ($product = $featured_result->fetch_assoc()): ?>
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="vesitable-img">
                             <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
@@ -450,7 +452,10 @@ $featured_result = $conn->query($query);
                             <h4><?php echo htmlspecialchars($product['name']); ?></h4>
                             <p><?php echo htmlspecialchars($product['description']); ?></p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold mb-0">$<?php echo htmlspecialchars($product['price']); ?> / kg</p>
+                                <p class="text-dark fs-5 fw-bold mb-0">
+                                    Rs.<?php echo htmlspecialchars($product['price']); ?> /
+                                    <?php echo htmlspecialchars($product['quantity']); ?>
+                                </p>
                                 <a href="#" onclick="showLoginMessage()" class="btn border border-secondary rounded-pill px-3 text-primary">
                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                 </a>
@@ -481,7 +486,7 @@ $featured_result = $conn->query($query);
                         <div class="d-flex align-items-center justify-content-center bg-white rounded-circle position-absolute" style="width: 140px; height: 140px; top: 0; left: 0;">
                             <h1 style="font-size: 100px;">1</h1>
                             <div class="d-flex flex-column">
-                                <span class="h2 mb-0">50$</span>
+                                <span class="h2 mb-0">Rs.499</span>
                                 <span class="h4 text-muted mb-0">kg</span>
                             </div>
                         </div>
@@ -501,7 +506,7 @@ $featured_result = $conn->query($query);
                         <div class="counter bg-white rounded p-5">
                             <i class="fa fa-users text-secondary"></i>
                             <h4>satisfied customers</h4>
-                            <h1>1963</h1>
+                            <h1>11000</h1>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 col-xl-3">
@@ -622,13 +627,12 @@ $featured_result = $conn->query($query);
     <script src="../lib/lightbox/js/lightbox.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Cart option messafe before sign in -->
+    <!-- Cart option message before sign in -->
     <script>
         function showLoginMessage() {
             alert("Please sign in to shop.");
         }
     </script>
-
 
     <!-- Template Javascript -->
     <script src="../js/main.js"></script>
