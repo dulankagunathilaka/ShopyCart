@@ -21,7 +21,7 @@ if (isset($_POST['product_id'], $_POST['product_name'], $_POST['category'], $_PO
     $stmt = $conn->prepare($query);
 
     // Bind the parameters to the query
-    $stmt->bind_param("ssssisi", $name, $category, $description, $price, $quantity, $stock_status, $product_id);
+    $stmt->bind_param("ssssssi", $name, $category, $description, $price, $quantity, $stock_status, $product_id);
 
     // Execute the update query and check if it was successful
     if ($stmt->execute()) {

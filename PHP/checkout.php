@@ -64,7 +64,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Execute the query
     if ($stmt->execute()) {
-        // Clear the cart and redirect
+        // ✅ Delete from persistent cart (DB)
+        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] !== "admin") {
+            $deleteStmt = $conn->prepare("DELETE FROM cart_items WHERE user_id = ?");
+            $deleteStmt->bind_param("i", $userId);
+            $deleteStmt->execute();
+            $deleteStmt->close();
+        }
+
+        // ✅ Clear the cart from session
         unset($_SESSION['cart']);
         $_SESSION['order_success'] = "Your order has been successfully placed!";
         header("Location:../PHP/thank_you.php");
@@ -73,7 +81,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('Error placing order: " . $stmt->error . "'); window.history.back();</script>";
         exit;
     }
-
-    // Close the statement
-    $stmt->close();
 }

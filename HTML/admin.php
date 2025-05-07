@@ -184,7 +184,7 @@ $fullName = $_SESSION['full_name'];
                                     </a>
                                     <hr class="dropdown-divider">
                                     <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
-                                    <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                    <a href="../HTML/orderhistory.php" class="dropdown-item">Order History</a>
                                     <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                                 </div>
                             </div>
@@ -281,7 +281,7 @@ $fullName = $_SESSION['full_name'];
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <input type="text" name="quantity" class="form-control" placeholder="Quantity" min="1" required>
+                                <input type="text" name="quantity" class="form-control" placeholder="Quantity" required>
                             </div>
                             <div class="col-md-2">
                                 <input type="text" name="description" class="form-control" placeholder="Description" required>
@@ -425,7 +425,7 @@ $fullName = $_SESSION['full_name'];
                             </div>
                             <div class="col-md-4">
                                 <label>Quantity</label>
-                                <input type="number" class="form-control" name="quantity" id="edit-quantity" required>
+                                <input type="text" class="form-control" name="quantity" id="edit-quantity" required>
                             </div>
                             <div class="col-md-4">
                                 <label>Stock Status</label>

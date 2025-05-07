@@ -176,7 +176,7 @@ $conn->close();
                             <div class="form-actions d-flex justify-content-between mt-3">
                                 <button type="button" class="btn" id="editButton" style="background-color: orange; color: white;" onclick="editProfile()">Edit</button>
                                 <button type="submit" class="btn" id="saveButton" style="background-color: green; color: white; display: none;">Save</button>
-                                <a href="../HTML/index.php" class="btn" style="background-color: #81c408; color: white;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                <a href="../PHP/logout.php" class="btn" style="background-color: #81c408; color: white;"><i class="fas fa-sign-out-alt"></i> Logout</a>
                             </div>
                         </form>
                     </div>

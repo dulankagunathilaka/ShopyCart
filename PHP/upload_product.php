@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Insert into products table
     $stmt = $conn->prepare("INSERT INTO products (name, category, description, price, quantity, stock_status, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssiss", $productName, $category, $description, $price, $quantity, $stockStatus, $imagePath);
+    $stmt->bind_param("sssssss", $productName, $category, $description, $price, $quantity, $stockStatus, $imagePath);
 
     if ($stmt->execute()) {
         // Product added successfully — nothing else to do

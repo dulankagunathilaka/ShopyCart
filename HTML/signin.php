@@ -1,5 +1,5 @@
 <?php
-require 'db_connection.php';
+require '../HTML/db_connection.php';
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -23,9 +23,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result && $result->num_rows === 1) {
         $user = $result->fetch_assoc();
+
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['full_name'] = $user['full_name'];
+
+            // ✅ Load cart from 'cart_items' table into session
+            $cartStmt = $conn->prepare("
+                SELECT ci.product_id, ci.quantity, p.name, p.price, p.image_url 
+                FROM cart_items ci
+                JOIN products p ON ci.product_id = p.product_id 
+                WHERE ci.user_id = ?
+            ");
+            $cartStmt->bind_param("i", $user['user_id']);
+            $cartStmt->execute();
+            $cartResult = $cartStmt->get_result();
+
+            $_SESSION['cart'] = [];
+            while ($row = $cartResult->fetch_assoc()) {
+                $_SESSION['cart'][$row['product_id']] = [
+                    'name' => $row['name'],
+                    'price' => $row['price'],
+                    'image' => $row['image_url'],
+                    'quantity' => $row['quantity']
+                ];
+            }
+
+            $cartStmt->close();
+
             header("Location: ../HTML/userpage.php");
             exit;
         } else {
@@ -38,3 +63,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
     $conn->close();
 }
+?>
