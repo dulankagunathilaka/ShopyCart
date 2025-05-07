@@ -67,7 +67,7 @@ if (!isset($_SESSION['user_id'])) {
     <div class="container-fluid fixed-top">
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                <a href="../HTML/index.php" class="navbar-brand">
+                <a href="../HTML/userpage.php" class="navbar-brand">
                     <h1 class="text-primary display-6">Shopy Cart</h1>
                 </a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -75,9 +75,9 @@ if (!isset($_SESSION['user_id'])) {
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="../HTML/index.php" class="nav-item nav-link">Home</a>
+                        <a href="../HTML/userpage.php" class="nav-item nav-link">Home</a>
                         <a href="../HTML/freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
-                        <a href="#fresh-finds" class="nav-item nav-link active">Wishlist</a>
+                        <a href="#fresh-finds" class="nav-item nav-link active">Your Shopping</a>
                     </div>
                     <div class="d-flex m-3 me-0">
                         <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
@@ -90,7 +90,7 @@ if (!isset($_SESSION['user_id'])) {
                                 <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
-                                    <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                    <a href="../HTML/orderhistory.php" class="dropdown-item">Wishlist</a>
                                     <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                                 </div>
                             </div>
@@ -126,95 +126,53 @@ if (!isset($_SESSION['user_id'])) {
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
     <div class="container-fluid py-5 mb-4 mt-5">
         <div class="row">
-            <!-- Product 1 -->
-            <div class="col-md-4 col-sm-6 mb-4">
-                <div class="card wishlist-card text-center p-2">
-                    <img src="../img/Apple.jpg" class="card-img-top mx-auto" alt="Apple">
-                    <div class="card-body">
-                        <h5 class="card-title">Apple</h5>
-                        <p class="card-text">100g - Rs.250</p>
-                        <p class="stock-status text-success" data-stock="in">In Stock</p>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </div>
-            </div>
+            <?php
+            require_once '../HTML/db_connection.php';
+            $userId = $_SESSION['user_id'];
 
-            <!-- Product 2 (Out of Stock Example) -->
-            <div class="col-md-4 col-sm-6 mb-4">
-                <div class="card wishlist-card text-center p-2">
-                    <img src="../img/Banana.jpg" class="card-img-top mx-auto" alt="Banana">
-                    <div class="card-body">
-                        <h5 class="card-title">Banana</h5>
-                        <p class="card-text">100g - Rs.150</p>
-                        <p class="stock-status text-danger" data-stock="out">Out of Stock</p>
-                        <button class="btn btn-sm btn-primary" disabled><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </div>
-            </div>
+            // Fetch orders for logged-in customer
+            $stmt = $conn->prepare("SELECT * FROM order_tracking WHERE user_id = ?");
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-            <!-- Product 3 -->
-            <div class="col-md-4 col-sm-6 mb-4">
-                <div class="card wishlist-card text-center p-2">
-                    <img src="../img/Orange.jpg" class="card-img-top mx-auto" alt="Orange">
-                    <div class="card-body">
-                        <h5 class="card-title">Orange</h5>
-                        <p class="card-text">100g - Rs.180</p>
-                        <p class="stock-status text-success" data-stock="in">In Stock</p>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+            if ($result->num_rows > 0) {
+                while ($order = $result->fetch_assoc()) {
+            ?>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Order #<?= $order['order_id']; ?></h5>
+                            <p>Status: <strong><?= htmlspecialchars($order['status'] ?? 'Pending'); ?></strong></p>
+                            <p>Items: <?= htmlspecialchars($order['items']); ?></p>
+                            <p>Total: Rs. <?= number_format($order['total_price'], 2); ?></p>
+                            <p>Date: <?= $order['order_date']; ?></p>
+                        </div>
                     </div>
-                </div>
-            </div>
+            <?php
+                }
+            } else {
+                echo "<p class='text-center'>You have no orders yet.</p>";
+            }
+            ?>
 
-            <!-- Product 4 -->
-            <div class="col-md-4 col-sm-6 mb-4">
-                <div class="card wishlist-card text-center p-2">
-                    <img src="../img/blueberry.jpg" class="card-img-top mx-auto" alt="Apple">
-                    <div class="card-body">
-                        <h5 class="card-title">Blueberry</h5>
-                        <p class="card-text">100g - Rs.240</p>
-                        <p class="stock-status text-success" data-stock="in">In Stock</p>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Product 5 -->
-            <div class="col-md-4 col-sm-6 mb-4">
-                <div class="card wishlist-card text-center p-2">
-                    <img src="../img/Carrot.jpg" class="card-img-top mx-auto" alt="Apple">
-                    <div class="card-body">
-                        <h5 class="card-title">Carrot</h5>
-                        <p class="card-text">100g - Rs.250</p>
-                        <p class="stock-status text-danger" data-stock="out">Out of Stock</p>
-                        <button class="btn btn-sm btn-primary" disabled><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </div>
+
+            <!-- Go to Shop Button -->
+            <div class="text-center mt-4">
+                <a href="../HTML/index.php" class="btn btn-outline-success"><i class="fas fa-store"></i> Continue Shopping</a>
             </div>
         </div>
-    </div>
 
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../lib/easing/easing.min.js"></script>
+        <script src="../lib/waypoints/waypoints.min.js"></script>
+        <script src="../lib/lightbox/js/lightbox.min.js"></script>
+        <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Go to Shop Button -->
-    <div class="text-center mt-4">
-        <a href="../HTML/index.php" class="btn btn-outline-success"><i class="fas fa-store"></i> Continue Shopping</a>
-    </div>
-    </div>
-
-    <!-- JavaScript Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../lib/easing/easing.min.js"></script>
-    <script src="../lib/waypoints/waypoints.min.js"></script>
-    <script src="../lib/lightbox/js/lightbox.min.js"></script>
-    <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../js/main.js"></script>
+        <!-- Template Javascript -->
+        <script src="../js/main.js"></script>
 </body>
 
 </html>

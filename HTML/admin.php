@@ -5,7 +5,8 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../HTML/index.php");
     exit;
 }
-$productCount = include '../PHP/get_product_count.php';
+
+include '../PHP/dashboard_stats.php';
 
 $fullName = $_SESSION['full_name'];
 ?>
@@ -202,7 +203,7 @@ $fullName = $_SESSION['full_name'];
                 <a href="#products"><i class="fas fa-boxes me-2"></i>Manage Products</a>
                 <a href="#orders"><i class="fas fa-truck me-2"></i>Order Tracking</a>
                 <a href="#settings"><i class="fas fa-cog me-2"></i>Settings</a>
-                <a href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+                <a href="../PHP/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
             </section>
         </div>
     </section>
@@ -224,7 +225,7 @@ $fullName = $_SESSION['full_name'];
                     <div class="card text-white bg-success mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Orders Today</h5>
-                            <p class="card-text fs-4">8</p> <!-- Replace with dynamic if needed -->
+                            <p class="card-text fs-4"><?php echo $ordersToday; ?></p>
                         </div>
                     </div>
                 </div>
@@ -232,13 +233,12 @@ $fullName = $_SESSION['full_name'];
                     <div class="card text-white bg-success mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Revenue</h5>
-                            <p class="card-text fs-4">Rs. 25,000</p> <!-- Replace with dynamic if needed -->
+                            <p class="card-text fs-4">Rs. <?php echo number_format($revenueToday, 2); ?></p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
         <section>
             <!-- Display Success or Error Message with JavaScript Alert -->
             <?php
@@ -516,9 +516,12 @@ $fullName = $_SESSION['full_name'];
                                         <td class="hide-mobile"><?= htmlspecialchars($order['payment_method']); ?></td>
                                         <td class="hide-mobile"><?= htmlspecialchars($order['order_date']); ?></td>
                                         <td>
-                                            <button class="btn btn-sm btn-warning" onclick="updateStatus('accept', <?= $order['order_id']; ?>)">Accept</button>
-                                            <button class="btn btn-sm btn-success" onclick="updateStatus('delivered', <?= $order['order_id']; ?>)">Delivered</button>
+                                            <div class="d-flex">
+                                                <button class="btn btn-sm btn-warning me-2 flex-fill" onclick="updateStatus(this, 'accept', <?= $order['order_id']; ?>)">Accept</button>
+                                                <button class="btn btn-sm btn-success flex-fill" onclick="updateStatus(this, 'delivered', <?= $order['order_id']; ?>)">Delivered</button>
+                                            </div>
                                         </td>
+
                                     </tr>
                                 <?php endwhile; ?>
                             </tbody>
@@ -616,6 +619,35 @@ $fullName = $_SESSION['full_name'];
             }
         }
     </script>
+   <script>
+function updateStatus(button, status, orderId) {
+    fetch('../PHP/update_order_status.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `order_id=${orderId}&status=${status}`
+    })
+    .then(res => res.text())
+    .then(response => {
+        if (status === 'accept') {
+            button.classList.remove('btn-warning');
+            button.classList.add('btn-secondary');
+            button.innerText = "Packing";
+        } else if (status === 'delivered') {
+            button.classList.remove('btn-success');
+            button.classList.add('btn-dark');
+            button.innerText = "Out for Delivery";
+        }
+        button.disabled = true;
+    })
+    .catch(err => {
+        alert("Error updating order status");
+        console.error(err);
+    });
+}
+</script>
+
 
 </body>
 
