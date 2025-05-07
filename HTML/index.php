@@ -387,7 +387,7 @@ $featured_result = $conn->query($query);
                         <p><?= htmlspecialchars($product['description']) ?></p>
                         <div class="d-flex justify-content-between flex-wrap mt-auto">
                             <p class="text-dark fs-5 fw-bold mb-0">
-                                $<?php echo htmlspecialchars($product['price']); ?> /
+                                Rs.<?php echo htmlspecialchars($product['price']); ?> /
                                 <?php echo htmlspecialchars($product['quantity']); ?>
                             </p>
                             <span class="btn border border-secondary rounded-pill px-3 text-primary">

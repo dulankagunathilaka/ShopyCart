@@ -321,7 +321,7 @@ $fullName = $_SESSION['full_name'];
                         <p><?= htmlspecialchars($product['description']) ?></p>
                         <div class="d-flex justify-content-between flex-wrap mt-auto">
                             <p class="text-dark fs-5 fw-bold mb-0">
-                                $<?php echo htmlspecialchars($product['price']); ?> /
+                                Rs.<?php echo htmlspecialchars($product['price']); ?> /
                                 <?php echo htmlspecialchars($product['quantity']); ?>
                             </p>
 
@@ -423,11 +423,10 @@ $fullName = $_SESSION['full_name'];
                             <h4><?php echo htmlspecialchars($product['name']); ?></h4>
                             <p><?php echo htmlspecialchars($product['description']); ?></p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold mb-0">
-                                    $<?php echo htmlspecialchars($product['price']); ?> /
-                                    <?php echo htmlspecialchars($product['quantity']); ?>
-                                </p>
-
+                            <p class="text-dark fs-5 fw-bold mb-0">
+                                Rs.<?php echo htmlspecialchars($product['price']); ?> /
+                                <?php echo htmlspecialchars($product['quantity']); ?>
+                            </p>
                                 <!-- Add to cart form with AJAX -->
                                 <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">

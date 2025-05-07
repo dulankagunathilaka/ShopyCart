@@ -1,8 +1,9 @@
 <?php
-require '../HTML/db_connection.php'; // your DB connection
+require '../HTML/db_connection.php'; // Make sure this path is correct and points to the above file
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
+
     $stmt = $pdo->prepare("SELECT user_id FROM users WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
@@ -11,13 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $token = bin2hex(random_bytes(32));
         $expires = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
-        // Save token to DB
+        // Ensure your users table has these two new fields: reset_token, token_expires
         $stmt = $pdo->prepare("UPDATE users SET reset_token = ?, token_expires = ? WHERE email = ?");
         $stmt->execute([$token, $expires, $email]);
 
-        $resetLink = "http://yourdomain.com/reset_password.php?token=$token";
-        // Send email (use mail() or a library like PHPMailer)
-        mail($email, "Password Reset", "Click to reset: $resetLink");
+        $resetLink = "http://localhost/ShopyCart/HTML/reset_password.php?token=$token";
+
+        // For real projects, use PHPMailer. For test:
+        mail($email, "Password Reset", "Click to reset your password: $resetLink");
 
         echo "Reset link sent to your email.";
     } else {
