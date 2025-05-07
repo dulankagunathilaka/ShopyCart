@@ -293,25 +293,40 @@ $fullName = $_SESSION['full_name'];
     // Reusable product card rendering function
     function renderProductCard($product)
     {
-        ob_start(); ?>
+        ob_start();
+        $isOutOfStock = $product['stock_status'] === 'Out of Stock';
+    ?>
         <div class="col-md-6 col-lg-4 col-xl-3">
             <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning">
                 <a href="#" onclick="showLoginMessage()" class="d-flex flex-column h-100 text-decoration-none">
                     <div class="fruite-img">
                         <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
                     </div>
+
+                    <!-- Category Badge -->
                     <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                         <?= htmlspecialchars($product['category']) ?>
                     </div>
+
+                    <!-- Out of Stock Badge -->
+                    <?php if ($isOutOfStock): ?>
+                        <div class="text-dark px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.7); font-weight: bold;">
+                            Out of Stock
+                        </div>
+
+                    <?php endif; ?>
+
                     <div class="p-4 border-top-0 rounded-bottom d-flex flex-column justify-content-between flex-grow-1">
                         <h4><?= htmlspecialchars($product['name']) ?></h4>
                         <p><?= htmlspecialchars($product['description']) ?></p>
                         <div class="d-flex justify-content-between flex-wrap mt-auto">
                             <p class="text-dark fs-5 fw-bold mb-0">$<?= htmlspecialchars($product['price']) ?> / kg</p>
-                            <!-- Add to cart form with AJAX -->
+
+                            <!-- Add to cart form -->
                             <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
                                 <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-                                <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addToCart(<?= $product['product_id'] ?>)">
+                                <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary"
+                                    onclick="addToCart(<?= $product['product_id'] ?>)" <?= $isOutOfStock ? 'disabled' : '' ?>>
                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                 </button>
                             </form>
@@ -320,8 +335,10 @@ $fullName = $_SESSION['full_name'];
                 </a>
             </div>
         </div>
-    <?php return ob_get_clean();
+    <?php
+        return ob_get_clean();
     }
+
     ?>
 
 

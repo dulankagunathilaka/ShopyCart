@@ -488,11 +488,18 @@ $fullName = $_SESSION['full_name'];
                             </thead>
                             <tbody>
                                 <?php
-                                $results_per_page = 10;
+                                $results_per_page = 5;
                                 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                                 $start_from = ($page - 1) * $results_per_page;
 
+                                // Fetch current page of orders
                                 $orderResults = $conn->query("SELECT * FROM order_tracking ORDER BY order_date DESC LIMIT $start_from, $results_per_page");
+
+                                // Fetch total number of orders for pagination
+                                $totalOrdersResult = $conn->query("SELECT COUNT(*) AS total FROM order_tracking");
+                                $totalOrdersRow = $totalOrdersResult->fetch_assoc();
+                                $total_orders = $totalOrdersRow['total'];
+                                $total_pages = ceil($total_orders / $results_per_page);
 
                                 while ($order = $orderResults->fetch_assoc()):
                                     $items = explode(", ", $order['items']);
@@ -539,6 +546,7 @@ $fullName = $_SESSION['full_name'];
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
+
                             </tbody>
                         </table>
                     </div>
@@ -554,10 +562,22 @@ $fullName = $_SESSION['full_name'];
                     </div>
 
                     <!-- Pagination -->
-                    <div class="pagination mt-3">
-                        <a href="?page=<?= $page - 1; ?>" class="btn btn-sm btn-secondary <?= ($page <= 1) ? 'disabled' : ''; ?>">Previous</a>
-                        <a href="?page=<?= $page + 1; ?>" class="btn btn-sm btn-secondary">Next</a>
+                    <div class="pagination mt-3 d-flex flex-wrap gap-1">
+                        <?php if ($page > 1): ?>
+                            <a href="?page=<?= $page - 1; ?>" class="btn btn-sm btn-secondary">Previous</a>
+                        <?php endif; ?>
+
+                        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                            <a href="?page=<?= $i; ?>" class="btn btn-sm <?= $i === $page ? 'btn-primary' : 'btn-outline-secondary' ?>">
+                                <?= $i; ?>
+                            </a>
+                        <?php endfor; ?>
+
+                        <?php if ($page < $total_pages): ?>
+                            <a href="?page=<?= $page + 1; ?>" class="btn btn-sm btn-secondary">Next</a>
+                        <?php endif; ?>
                     </div>
+
                 </div>
             </div>
         </section>

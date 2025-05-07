@@ -1,6 +1,5 @@
 <?php
 session_start();  // Start the session
-
 // Check if the form is submitted with the required fields
 if (isset($_POST['product_id'], $_POST['product_name'], $_POST['category'], $_POST['description'], $_POST['price'], $_POST['quantity'], $_POST['stock_status'])) {
 
