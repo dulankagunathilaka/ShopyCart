@@ -130,30 +130,32 @@ if (!isset($_SESSION['user_id'])) {
 
     <!-- JavaScript Libraries -->
     <script>
-    function updateStatus(button, status, orderId) {
-        fetch('../PHP/update_order_status.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `order_id=${orderId}&status=${status}`
-        })
-        .then(res => res.text())
-        .then(response => {
-            if (status === 'accept') {
-                button.classList.remove('btn-warning');
-                button.classList.add('btn-secondary');
-                button.innerText = "Packing";
-            } else if (status === 'delivered') {
-                button.classList.remove('btn-success');
-                button.classList.add('btn-dark');
-                button.innerText = "Out for Delivery";
-            }
-            button.disabled = true;
-        })
-        .catch(err => {
-            alert("Error updating order status");
-            console.error(err);
-        });
-    }
+        function updateStatus(button, status, orderId) {
+            fetch('../PHP/update_order_status.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `order_id=${orderId}&status=${status}`
+                })
+                .then(res => res.text())
+                .then(response => {
+                    if (status === 'accept') {
+                        button.classList.remove('btn-warning');
+                        button.classList.add('btn-secondary');
+                        button.innerText = "Packing";
+                    } else if (status === 'delivered') {
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-dark');
+                        button.innerText = "Out for Delivery";
+                    }
+                    button.disabled = true;
+                })
+                .catch(err => {
+                    alert("Error updating order status");
+                    console.error(err);
+                });
+        }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -163,4 +165,5 @@ if (!isset($_SESSION['user_id'])) {
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
     <script src="../js/main.js"></script>
 </body>
+
 </html>

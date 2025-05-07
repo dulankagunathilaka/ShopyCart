@@ -619,34 +619,34 @@ $fullName = $_SESSION['full_name'];
             }
         }
     </script>
-   <script>
-function updateStatus(button, status, orderId) {
-    fetch('../PHP/update_order_status.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `order_id=${orderId}&status=${status}`
-    })
-    .then(res => res.text())
-    .then(response => {
-        if (status === 'accept') {
-            button.classList.remove('btn-warning');
-            button.classList.add('btn-secondary');
-            button.innerText = "Packing";
-        } else if (status === 'delivered') {
-            button.classList.remove('btn-success');
-            button.classList.add('btn-dark');
-            button.innerText = "Out for Delivery";
+    <script>
+        function updateStatus(button, status, orderId) {
+            fetch('../PHP/update_order_status.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `order_id=${orderId}&status=${status}`
+                })
+                .then(res => res.text())
+                .then(response => {
+                    if (status === 'accept') {
+                        button.classList.remove('btn-warning');
+                        button.classList.add('btn-secondary');
+                        button.innerText = "Packing";
+                    } else if (status === 'delivered') {
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-dark');
+                        button.innerText = "Out for Delivery";
+                    }
+                    button.disabled = true;
+                })
+                .catch(err => {
+                    alert("Error updating order status");
+                    console.error(err);
+                });
         }
-        button.disabled = true;
-    })
-    .catch(err => {
-        alert("Error updating order status");
-        console.error(err);
-    });
-}
-</script>
+    </script>
 
 
 </body>
