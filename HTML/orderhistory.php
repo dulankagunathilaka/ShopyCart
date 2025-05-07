@@ -2,7 +2,6 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    // Optional: redirect to login if not logged in
     header("Location: ../index.php");
     exit;
 }
@@ -15,55 +14,18 @@ if (!isset($_SESSION['user_id'])) {
     <meta charset="utf-8">
     <title>ShopyCart Super Market</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
-
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
     <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
-
-    <style>
-        .wishlist-card img {
-            width: 100px;
-            /* Fixed width */
-            height: 100px;
-            /* Fixed height */
-            object-fit: cover;
-            /* Ensures proper image display */
-        }
-
-        .stock-status {
-            font-weight: bold;
-        }
-    </style>
 </head>
 
 <body>
-
-    <!-- Spinner Start -->
-    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary" role="status"></div>
-    </div>
-    <!-- Spinner End -->
-
-
-    <!-- Navbar start -->
     <div class="container-fluid fixed-top">
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
@@ -90,7 +52,7 @@ if (!isset($_SESSION['user_id'])) {
                                 <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
-                                    <a href="../HTML/orderhistory.php" class="dropdown-item">Wishlist</a>
+                                    <a href="../HTML/orderhistory.php" class="dropdown-item">Order History</a>
                                     <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                                 </div>
                             </div>
@@ -100,37 +62,32 @@ if (!isset($_SESSION['user_id'])) {
             </nav>
         </div>
     </div>
-    <!-- Navbar End -->
 
-
-    <!-- Modal Search Start -->
+    <!-- Modal Search -->
     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content rounded-0">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Search by keyword</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body d-flex align-items-center">
                     <div class="input-group w-75 mx-auto d-flex">
-                        <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        <input type="search" class="form-control p-3" placeholder="keywords">
+                        <span class="input-group-text p-3"><i class="fa fa-search"></i></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal Search End -->
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+    <!-- Order History Section -->
     <div class="container-fluid py-5 mb-4 mt-5">
         <div class="row">
             <?php
             require_once '../HTML/db_connection.php';
             $userId = $_SESSION['user_id'];
 
-            // Fetch orders for logged-in customer
             $stmt = $conn->prepare("SELECT * FROM order_tracking WHERE user_id = ?");
             $stmt->bind_param("i", $userId);
             $stmt->execute();
@@ -138,41 +95,72 @@ if (!isset($_SESSION['user_id'])) {
 
             if ($result->num_rows > 0) {
                 while ($order = $result->fetch_assoc()) {
-            ?>
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Order #<?= $order['order_id']; ?></h5>
-                            <p>Status: <strong><?= htmlspecialchars($order['status'] ?? 'Pending'); ?></strong></p>
-                            <p>Items: <?= htmlspecialchars($order['items']); ?></p>
-                            <p>Total: Rs. <?= number_format($order['total_price'], 2); ?></p>
-                            <p>Date: <?= $order['order_date']; ?></p>
-                        </div>
-                    </div>
-            <?php
+                    $status = $order['status'];
+                    echo '<div class="card mb-3">';
+                    echo '<div class="card-body">';
+                    echo '<h5 class="card-title">Order #' . $order['order_id'] . '</h5>';
+                    echo '<p><strong>Status:</strong> ' . htmlspecialchars($status ?? 'Pending') . '</p>';
+                    echo '<p><strong>Items:</strong> ' . htmlspecialchars($order['items']) . '</p>';
+                    echo '<p><strong>Total:</strong> Rs. ' . number_format($order['total_price'], 2) . '</p>';
+                    echo '<p><strong>Date:</strong> ' . $order['order_date'] . '</p>';
+
+                    // Button logic based on status
+                    if ($status === 'Pending' || $status === NULL || $status === '') {
+                        echo '<button class="btn btn-warning me-2" onclick="updateStatus(this, \'accept\', ' . $order['order_id'] . ')">Accept</button>';
+                        echo '<button class="btn btn-success" onclick="updateStatus(this, \'delivered\', ' . $order['order_id'] . ')">Delivered</button>';
+                    } elseif ($status === 'Your order is packing') {
+                        echo '<button class="btn btn-secondary" disabled>Packing</button>';
+                    } elseif ($status === 'Your order out for delivery') {
+                        echo '<button class="btn btn-dark" disabled>Out for Delivery</button>';
+                    } else {
+                        echo '<button class="btn btn-light" disabled>' . htmlspecialchars($status) . '</button>';
+                    }
+
+                    echo '</div></div>';
                 }
             } else {
                 echo "<p class='text-center'>You have no orders yet.</p>";
             }
             ?>
-
-
-
-            <!-- Go to Shop Button -->
             <div class="text-center mt-4">
-                <a href="../HTML/index.php" class="btn btn-outline-success"><i class="fas fa-store"></i> Continue Shopping</a>
+                <a href="../HTML/userpage.php" class="btn btn-outline-success"><i class="fas fa-store"></i> Continue Shopping</a>
             </div>
         </div>
+    </div>
 
-        <!-- JavaScript Libraries -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="../lib/easing/easing.min.js"></script>
-        <script src="../lib/waypoints/waypoints.min.js"></script>
-        <script src="../lib/lightbox/js/lightbox.min.js"></script>
-        <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
-
-        <!-- Template Javascript -->
-        <script src="../js/main.js"></script>
+    <!-- JavaScript Libraries -->
+    <script>
+    function updateStatus(button, status, orderId) {
+        fetch('../PHP/update_order_status.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `order_id=${orderId}&status=${status}`
+        })
+        .then(res => res.text())
+        .then(response => {
+            if (status === 'accept') {
+                button.classList.remove('btn-warning');
+                button.classList.add('btn-secondary');
+                button.innerText = "Packing";
+            } else if (status === 'delivered') {
+                button.classList.remove('btn-success');
+                button.classList.add('btn-dark');
+                button.innerText = "Out for Delivery";
+            }
+            button.disabled = true;
+        })
+        .catch(err => {
+            alert("Error updating order status");
+            console.error(err);
+        });
+    }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/easing/easing.min.js"></script>
+    <script src="../lib/waypoints/waypoints.min.js"></script>
+    <script src="../lib/lightbox/js/lightbox.min.js"></script>
+    <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../js/main.js"></script>
 </body>
-
 </html>

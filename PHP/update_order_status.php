@@ -1,23 +1,24 @@
 <?php
 require_once '../HTML/db_connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $orderId = $_POST['order_id'];
-    $statusInput = $_POST['status'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['status'])) {
+    $orderId = (int) $_POST['order_id'];
+    $status = $_POST['status'];
 
-    // Map status to human-readable message
-    $statusText = '';
-    if ($statusInput === 'accept') {
+    if ($status === 'accept') {
         $statusText = 'Your order is packing';
-    } elseif ($statusInput === 'delivered') {
+    } elseif ($status === 'delivered') {
         $statusText = 'Your order out for delivery';
+    } else {
+        $statusText = $status;
     }
 
     $stmt = $conn->prepare("UPDATE order_tracking SET status = ? WHERE order_id = ?");
     $stmt->bind_param("si", $statusText, $orderId);
-    $stmt->execute();
-    $stmt->close();
-    $conn->close();
-    echo "Status updated";
+    if ($stmt->execute()) {
+        echo "Status updated to $statusText";
+    } else {
+        echo "Failed to update status.";
+    }
 }
 ?>
