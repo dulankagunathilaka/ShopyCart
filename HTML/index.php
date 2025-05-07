@@ -110,21 +110,22 @@ $featured_result = $conn->query($query);
                 </div>
                 <div class="modal-body">
 
-                    <!-- Nav Tabs -->
-                    <ul class="nav nav-tabs mb-3" id="authTabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="signin-tab" data-bs-toggle="tab" href="#signin">Sign In</a>
+                    <!-- Nav tabs -->
+
+                    <ul class="nav nav-tabs mb-3" id="authTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#signinTab" role="tab">Sign In</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="signup-tab" data-bs-toggle="tab" href="#signup">Sign Up</a>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" href="#signupTab" role="tab">Sign Up</a>
                         </li>
                     </ul>
 
                     <!-- Tab Content -->
-                    <div class="tab-content">
+                    <div class="tab-content" id="authTabsContent">
 
-                        <!-- Sign In -->
-                        <div class="tab-pane fade show active" id="signin">
+                        <!-- Sign In Tab -->
+                        <div class="tab-pane fade show active" id="signinTab" role="tabpanel">
                             <form method="POST" action="../HTML/signin.php">
                                 <div class="mb-3">
                                     <label for="signinEmail" class="form-label">Email address</label>
@@ -135,14 +136,26 @@ $featured_result = $conn->query($query);
                                     <input type="password" class="form-control" id="signinPassword" name="password" placeholder="Password" required>
                                 </div>
                                 <div class="mb-3 text-end">
-                                    <a href="#" class="text-primary">Forgot password?</a>
+                                    <a href="#" class="text-primary small" onclick="toggleForgotPassword(); return false;">Forgot password?</a>
                                 </div>
                                 <button type="submit" class="btn btn-primary w-100">Sign In</button>
                             </form>
+
+                            <!-- Hidden Forgot Password Section -->
+                            <div id="forgotPasswordSection" class="mt-4" style="display: none;">
+                                <h6 class="text-secondary mb-3">Forgot your password? Reset it here:</h6>
+                                <form method="POST" action="../PHP/send_reset_link.php">
+                                    <div class="mb-3">
+                                        <label for="forgotEmail" class="form-label">Email address</label>
+                                        <input type="email" class="form-control" id="forgotEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-outline-primary w-100">Send Reset Link</button>
+                                </form>
+                            </div>
                         </div>
 
-                        <!-- Sign Up -->
-                        <div class="tab-pane fade" id="signup">
+                        <!-- Sign Up Tab -->
+                        <div class="tab-pane fade" id="signupTab" role="tabpanel">
                             <form method="POST" action="../HTML/signup.php">
                                 <div class="mb-3">
                                     <label for="signupName" class="form-label">Full Name</label>
@@ -153,8 +166,8 @@ $featured_result = $conn->query($query);
                                     <input type="email" name="email" class="form-control" id="signupEmail" placeholder="Enter email" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <input type="text" name="address" class="form-control" id="signupaddress" placeholder="Address" required>
+                                    <label for="signupAddress" class="form-label">Address</label>
+                                    <input type="text" name="address" class="form-control" id="signupAddress" placeholder="Address" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="signupPassword" class="form-label">Password</label>
@@ -171,6 +184,9 @@ $featured_result = $conn->query($query);
                 </div>
             </div>
         </div>
+    </div>
+    </div>
+    </div>
     </div>
     <!-- Navbar End -->
 
@@ -631,6 +647,14 @@ $featured_result = $conn->query($query);
     <script>
         function showLoginMessage() {
             alert("Please sign in to shop.");
+        }
+    </script>
+
+    <!-- Toggle Script -->
+    <script>
+        function toggleForgotPassword() {
+            var section = document.getElementById("forgotPasswordSection");
+            section.style.display = section.style.display === "none" ? "block" : "none";
         }
     </script>
 
