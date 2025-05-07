@@ -172,20 +172,20 @@ $fullName = $_SESSION['full_name'];
                                     <tr>
                                         <td><?= htmlspecialchars($item['name']) ?></td>
                                         <td><?= $item['quantity'] ?></td>
-                                        <td>$<?= number_format($itemTotal, 2) ?></td>
+                                        <td>Rs.<?= number_format($itemTotal, 2) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 <tr>
                                     <td colspan="2"><strong>Subtotal</strong></td>
-                                    <td><strong>$<?= number_format($subtotal, 2) ?></strong></td>
+                                    <td><strong>Rs.<?= number_format($subtotal, 2) ?></strong></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Shipping</td>
-                                    <td>$3.00</td>
+                                    <td>Rs.250.00</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"><strong>Total</strong></td>
-                                    <td><strong>$<?= number_format($subtotal + 3.00, 2) ?></strong></td>
+                                    <td><strong>Rs.<?= number_format($subtotal + 250.00, 2) ?></strong></td>
                                 </tr>
                             </tbody>
                         </table>

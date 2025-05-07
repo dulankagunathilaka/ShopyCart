@@ -53,7 +53,7 @@ $fullName = $_SESSION['full_name'];
     <div class="container-fluid fixed-top">
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                <a href="../HTML/index.php" class="navbar-brand">
+                <a href="../HTML/userpage.php" class="navbar-brand">
                     <h1 class="text-primary display-6">Shopy Cart</h1>
                 </a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -61,7 +61,7 @@ $fullName = $_SESSION['full_name'];
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="../HTML/index.php" class="nav-item nav-link">Home</a>
+                        <a href="../HTML/userpage.php" class="nav-item nav-link">Home</a>
                         <a href="../HTML/freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
                         <a href="../HTML/contact.php" class="nav-item nav-link active">Contact</a>
                     </div>
@@ -151,86 +151,6 @@ $fullName = $_SESSION['full_name'];
         </div>
     </div>
     <!-- Contact End -->
-
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
-        <div class="container py-5">
-            <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
-                <div class="row g-4">
-                    <div class="col-lg-3">
-                        <a href="#">
-                            <h1 class="text-primary mb-0">Shopy Cart</h1>
-                            <p class="text-secondary mb-0">Fresh Finds, Every Time !</p>
-                        </a>
-                    </div>
-                    <div class="col-lg-9">
-                        <div class="d-flex justify-content-end pt-3">
-                            <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href="+94 70 528 3688"><i class="fab fa-whatsapp"></i></a>
-                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="https://github.com/dulankagunathilaka"><i class="fab fa-github"></i></a>
-                            <a class="btn btn-outline-secondary btn-md-square rounded-circle" href="https://l.facebook.com/l.php?u=https%3A%2F%2Flinkedin.com%2Fin%2Fdulanka-gunathilaka-93a184323%3Ffbclid%3DIwZXh0bgNhZW0CMTAAAR1NyYPNI4Xaf2F5q1fs8oMM4wN9RUCeqp9Fu4pVXcJ0MiqprUHW6fH-9rQ_aem_zr7h0A0cJoYeq9EDomuWLA&h=AT2WK_xj9Hm5rAlZ_obzmdYWAMD_0hKKwWoIPrIu96q4AqTv62qy17PsdduQPr8LUXy4F9E5taA43mtRUGxoW5VmjyHgk_FAgmjeUHhUXRlyn-Rx0f78s3SZymOCXg82uCBZ"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Why People Choose us!</h4>
-                        <p class="mb-4"> Fresh & Quality Products<br>
-                            Fast & Reliable Delivery<br>
-                            Secure Payments<br>
-                            24/7 Customer Support</p>
-                        <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="d-flex flex-column text-start footer-item">
-                        <h4 class="text-light mb-3">Home</h4>
-                        <a class="btn-link" href="">Shop</a>
-                        <a class="btn-link" href="">Deals & Offers</a>
-                        <a class="btn-link" href="">Privacy Policy</a>
-                        <a class="btn-link" href="">Contact</a>
-                        <a class="btn-link" href="">Return Policy</a>
-                        <a class="btn-link" href="">FAQs & Help</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="d-flex flex-column text-start footer-item">
-                        <h4 class="text-light mb-3">Account</h4>
-                        <a class="btn-link" href="">My Account</a>
-                        <a class="btn-link" href="">Shopping Cart</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Contact</h4>
-                        <p>Address: Colombo, Sri Lanka</p>
-                        <p>Email: shopycartsupermarket@gmail.com</p>
-                        <p>Phone: +94 70 528 3688</p>
-                        <p>Payment Accepted</p>
-                        <img src="img/payment.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
-
-    <!-- Copyright Start -->
-    <div class="container-fluid copyright bg-dark py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Shopy Cart Super Market</a>, All right reserved.</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Copyright End -->
-
-
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
