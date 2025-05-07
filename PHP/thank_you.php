@@ -5,12 +5,14 @@ $fullName = $_SESSION['full_name'] ?? "Customer";
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Order Confirmation</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container mt-5">
         <div class="text-center">
@@ -20,4 +22,5 @@ $fullName = $_SESSION['full_name'] ?? "Customer";
         </div>
     </div>
 </body>
+
 </html>

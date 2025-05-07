@@ -466,83 +466,83 @@ $fullName = $_SESSION['full_name'];
 
 
         <section id="orders" class="mt-5">
-    <div class="card">
-        <div class="card-header">Order Table</div>
-        <div class="card-body">
-            <!-- Responsive Table -->
-            <div class="table-responsive">
-                <table class="table table-bordered text-center align-middle">
-                    <thead class="table-success">
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer Name</th>
-                            <th>Email</th>
-                            <th class="address-column">Address</th>
-                            <th>Contact Number</th>
-                            <th class="items-column">Items Ordered</th>
-                            <th>Total Price</th>
-                            <th class="hide-mobile">Payment Method</th>
-                            <th class="hide-mobile">Order Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="card">
+                <div class="card-header">Order Table</div>
+                <div class="card-body">
+                    <!-- Responsive Table -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center align-middle">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Email</th>
+                                    <th class="address-column">Address</th>
+                                    <th>Contact Number</th>
+                                    <th class="items-column">Items Ordered</th>
+                                    <th>Total Price</th>
+                                    <th class="hide-mobile">Payment Method</th>
+                                    <th class="hide-mobile">Order Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $results_per_page = 10;
+                                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                                $start_from = ($page - 1) * $results_per_page;
+
+                                $orderResults = $conn->query("SELECT * FROM order_tracking ORDER BY order_date DESC LIMIT $start_from, $results_per_page");
+
+                                while ($order = $orderResults->fetch_assoc()):
+                                    $items = explode(", ", $order['items']);
+                                    $quantities = explode(", ", $order['quantities']);
+
+                                    $combinedItems = [];
+                                    for ($i = 0; $i < count($items); $i++) {
+                                        $item = $items[$i] ?? '';
+                                        $qty = $quantities[$i] ?? '';
+                                        $combinedItems[] = htmlspecialchars("$item - $qty");
+                                    }
+                                ?>
+                                    <tr>
+                                        <td>#<?= htmlspecialchars($order['order_id']); ?></td>
+                                        <td><?= htmlspecialchars($order['customer_name']); ?></td>
+                                        <td><?= htmlspecialchars($order['email']); ?></td>
+                                        <td class="address-column"><?= htmlspecialchars($order['address']); ?></td>
+                                        <td><?= htmlspecialchars($order['contact_number']); ?></td>
+                                        <td class="items-column"><?= implode("<br>", $combinedItems); ?></td>
+                                        <td>Rs. <?= htmlspecialchars(number_format($order['total_price'], 2)); ?></td>
+                                        <td class="hide-mobile"><?= htmlspecialchars($order['payment_method']); ?></td>
+                                        <td class="hide-mobile"><?= htmlspecialchars($order['order_date']); ?></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning" onclick="updateStatus('accept', <?= $order['order_id']; ?>)">Accept</button>
+                                            <button class="btn btn-sm btn-success" onclick="updateStatus('delivered', <?= $order['order_id']; ?>)">Delivered</button>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Grand Total -->
+                    <div class="mt-3 text-end">
                         <?php
-                        $results_per_page = 10;
-                        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                        $start_from = ($page - 1) * $results_per_page;
-
-                        $orderResults = $conn->query("SELECT * FROM order_tracking ORDER BY order_date DESC LIMIT $start_from, $results_per_page");
-
-                        while ($order = $orderResults->fetch_assoc()):
-                            $items = explode(", ", $order['items']);
-                            $quantities = explode(", ", $order['quantities']);
-
-                            $combinedItems = [];
-                            for ($i = 0; $i < count($items); $i++) {
-                                $item = $items[$i] ?? '';
-                                $qty = $quantities[$i] ?? '';
-                                $combinedItems[] = htmlspecialchars("$item - $qty");
-                            }
+                        $totalQuery = $conn->query("SELECT SUM(total_price) AS grand_total FROM order_tracking");
+                        $totalRow = $totalQuery->fetch_assoc();
+                        $grandTotal = number_format($totalRow['grand_total'], 2);
                         ?>
-                            <tr>
-                                <td>#<?= htmlspecialchars($order['order_id']); ?></td>
-                                <td><?= htmlspecialchars($order['customer_name']); ?></td>
-                                <td><?= htmlspecialchars($order['email']); ?></td>
-                                <td class="address-column"><?= htmlspecialchars($order['address']); ?></td>
-                                <td><?= htmlspecialchars($order['contact_number']); ?></td>
-                                <td class="items-column"><?= implode("<br>", $combinedItems); ?></td>
-                                <td>Rs. <?= htmlspecialchars(number_format($order['total_price'], 2)); ?></td>
-                                <td class="hide-mobile"><?= htmlspecialchars($order['payment_method']); ?></td>
-                                <td class="hide-mobile"><?= htmlspecialchars($order['order_date']); ?></td>
-                                <td>
-                                    <button class="btn btn-sm btn-warning" onclick="updateStatus('accept', <?= $order['order_id']; ?>)">Accept</button>
-                                    <button class="btn btn-sm btn-success" onclick="updateStatus('delivered', <?= $order['order_id']; ?>)">Delivered</button>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </div>
+                        <h5><strong>Grand Total of All Orders: Rs. <?= $grandTotal; ?></strong></h5>
+                    </div>
 
-            <!-- Grand Total -->
-            <div class="mt-3 text-end">
-                <?php
-                $totalQuery = $conn->query("SELECT SUM(total_price) AS grand_total FROM order_tracking");
-                $totalRow = $totalQuery->fetch_assoc();
-                $grandTotal = number_format($totalRow['grand_total'], 2);
-                ?>
-                <h5><strong>Grand Total of All Orders: Rs. <?= $grandTotal; ?></strong></h5>
+                    <!-- Pagination -->
+                    <div class="pagination mt-3">
+                        <a href="?page=<?= $page - 1; ?>" class="btn btn-sm btn-secondary <?= ($page <= 1) ? 'disabled' : ''; ?>">Previous</a>
+                        <a href="?page=<?= $page + 1; ?>" class="btn btn-sm btn-secondary">Next</a>
+                    </div>
+                </div>
             </div>
-
-            <!-- Pagination -->
-            <div class="pagination mt-3">
-                <a href="?page=<?= $page - 1; ?>" class="btn btn-sm btn-secondary <?= ($page <= 1) ? 'disabled' : ''; ?>">Previous</a>
-                <a href="?page=<?= $page + 1; ?>" class="btn btn-sm btn-secondary">Next</a>
-            </div>
-        </div>
-    </div>
-</section>
+        </section>
 
 
 
@@ -600,22 +600,22 @@ $fullName = $_SESSION['full_name'];
         });
     </script>
 
-<script>
-    // JavaScript function to handle order status updates
-    function updateStatus(status, orderId) {
-        if (status === 'accept') {
-            if (confirm('Are you sure you want to accept this order?')) {
-                // Send a request to the server to update the order status
-                window.location.href = `update_order_status.php?status=accept&order_id=${orderId}`;
-            }
-        } else if (status === 'delivered') {
-            if (confirm('Are you sure this order is delivered?')) {
-                // Send a request to the server to update the order status
-                window.location.href = `update_order_status.php?status=delivered&order_id=${orderId}`;
+    <script>
+        // JavaScript function to handle order status updates
+        function updateStatus(status, orderId) {
+            if (status === 'accept') {
+                if (confirm('Are you sure you want to accept this order?')) {
+                    // Send a request to the server to update the order status
+                    window.location.href = `update_order_status.php?status=accept&order_id=${orderId}`;
+                }
+            } else if (status === 'delivered') {
+                if (confirm('Are you sure this order is delivered?')) {
+                    // Send a request to the server to update the order status
+                    window.location.href = `update_order_status.php?status=delivered&order_id=${orderId}`;
+                }
             }
         }
-    }
-</script>
+    </script>
 
 </body>
 

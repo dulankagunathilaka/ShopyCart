@@ -124,99 +124,99 @@ $fullName = $_SESSION['full_name'];
 
 
 
-   <!-- Checkout Page Start -->
-<div class="container-fluid py-5 mb-4 mt-5">
-    <div class="container py-5">
-        <h1 class="mb-4">Billing Details</h1>
+    <!-- Checkout Page Start -->
+    <div class="container-fluid py-5 mb-4 mt-5">
+        <div class="container py-5">
+            <h1 class="mb-4">Billing Details</h1>
 
-        <form method="POST" action="../PHP/checkout.php">
-            <div class="row g-5">
-                <div class="col-md-12 col-lg-6 col-xl-7">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-6">
-                            <label class="form-label my-3">First Name<sup>*</sup></label>
-                            <input name="first_name" type="text" class="form-control" required>
+            <form method="POST" action="../PHP/checkout.php">
+                <div class="row g-5">
+                    <div class="col-md-12 col-lg-6 col-xl-7">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-6">
+                                <label class="form-label my-3">First Name<sup>*</sup></label>
+                                <input name="first_name" type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-12 col-lg-6">
+                                <label class="form-label my-3">Last Name<sup>*</sup></label>
+                                <input name="last_name" type="text" class="form-control" required>
+                            </div>
                         </div>
-                        <div class="col-md-12 col-lg-6">
-                            <label class="form-label my-3">Last Name<sup>*</sup></label>
-                            <input name="last_name" type="text" class="form-control" required>
+
+                        <label class="form-label my-3">Email<sup>*</sup></label>
+                        <input name="email" type="email" class="form-control" required>
+
+                        <label class="form-label my-3">Address<sup>*</sup></label>
+                        <input name="address" type="text" class="form-control" required>
+
+                        <label class="form-label my-3">Contact Number<sup>*</sup></label>
+                        <input name="contact_number" type="text" class="form-control" required>
+
+                        <hr class="my-4">
+                        <h5>Payment Method</h5>
+                        <div class="form-check my-2">
+                            <input type="radio" name="payment_method" value="Bank Transfer" class="form-check-input" required>
+                            <label class="form-check-label">Bank Transfer</label>
                         </div>
+                        <div class="form-check my-2">
+                            <input type="radio" name="payment_method" value="Check Payments" class="form-check-input">
+                            <label class="form-check-label">Check Payments</label>
+                        </div>
+                        <div class="form-check my-2">
+                            <input type="radio" name="payment_method" value="Cash On Delivery" class="form-check-input">
+                            <label class="form-check-label">Cash On Delivery</label>
+                        </div>
+                        <div class="form-check my-2">
+                            <input type="radio" name="payment_method" value="Paypal" class="form-check-input">
+                            <label class="form-check-label">PayPal</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-4">Place Order</button>
                     </div>
 
-                    <label class="form-label my-3">Email<sup>*</sup></label>
-                    <input name="email" type="email" class="form-control" required>
-
-                    <label class="form-label my-3">Address<sup>*</sup></label>
-                    <input name="address" type="text" class="form-control" required>
-
-                    <label class="form-label my-3">Contact Number<sup>*</sup></label>
-                    <input name="contact_number" type="text" class="form-control" required>
-
-                    <hr class="my-4">
-                    <h5>Payment Method</h5>
-                    <div class="form-check my-2">
-                        <input type="radio" name="payment_method" value="Bank Transfer" class="form-check-input" required>
-                        <label class="form-check-label">Bank Transfer</label>
-                    </div>
-                    <div class="form-check my-2">
-                        <input type="radio" name="payment_method" value="Check Payments" class="form-check-input">
-                        <label class="form-check-label">Check Payments</label>
-                    </div>
-                    <div class="form-check my-2">
-                        <input type="radio" name="payment_method" value="Cash On Delivery" class="form-check-input">
-                        <label class="form-check-label">Cash On Delivery</label>
-                    </div>
-                    <div class="form-check my-2">
-                        <input type="radio" name="payment_method" value="Paypal" class="form-check-input">
-                        <label class="form-check-label">PayPal</label>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary mt-4">Place Order</button>
-                </div>
-
-                <div class="col-md-12 col-lg-6 col-xl-5">
-                    <h4 class="mb-4">Your Order</h4>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Qty</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            $subtotal = 0; // Initialize subtotal
-                            foreach ($cart as $item):
-                                $itemTotal = $item['price'] * $item['quantity'];
-                                $subtotal += $itemTotal; // Add item total to subtotal
-                            ?>
+                    <div class="col-md-12 col-lg-6 col-xl-5">
+                        <h4 class="mb-4">Your Order</h4>
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td><?= htmlspecialchars($item['name']) ?></td>
-                                    <td><?= $item['quantity'] ?></td>
-                                    <td>$<?= number_format($itemTotal, 2) ?></td>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Total</th>
                                 </tr>
-                            <?php endforeach; ?>
-                            <tr>
-                                <td colspan="2"><strong>Subtotal</strong></td>
-                                <td><strong>$<?= number_format($subtotal, 2) ?></strong></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">Shipping</td>
-                                <td>$3.00</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"><strong>Total</strong></td>
-                                <td><strong>$<?= number_format($subtotal + 3.00, 2) ?></strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $subtotal = 0; // Initialize subtotal
+                                foreach ($cart as $item):
+                                    $itemTotal = $item['price'] * $item['quantity'];
+                                    $subtotal += $itemTotal; // Add item total to subtotal
+                                ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($item['name']) ?></td>
+                                        <td><?= $item['quantity'] ?></td>
+                                        <td>$<?= number_format($itemTotal, 2) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <tr>
+                                    <td colspan="2"><strong>Subtotal</strong></td>
+                                    <td><strong>$<?= number_format($subtotal, 2) ?></strong></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Shipping</td>
+                                    <td>$3.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><strong>Total</strong></td>
+                                    <td><strong>$<?= number_format($subtotal + 3.00, 2) ?></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
-<!-- Checkout Page End -->
+    <!-- Checkout Page End -->
 
 
     <!-- Back to Top -->
