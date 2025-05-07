@@ -10,6 +10,7 @@ $total = 0;
 foreach ($cart as $item) {
     $total += $item['price'] * $item['quantity'];
 }
+$fullName = $_SESSION['full_name'];
 ?>
 
 
@@ -70,17 +71,25 @@ foreach ($cart as $item) {
                         <a href="#fresh-finds" class="nav-item nav-link active">Cart</a>
                     </div>
                     <div class="d-flex m-3 me-0">
-                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                        <a href="cart.php" class="position-relative me-4 my-auto">
+                        <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
                             <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                         </a>
                         <a href="#" class="my-auto">
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
+                                <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user fa-2x"></i>
+                                </a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
-                                    <a href="../HTML/wishlist.php" class="dropdown-item">Wishlist</a>
+                                    <a href="#" class="btn border-secondary py-2 px-2 rounded-pill text-primary w-100 text-center"
+                                        data-bs-toggle="modal" data-bs-target="#authModal">
+
+                                        <h6><?php echo htmlspecialchars($fullName); ?></h6>
+
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
+                                    <a href="../HTML/orderhistory.php" class="dropdown-item">Order History</a>
                                     <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                                 </div>
                             </div>
@@ -91,26 +100,6 @@ foreach ($cart as $item) {
         </div>
     </div>
     <!-- Navbar End -->
-
-
-    <!-- Modal Search Start -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content rounded-0">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body d-flex align-items-center">
-                    <div class="input-group w-75 mx-auto d-flex">
-                        <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Search End -->
 
     <!-- Cart Page Start -->
     <div class="container-fluid py-5 mb-4 mt-5">
@@ -203,7 +192,9 @@ foreach ($cart as $item) {
                         </div>
 
                         <form action="../HTML/checkout.php" method="post">
-                            <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+                            <div class="px-4 pb-4">
+                                <button type="submit" class="btn btn-primary w-100 py-3 rounded">Proceed to Checkout</button>
+                            </div>
                         </form>
 
                     </div>

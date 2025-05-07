@@ -2,9 +2,10 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
+    header("Location: ../HTML/index.php");
     exit;
 }
+$fullName = $_SESSION['full_name'];
 ?>
 
 <!DOCTYPE html>
@@ -135,23 +136,32 @@ if (!isset($_SESSION['user_id'])) {
                         <a href="#fresh-finds" class="nav-item nav-link active">Your Shopping</a>
                     </div>
                     <div class="d-flex m-3 me-0">
-                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                        <a href="cart.html" class="position-relative me-4 my-auto">
-                            <i class="fa fa-shopping-bag fa-2x"></i>
-                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-                        </a>
-                        <a href="#" class="my-auto">
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
-                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="../HTML/checkout.php" class="dropdown-item">My Orders</a>
-                                    <a href="../HTML/orderhistory.php" class="dropdown-item">Order History</a>
-                                    <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
+                        <div class="d-flex m-3 me-0">
+                            <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
+                                <i class="fa fa-shopping-bag fa-2x"></i>
+                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                            </a>
+                            <a href="#" class="my-auto">
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                                        <i class="fas fa-user fa-2x"></i>
+                                    </a>
+                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                        <a href="#" class="btn border-secondary py-2 px-2 rounded-pill text-primary w-100 text-center"
+                                            data-bs-toggle="modal" data-bs-target="#authModal">
+
+                                            <h6><?php echo htmlspecialchars($fullName); ?></h6>
+
+                                        </a>
+                                        <hr class="dropdown-divider">
+                                        <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
+                                        <a href="../HTML/orderhistory.php" class="dropdown-item">Order History</a>
+                                        <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                </div>
             </nav>
         </div>
     </div>

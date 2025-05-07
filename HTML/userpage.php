@@ -609,64 +609,7 @@ $fullName = $_SESSION['full_name'];
         });
     </script>
 
-    <!-- JavaScript for Add to Cart and Success Message -->
     <script>
-        // Function to handle the Add to Cart functionality
-        function addToCart(productId) {
-            // Get the form using the product ID
-            const form = document.getElementById('addToCartForm' + productId);
-
-            // Create a FormData object to capture form data
-            const formData = new FormData(form);
-
-            // Use AJAX to send the form data to the PHP script without reloading the page
-            fetch('../PHP/add_to_cart.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(data => {
-                    if (data.trim() === 'Item added to cart') {
-                        // Show the success message once the item is added to the cart
-                        showSuccessMessage();
-                    } else {
-                        // Handle errors, if any
-                        console.error('Error:', data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-
-        // Function to handle the Add to Cart functionality
-        function addToCart(productId) {
-            // Get the form using the product ID
-            const form = document.getElementById('addToCartForm' + productId);
-
-            // Create a FormData object to capture form data
-            const formData = new FormData(form);
-
-            // Use AJAX to send the form data to the PHP script without reloading the page
-            fetch('../PHP/add_to_cart.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(data => {
-                    if (data.trim() === 'Item added to cart') {
-                        // Show the success message once the item is added to the cart
-                        showSuccessMessage();
-                    } else {
-                        // Handle errors, if any
-                        console.error('Error:', data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-
         // Function to handle the Add to Cart functionality
         function addToCart(productId) {
             // Get the form using the product ID
