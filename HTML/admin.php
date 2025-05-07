@@ -516,12 +516,27 @@ $fullName = $_SESSION['full_name'];
                                         <td class="hide-mobile"><?= htmlspecialchars($order['payment_method']); ?></td>
                                         <td class="hide-mobile"><?= htmlspecialchars($order['order_date']); ?></td>
                                         <td>
+                                            <?php
+                                            $status = strtolower($order['status']);
+                                            $acceptDisabled = ($status === 'packing' || $status === 'out for delivery') ? 'disabled' : '';
+                                            $deliverDisabled = ($status === 'out for delivery') ? 'disabled' : '';
+                                            ?>
                                             <div class="d-flex">
-                                                <button class="btn btn-sm btn-warning me-2 flex-fill" onclick="updateStatus(this, 'accept', <?= $order['order_id']; ?>)">Accept</button>
-                                                <button class="btn btn-sm btn-success flex-fill" onclick="updateStatus(this, 'delivered', <?= $order['order_id']; ?>)">Delivered</button>
+                                                <button
+                                                    class="btn btn-sm <?= $status === 'packing' || $status === 'out for delivery' ? 'btn-secondary' : 'btn-warning' ?> me-2 flex-fill"
+                                                    onclick="updateStatus(this, 'accept', <?= $order['order_id']; ?>)"
+                                                    <?= $acceptDisabled ?>>
+                                                    <?= $status === 'packing' || $status === 'out for delivery' ? 'Packing' : 'Accept' ?>
+                                                </button>
+
+                                                <button
+                                                    class="btn btn-sm <?= $status === 'out for delivery' ? 'btn-dark' : 'btn-success' ?> flex-fill"
+                                                    onclick="updateStatus(this, 'delivered', <?= $order['order_id']; ?>)"
+                                                    <?= $deliverDisabled ?>>
+                                                    <?= $status === 'out for delivery' ? 'Out for Delivery' : 'Delivered' ?>
+                                                </button>
                                             </div>
                                         </td>
-
                                     </tr>
                                 <?php endwhile; ?>
                             </tbody>

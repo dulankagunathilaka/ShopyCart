@@ -6,18 +6,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['s
     $status = $_POST['status'];
 
     if ($status === 'accept') {
-        $statusText = 'Your order is packing';
+        $statusText = 'Packing';
     } elseif ($status === 'delivered') {
-        $statusText = 'Your order out for delivery';
+        $statusText = 'Out for Delivery';
     } else {
         $statusText = $status;
     }
 
     $stmt = $conn->prepare("UPDATE order_tracking SET status = ? WHERE order_id = ?");
     $stmt->bind_param("si", $statusText, $orderId);
+
     if ($stmt->execute()) {
         echo "Status updated to $statusText";
     } else {
         echo "Failed to update status.";
     }
 }
+?>
