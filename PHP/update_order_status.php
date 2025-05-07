@@ -22,4 +22,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['s
         echo "Failed to update status.";
     }
 }
-?>
