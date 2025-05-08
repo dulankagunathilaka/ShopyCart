@@ -184,9 +184,6 @@ $featured_result = $conn->query($query);
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    </div>
     <!-- Navbar End -->
 
     <!-- Top Head/after nav bar Start -->
