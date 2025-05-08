@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+// Check if the user is logged in
 $cart = $_SESSION['cart'] ?? [];
 
 // Reset total
@@ -12,7 +12,6 @@ foreach ($cart as $item) {
 }
 $fullName = $_SESSION['full_name'];
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,8 +36,7 @@ $fullName = $_SESSION['full_name'];
     <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
-    <!-- Customized Bootstrap Stylesheet -->
+    <!-- Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
@@ -52,7 +50,6 @@ $fullName = $_SESSION['full_name'];
         <div class="spinner-grow text-primary" role="status"></div>
     </div>
     <!-- Spinner End -->
-
 
     <!-- Navbar start -->
     <div class="container-fluid fixed-top">
@@ -83,9 +80,7 @@ $fullName = $_SESSION['full_name'];
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="#" class="btn border-secondary py-2 px-2 rounded-pill text-primary w-100 text-center"
                                         data-bs-toggle="modal" data-bs-target="#authModal">
-
                                         <h6><?php echo htmlspecialchars($fullName); ?></h6>
-
                                     </a>
                                     <hr class="dropdown-divider">
                                     <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
@@ -128,7 +123,7 @@ $fullName = $_SESSION['full_name'];
                                     <p class="mb-0 mt-4"><?= htmlspecialchars($item['name']) ?></p>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4">$<?= number_format($item['price'], 2) ?></p>
+                                    <p class="mb-0 mt-4">Rs.<?= number_format($item['price'], 2) ?></p>
                                 </td>
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">
@@ -139,7 +134,7 @@ $fullName = $_SESSION['full_name'];
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4">$<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
+                                    <p class="mb-0 mt-4">Rs.<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
                                 </td>
                                 <td>
                                     <form method="POST" action="../PHP/remove_from_cart.php">
@@ -155,12 +150,6 @@ $fullName = $_SESSION['full_name'];
                 </table>
             </div>
 
-            <!-- Coupon -->
-            <div class="mt-5">
-                <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
-                <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Apply Coupon</button>
-            </div>
-
             <!-- Totals -->
             <div class="row g-4 justify-content-end">
                 <div class="col-8"></div>
@@ -172,7 +161,7 @@ $fullName = $_SESSION['full_name'];
                             <!-- Subtotal -->
                             <div class="d-flex justify-content-between mb-4">
                                 <h5 class="mb-0 me-4">Subtotal:</h5>
-                                <p class="mb-0">$<?= number_format($total, 2) ?></p>
+                                <p class="mb-0">Rs.<?= number_format($total, 2) ?></p>
                             </div>
 
                             <!-- Shipping -->
@@ -196,7 +185,6 @@ $fullName = $_SESSION['full_name'];
                                 <button type="submit" class="btn btn-primary w-100 py-3 rounded">Proceed to Checkout</button>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -207,7 +195,6 @@ $fullName = $_SESSION['full_name'];
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
 
-
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -216,8 +203,9 @@ $fullName = $_SESSION['full_name'];
     <script src="../lib/lightbox/js/lightbox.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
+    <!-- main Javascript -->
     <script src="../js/main.js"></script>
+
 </body>
 
 </html>
