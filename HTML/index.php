@@ -309,8 +309,8 @@ $featured_result = $conn->query($query);
                     </div>
                 </div>
 
-                <!-- All Products Tab -->
-                <div class="tab-content">
+                <div class="tab-content">   
+                    <!-- All Products Tab -->
                     <div id="tab-all-products" class="tab-pane fade show active p-0">
                         <div class="row g-4">
                             <?php while ($product = $all_products_result->fetch_assoc()): ?>

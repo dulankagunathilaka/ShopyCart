@@ -115,6 +115,7 @@ $conn->close();
                         <a href="../HTML/freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
                         <a href="../HTML/myaccount.php" class="nav-item nav-link active">My Account</a>
                     </div>
+
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
@@ -128,7 +129,9 @@ $conn->close();
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="#" class="btn border-secondary py-2 px-2 rounded-pill text-primary w-100 text-center"
                                         data-bs-toggle="modal" data-bs-target="#authModal">
+
                                         <h6><?php echo htmlspecialchars($fullName); ?></h6>
+                                        
                                     </a>
                                     <hr class="dropdown-divider">
                                     <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>

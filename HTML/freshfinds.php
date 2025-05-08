@@ -5,8 +5,8 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../HTML/index.php");
     exit;
 }
-// Include your database connection
 include '../HTML/db_connection.php';
+
 // Fetch categories from the database (to ensure the products can be filtered)
 $query = "SELECT DISTINCT category FROM products";
 $category_result = $conn->query($query);
@@ -44,11 +44,10 @@ $fullName = $_SESSION['full_name'];
     <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
-    <!-- Customized Bootstrap Stylesheet -->
+    <!-- Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
+    <!-- Main CSS Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 </head>
 
@@ -59,7 +58,6 @@ $fullName = $_SESSION['full_name'];
         <div class="spinner-grow text-primary" role="status"></div>
     </div>
     <!-- Spinner End -->
-
 
     <!-- Navbar start -->
     <div class="container-fluid fixed-top">
@@ -161,7 +159,6 @@ $fullName = $_SESSION['full_name'];
             </div>
         </div>
     </div>
-    <!-- Shop End -->
 
     <?php
     // Reusable product card rendering function
@@ -199,7 +196,6 @@ $fullName = $_SESSION['full_name'];
                                 <?php echo htmlspecialchars($product['quantity']); ?>
                             </p>
 
-
                             <!-- Add to cart form -->
                             <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
                                 <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
@@ -216,12 +212,8 @@ $fullName = $_SESSION['full_name'];
     <?php
         return ob_get_clean();
     }
-
     ?>
-
-
-    <!-- Fruits Shop End-->
-
+    <!-- Shop End-->
 
     <!-- Featured Section Start -->
     <div class="container-fluid vesitable py-5">
@@ -254,6 +246,7 @@ $fullName = $_SESSION['full_name'];
                                     Rs.<?php echo htmlspecialchars($product['price']); ?> /
                                     <?php echo htmlspecialchars($product['quantity']); ?>
                                 </p>
+
                                 <!-- Add to cart form with AJAX -->
                                 <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
@@ -273,7 +266,6 @@ $fullName = $_SESSION['full_name'];
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
 
-
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -282,71 +274,12 @@ $fullName = $_SESSION['full_name'];
     <script src="../lib/lightbox/js/lightbox.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <script>
-    // Function to handle the Add to Cart functionality
-        function addToCart(productId) {
-            // Get the form using the product ID
-            const form = document.getElementById('addToCartForm' + productId);
-
-            // Create a FormData object to capture form data
-            const formData = new FormData(form);
-
-            // Use AJAX to send the form data to the PHP script without reloading the page
-            fetch('../PHP/add_to_cart.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(data => {
-                    if (data.trim() === 'Item added to cart') {
-                        // Show the success message once the item is added to the cart
-                        showSuccessMessage();
-                    } else {
-                        // Handle errors, if any
-                        console.error('Error:', data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-
-        // Function to show a pop-up success message at the center with transparent background
-        function showSuccessMessage() {
-            // Create a div element for the pop-up
-            const successMessage = document.createElement('div');
-            successMessage.textContent = 'Item added successfully!';
-
-            // Style the success message
-            successMessage.style.position = 'fixed';
-            successMessage.style.top = '50%';
-            successMessage.style.left = '50%';
-            successMessage.style.transform = 'translate(-50%, -50%)'; // Center the message
-            successMessage.style.padding = '10px 20px'; // Smaller padding for a smaller message
-            successMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // More transparent black background
-            successMessage.style.color = 'white';
-            successMessage.style.borderRadius = '8px'; // Smaller border radius
-            successMessage.style.fontSize = '14px'; // Smaller font size
-            successMessage.style.zIndex = '9999';
-            successMessage.style.textAlign = 'center';
-            successMessage.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.3)'; // Optional: Add shadow for better visibility
-            successMessage.style.opacity = '1'; // Initially fully visible
-
-            // Append the success message to the body
-            document.body.appendChild(successMessage);
-
-            // Add the animation to shrink and fade out
-            successMessage.style.animation = 'shrinkAndFade 3s forwards'; // Apply animation
-
-            // Remove the message after the animation completes (3 seconds)
-            setTimeout(() => {
-                successMessage.remove();
-            }, 3000);
-        }
-    </script>
-
-    <!-- Template Javascript -->
+    <!-- main Javascript -->
     <script src="../js/main.js"></script>
+
+    <!-- freshfinds Javascript -->
+    <script src="../js/freshfinds.js"></script>
+    
 </body>
 
 </html>

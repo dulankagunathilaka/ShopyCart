@@ -8,7 +8,6 @@ if (!isset($_SESSION['user_id'])) {
 $fullName = $_SESSION['full_name'];
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,11 +31,10 @@ $fullName = $_SESSION['full_name'];
     <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
-    <!-- Customized Bootstrap Stylesheet -->
+    <!-- Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
+    <!-- Main CSS Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 </head>
 
@@ -47,7 +45,6 @@ $fullName = $_SESSION['full_name'];
         <div class="spinner-grow text-primary" role="status"></div>
     </div>
     <!-- Spinner End -->
-
 
     <!-- Navbar start -->
     <div class="container-fluid fixed-top">
@@ -65,6 +62,7 @@ $fullName = $_SESSION['full_name'];
                         <a href="../HTML/freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
                         <a href="../HTML/contact.php" class="nav-item nav-link active">Contact</a>
                     </div>
+                    
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
@@ -80,7 +78,7 @@ $fullName = $_SESSION['full_name'];
                                         data-bs-toggle="modal" data-bs-target="#authModal">
 
                                         <h6><?php echo htmlspecialchars($fullName); ?></h6>
-
+                                        
                                     </a>
                                     <hr class="dropdown-divider">
                                     <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
@@ -96,8 +94,6 @@ $fullName = $_SESSION['full_name'];
     </div>
     <!-- Navbar End -->
 
-    <!-- Single Page Header End -->
-
     <!-- Contact Start -->
     <div class="container-fluid contact py-5">
         <div class="container py-5">
@@ -105,7 +101,7 @@ $fullName = $_SESSION['full_name'];
                 <div class="row g-4">
                     <div class="col-12">
                         <div class="text-center mx-auto" style="max-width: 700px;">
-                            <h1 class="text-primary">Get in touch</h1>
+                            <h1 class="text-primary">Location</h1>
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -155,7 +151,6 @@ $fullName = $_SESSION['full_name'];
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
 
-
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -164,7 +159,7 @@ $fullName = $_SESSION['full_name'];
     <script src="../lib/lightbox/js/lightbox.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
+    <!-- main Javascript -->
     <script src="../js/main.js"></script>
 </body>
 

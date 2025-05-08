@@ -6,8 +6,6 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../HTML/index.php");
     exit;
 }
-
-// Include your database connection
 include '../HTML/db_connection.php';
 
 // Fetch categories from the database (to ensure the products can be filtered)
@@ -94,6 +92,7 @@ $fullName = $_SESSION['full_name'];
                                         data-bs-toggle="modal" data-bs-target="#authModal">
 
                                         <h6><?php echo htmlspecialchars($fullName); ?></h6>
+
                                     </a>
                                     <hr class="dropdown-divider">
                                     <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
@@ -235,8 +234,8 @@ $fullName = $_SESSION['full_name'];
                     </div>
                 </div>
 
-                <!-- All Products Tab -->
                 <div class="tab-content">
+                    <!-- All Products Tab -->
                     <div id="tab-all-products" class="tab-pane fade show active p-0">
                         <div class="row g-4">
                             <?php while ($product = $all_products_result->fetch_assoc()): ?>

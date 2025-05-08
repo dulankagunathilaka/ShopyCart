@@ -26,13 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Optional: Validate email format
+    // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "<script>alert('Invalid email address.'); window.history.back();</script>";
         exit;
     }
 
-    // Optional: Validate contact number (if you are accepting phone numbers)
+    // Validate contact number (if you are accepting phone numbers)
     if ($contactNumber && !preg_match('/^\d{10}$/', $contactNumber)) {
         echo "<script>alert('Invalid contact number.'); window.history.back();</script>";
         exit;
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Execute the query
     if ($stmt->execute()) {
-        // ✅ Delete from persistent cart (DB)
+        // Delete from persistent cart (DB)
         if (isset($_SESSION['user_id']) && $_SESSION['user_id'] !== "admin") {
             $deleteStmt = $conn->prepare("DELETE FROM cart_items WHERE user_id = ?");
             $deleteStmt->bind_param("i", $userId);
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $deleteStmt->close();
         }
 
-        // ✅ Clear the cart from session
+        // Clear the cart from session
         unset($_SESSION['cart']);
         $_SESSION['order_success'] = "Your order has been successfully placed!";
         header("Location:../PHP/thank_you.php");
