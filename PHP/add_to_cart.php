@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require_once '../HTML/db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id'])) {
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id'])) {
             ];
         }
 
-        // ✅ Update cart_items in DB if user is logged in
+        // Update cart_items in DB if user is logged in
         if (isset($_SESSION['user_id']) && $_SESSION['user_id'] !== "admin") {
             $userId = $_SESSION['user_id'];
 
@@ -52,10 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id'])) {
             }
             $checkStmt->close();
         }
-
         echo 'Item added to cart';
     } else {
         echo 'Product not found';
     }
 }
-?>
