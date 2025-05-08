@@ -165,7 +165,6 @@ $fullName = $_SESSION['full_name'];
                     </div>
 
                     <div class="d-flex m-3 me-0">
-                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
                             <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
@@ -185,7 +184,6 @@ $fullName = $_SESSION['full_name'];
                                     <hr class="dropdown-divider">
                                     <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
                                     <a href="../HTML/orderhistory.php" class="dropdown-item">Order History</a>
-                                    <a href="../HTML/myaccount.php" class="dropdown-item">My Account</a>
                                 </div>
                             </div>
                         </a>
@@ -207,261 +205,265 @@ $fullName = $_SESSION['full_name'];
             </section>
         </div>
     </section>
+
     <!-- Main Content -->
     <div class="main-content">
         <!-- Dashboard Overview -->
-        <section id="dashboard">
-            <h2>Welcome, Admin!</h2>
-            <div class="row mt-4">
+        <section id="dashboard" class="container py-8">
+            <h2 class="mb-4 text-center text-success">Welcome, Admin!</h2>
+            <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card text-white bg-success mb-3">
-                        <div class="card-body">
+                    <div class="card shadow h-100 text-white" style="background-color: #81c408;">
+                        <div class="card-body text-center">
+                            <i class="fas fa-box fa-2x mb-3"></i>
                             <h5 class="card-title">Total Products</h5>
-                            <p class="card-text fs-4"><?php echo $productCount; ?></p>
+                            <p class="fs-3 fw-bold mb-0"><?php echo $productCount; ?></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card text-white bg-success mb-3">
-                        <div class="card-body">
+                    <div class="card shadow h-100 text-white" style="background-color: #81c408;">
+                        <div class="card-body text-center">
+                            <i class="fas fa-shopping-cart fa-2x mb-3"></i>
                             <h5 class="card-title">Orders Today</h5>
-                            <p class="card-text fs-4"><?php echo $ordersToday; ?></p>
+                            <p class="fs-3 fw-bold mb-0"><?php echo $ordersToday; ?></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card text-white bg-success mb-3">
-                        <div class="card-body">
+                    <div class="card shadow h-100 text-white" style="background-color: #81c408;">
+                        <div class="card-body text-center">
+                            <i class="fas fa-dollar-sign fa-2x mb-3"></i>
                             <h5 class="card-title">Revenue</h5>
-                            <p class="card-text fs-4">Rs. <?php echo number_format($revenueToday, 2); ?></p>
+                            <p class="fs-3 fw-bold mb-0">Rs. <?php echo number_format($revenueToday, 2); ?></p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <section>
-            <!-- Display Success or Error Message with JavaScript Alert -->
-            <?php
-            if (isset($_SESSION['success_message'])) {
-                echo "<script>alert('" . $_SESSION['success_message'] . "');</script>";
-                unset($_SESSION['success_message']);
-            }
 
-            if (isset($_SESSION['error_message'])) {
-                echo "<script>alert('Error: " . $_SESSION['error_message'] . "');</script>";
-                unset($_SESSION['error_message']);
-            }
-            ?>
+        <!-- Display Success or Error Message with JavaScript Alert -->
+        <?php
+        if (isset($_SESSION['success_message'])) {
+            echo "<script>alert('" . $_SESSION['success_message'] . "');</script>";
+            unset($_SESSION['success_message']);
+        }
 
-            <?php
-            require_once '../HTML/db_connection.php';
-            ?>
+        if (isset($_SESSION['error_message'])) {
+            echo "<script>alert('Error: " . $_SESSION['error_message'] . "');</script>";
+            unset($_SESSION['error_message']);
+        }
+        ?>
 
-            <!-- Manage Products -->
-            <section id="products" class="mt-5">
-                <div class="card">
-                    <div class="card-header">Manage Products</div>
-                    <div class="card-body">
+        <?php
+        require_once '../HTML/db_connection.php';
+        ?>
 
-                        <!-- Add Product Form -->
-                        <form class="row g-3 mb-4" method="POST" action="../PHP/upload_product.php" enctype="multipart/form-data">
-                            <div class="col-md-3">
-                                <input type="text" name="product_name" class="form-control" placeholder="Product Name" required>
-                            </div>
-                            <div class="col-md-2">
-                                <select name="category" class="form-select" required>
-                                    <option value="">Select Category</option>
-                                    <option value="All Products">All Products</option>
-                                    <option value="Vegetables">Vegetables</option>
-                                    <option value="Fruits">Fruits</option>
-                                    <option value="Bakery">Bakery</option>
-                                    <option value="Meat">Meat</option>
-                                    <option value="Snacks">Snacks</option>
-                                    <option value="Drinks">Drinks</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="text" name="quantity" class="form-control" placeholder="Quantity" required>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="text" name="description" class="form-control" placeholder="Description" required>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" name="price" step="0.01" class="form-control" placeholder="Price" required>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="file" name="product_image" class="form-control" required>
-                            </div>
-                            <div class="col-md-2 d-grid">
-                                <button type="submit" class="btn btn-primary">Add Product</button>
-                            </div>
-                        </form>
+        <!-- Manage Products -->
+        <section id="products" class="mt-5">
+            <div class="card">
+                <div class="card-header">Manage Products</div>
+                <div class="card-body">
 
-                        <!-- Success/Error Alerts -->
-                        <?php
-                        if (isset($_SESSION['success_message'])) {
-                            echo "<script>alert('" . $_SESSION['success_message'] . "');</script>";
-                            unset($_SESSION['success_message']);
-                        }
-                        if (isset($_SESSION['error_message'])) {
-                            echo "<script>alert('Error: " . $_SESSION['error_message'] . "');</script>";
-                            unset($_SESSION['error_message']);
-                        }
-                        ?>
-
-                        <!-- Search Logic -->
-                        <?php
-                        $search = isset($_GET['search']) ? $_GET['search'] : '';
-                        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                        $offset = ($page - 1) * 5;
-
-                        $query = "SELECT * FROM products WHERE name LIKE ? LIMIT 5 OFFSET ?";
-                        $stmt = $conn->prepare($query);
-                        $searchTerm = '%' . $search . '%';
-                        $stmt->bind_param("si", $searchTerm, $offset);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                        ?>
-
-                        <!-- Search Bar -->
-                        <form class="mb-3" method="GET">
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search by Product Name" value="<?php echo htmlspecialchars($search); ?>">
-                                <button class="btn btn-primary" type="submit">Search</button>
-                            </div>
-                        </form>
-
-                        <!-- Product Table -->
-                        <table class="table table-bordered text-center align-middle">
-                            <thead class="table-success">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Description</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Stock Status</th>
-                                    <th>Image</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php while ($row = $result->fetch_assoc()): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($row['product_id']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['name']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['category']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['description']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['price']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['quantity']); ?></td>
-                                        <td>
-                                            <button class="btn btn-sm <?php echo $row['stock_status'] == 'In Stock' ? 'btn-success' : 'btn-warning'; ?>">
-                                                <?php echo htmlspecialchars($row['stock_status']); ?>
-                                            </button>
-                                        </td>
-                                        <td><img src="<?php echo htmlspecialchars($row['image_url']); ?>" class="img-thumbnail" style="width: 70px; height: 70px;"></td>
-                                        <td>
-                                            <!-- Edit Button -->
-                                            <button class="btn btn-sm btn-primary edit-btn"
-                                                data-id="<?php echo $row['product_id']; ?>"
-                                                data-name="<?php echo htmlspecialchars($row['name']); ?>"
-                                                data-category="<?php echo htmlspecialchars($row['category']); ?>"
-                                                data-description="<?php echo htmlspecialchars($row['description']); ?>"
-                                                data-price="<?php echo htmlspecialchars($row['price']); ?>"
-                                                data-quantity="<?php echo htmlspecialchars($row['quantity']); ?>"
-                                                data-stock_status="<?php echo htmlspecialchars($row['stock_status']); ?>">
-                                                Edit
-                                            </button>
-
-                                            <!-- Remove Button -->
-                                            <form method="POST" action="../PHP/remove_product.php" style="display:inline;">
-                                                <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
-                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this product?');">Remove</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                <?php endwhile; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Edit Modal -->
-            <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <form class="modal-content" method="POST" action="../PHP/edit_product.php">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Product</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <!-- Add Product Form -->
+                    <form class="row g-3 mb-4" method="POST" action="../PHP/upload_product.php" enctype="multipart/form-data">
+                        <div class="col-md-3">
+                            <input type="text" name="product_name" class="form-control" placeholder="Product Name" required>
                         </div>
-                        <div class="modal-body row g-3">
-                            <input type="hidden" name="product_id" id="edit-product-id">
-
-                            <div class="col-md-6">
-                                <label>Product Name</label>
-                                <input type="text" class="form-control" name="product_name" id="edit-product-name" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Category</label>
-                                <select class="form-select" name="category" id="edit-category" required>
-                                    <option value="All Products">All Products</option>
-                                    <option value="Vegetables">Vegetables</option>
-                                    <option value="Fruits">Fruits</option>
-                                    <option value="Bakery">Bakery</option>
-                                    <option value="Meat">Meat</option>
-                                    <option value="Snacks">Snacks</option>
-                                    <option value="Drinks">Drinks</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12">
-                                <label>Description</label>
-                                <input type="text" class="form-control" name="description" id="edit-description" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Price</label>
-                                <input type="number" class="form-control" name="price" id="edit-price" step="0.01" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Quantity</label>
-                                <input type="text" class="form-control" name="quantity" id="edit-quantity" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Stock Status</label>
-                                <select class="form-select" name="stock_status" id="edit-stock-status">
-                                    <option value="In Stock">In Stock</option>
-                                    <option value="Out of Stock">Out of Stock</option>
-                                </select>
-                            </div>
+                        <div class="col-md-2">
+                            <select name="category" class="form-select" required>
+                                <option value="">Select Category</option>
+                                <option value="All Products">All Products</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Bakery">Bakery</option>
+                                <option value="Meat">Meat</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Drinks">Drinks</option>
+                            </select>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Save Changes</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <div class="col-md-2">
+                            <input type="text" name="quantity" class="form-control" placeholder="Quantity" required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="description" class="form-control" placeholder="Description" required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" name="price" step="0.01" class="form-control" placeholder="Price" required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="file" name="product_image" class="form-control" required>
+                        </div>
+                        <div class="col-md-2 d-grid">
+                            <button type="submit" class="btn btn-primary">Add Product</button>
                         </div>
                     </form>
+
+                    <!-- Success/Error Alerts -->
+                    <?php
+                    if (isset($_SESSION['success_message'])) {
+                        echo "<script>alert('" . $_SESSION['success_message'] . "');</script>";
+                        unset($_SESSION['success_message']);
+                    }
+                    if (isset($_SESSION['error_message'])) {
+                        echo "<script>alert('Error: " . $_SESSION['error_message'] . "');</script>";
+                        unset($_SESSION['error_message']);
+                    }
+                    ?>
+
+                    <!-- Search Logic -->
+                    <?php
+                    $search = isset($_GET['search']) ? $_GET['search'] : '';
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $offset = ($page - 1) * 5;
+
+                    $query = "SELECT * FROM products WHERE name LIKE ? LIMIT 5 OFFSET ?";
+                    $stmt = $conn->prepare($query);
+                    $searchTerm = '%' . $search . '%';
+                    $stmt->bind_param("si", $searchTerm, $offset);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    ?>
+
+                    <!-- Search Bar -->
+                    <form class="mb-3" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search by Product Name" value="<?php echo htmlspecialchars($search); ?>">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </form>
+
+                    <!-- Product Table -->
+                    <table class="table table-bordered text-center align-middle">
+                        <thead class="table-success">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Stock Status</th>
+                                <th>Image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php while ($row = $result->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($row['product_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['category']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['description']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['price']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['quantity']); ?></td>
+                                    <td>
+                                        <button class="btn btn-sm <?php echo $row['stock_status'] == 'In Stock' ? 'btn-success' : 'btn-warning'; ?>">
+                                            <?php echo htmlspecialchars($row['stock_status']); ?>
+                                        </button>
+                                    </td>
+                                    <td><img src="<?php echo htmlspecialchars($row['image_url']); ?>" class="img-thumbnail" style="width: 70px; height: 70px;"></td>
+                                    <td>
+                                        <!-- Edit Button -->
+                                        <button class="btn btn-sm btn-primary edit-btn"
+                                            data-id="<?php echo $row['product_id']; ?>"
+                                            data-name="<?php echo htmlspecialchars($row['name']); ?>"
+                                            data-category="<?php echo htmlspecialchars($row['category']); ?>"
+                                            data-description="<?php echo htmlspecialchars($row['description']); ?>"
+                                            data-price="<?php echo htmlspecialchars($row['price']); ?>"
+                                            data-quantity="<?php echo htmlspecialchars($row['quantity']); ?>"
+                                            data-stock_status="<?php echo htmlspecialchars($row['stock_status']); ?>">
+                                            Edit
+                                        </button>
+
+                                        <!-- Remove Button -->
+                                        <form method="POST" action="../PHP/remove_product.php" style="display:inline;">
+                                            <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this product?');">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </section>
 
-            <!-- Bootstrap JS (Make sure it's included) -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <form class="modal-content" method="POST" action="../PHP/edit_product.php">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body row g-3">
+                        <input type="hidden" name="product_id" id="edit-product-id">
 
-            <!-- Edit Button Script -->
-            <script>
-                document.querySelectorAll('.edit-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const modal = new bootstrap.Modal(document.getElementById('editProductModal'));
-                        document.getElementById('edit-product-id').value = this.dataset.id;
-                        document.getElementById('edit-product-name').value = this.dataset.name;
-                        document.getElementById('edit-category').value = this.dataset.category;
-                        document.getElementById('edit-description').value = this.dataset.description;
-                        document.getElementById('edit-price').value = this.dataset.price;
-                        document.getElementById('edit-quantity').value = this.dataset.quantity;
-                        document.getElementById('edit-stock-status').value = this.dataset.stock_status;
-                        modal.show();
-                    });
+                        <div class="col-md-6">
+                            <label>Product Name</label>
+                            <input type="text" class="form-control" name="product_name" id="edit-product-name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Category</label>
+                            <select class="form-select" name="category" id="edit-category" required>
+                                <option value="All Products">All Products</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Bakery">Bakery</option>
+                                <option value="Meat">Meat</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Drinks">Drinks</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Description</label>
+                            <input type="text" class="form-control" name="description" id="edit-description" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Price</label>
+                            <input type="number" class="form-control" name="price" id="edit-price" step="0.01" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Quantity</label>
+                            <input type="text" class="form-control" name="quantity" id="edit-quantity" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Stock Status</label>
+                            <select class="form-select" name="stock_status" id="edit-stock-status">
+                                <option value="In Stock">In Stock</option>
+                                <option value="Out of Stock">Out of Stock</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS (Make sure it's included) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Edit Button Script -->
+        <script>
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                    document.getElementById('edit-product-id').value = this.dataset.id;
+                    document.getElementById('edit-product-name').value = this.dataset.name;
+                    document.getElementById('edit-category').value = this.dataset.category;
+                    document.getElementById('edit-description').value = this.dataset.description;
+                    document.getElementById('edit-price').value = this.dataset.price;
+                    document.getElementById('edit-quantity').value = this.dataset.quantity;
+                    document.getElementById('edit-stock-status').value = this.dataset.stock_status;
+                    modal.show();
                 });
-            </script>
+            });
+        </script>
         </section>
 
 
@@ -587,13 +589,48 @@ $fullName = $_SESSION['full_name'];
 
         <!-- Settings -->
         <section id="settings" class="mt-5">
-            <div class="card">
-                <div class="card-header">Settings</div>
+            <div class="card border-0">
+                <div class="card-header border-0 text-white" style="background-color: #81c408;">
+                    <h5 class="mb-0">Settings</h5>
+                </div>
                 <div class="card-body">
-                    <p>Here you can update admin preferences, theme colors, and account information.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6>Reset Password</h6>
+                            <p class="mb-1 text-muted">Change your account password for better security.</p>
+                        </div>
+                        <button class="btn text-white fw-semibold" style="background-color: #81c408;" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">
+                            <i class="fas fa-key me-1"></i> Reset Password
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
+        <!-- Reset Password Modal -->
+        <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form method="POST" action="../PHP/reset_admin_password.php" class="modal-content">
+                    <div class="modal-header" style="background-color: #81c408;">
+                        <h5 class="modal-title text-white" id="resetPasswordModalLabel">Reset Admin Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Current Password</label>
+                            <input type="password" name="old_password" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">New Password</label>
+                            <input type="password" name="new_password" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn text-white" style="background-color: #81c408;">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
 
     <!-- Bootstrap & Font Awesome -->

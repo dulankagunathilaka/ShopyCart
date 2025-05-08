@@ -7,12 +7,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Admin login check
-    if ($email === "admin@123" && $password === "123") {
+    $sql = "SELECT * FROM admin_users WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $admin = $result->fetch_assoc();
+
+    if ($admin && $admin['password'] === $password) {
         $_SESSION['user_id'] = "admin";
         $_SESSION['full_name'] = "Administrator";
         header("Location: ../HTML/admin.php");
         exit;
     }
+
 
     // Regular user login
     $stmt = $conn->prepare("SELECT user_id, full_name, password FROM users WHERE email = ?");
@@ -63,4 +71,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
     $conn->close();
 }
-?>
