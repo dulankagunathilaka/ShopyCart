@@ -21,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-
     // Regular user login
     $stmt = $conn->prepare("SELECT user_id, full_name, password FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
@@ -36,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['full_name'] = $user['full_name'];
 
-            // ✅ Load cart from 'cart_items' table into session
+            // Load cart from 'cart_items' table into session
             $cartStmt = $conn->prepare("
                 SELECT ci.product_id, ci.quantity, p.name, p.price, p.image_url 
                 FROM cart_items ci

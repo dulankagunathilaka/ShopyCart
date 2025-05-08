@@ -42,7 +42,7 @@ $featured_result = $conn->query($query);
     <!-- Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- CSS Stylesheet -->
+    <!-- Main CSS Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 </head>
 
@@ -99,7 +99,6 @@ $featured_result = $conn->query($query);
         </div>
     </div>
 
-
     <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -110,7 +109,6 @@ $featured_result = $conn->query($query);
                 <div class="modal-body">
 
                     <!-- Nav tabs -->
-
                     <ul class="nav nav-tabs mb-3" id="authTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" data-bs-toggle="tab" href="#signinTab" role="tab">Sign In</a>
@@ -125,7 +123,7 @@ $featured_result = $conn->query($query);
 
                         <!-- Sign In Tab -->
                         <div class="tab-pane fade show active" id="signinTab" role="tabpanel">
-                            <form method="POST" action="../HTML/signin.php">
+                            <form method="POST" action="../PHP/signin.php">
                                 <div class="mb-3">
                                     <label for="signinEmail" class="form-label">Email address</label>
                                     <input type="email" class="form-control" id="signinEmail" name="email" placeholder="Enter your email" required>
@@ -155,7 +153,7 @@ $featured_result = $conn->query($query);
 
                         <!-- Sign Up Tab -->
                         <div class="tab-pane fade" id="signupTab" role="tabpanel">
-                            <form method="POST" action="../HTML/signup.php">
+                            <form method="POST" action="../PHP/signup.php">
                                 <div class="mb-3">
                                     <label for="signupName" class="form-label">Full Name</label>
                                     <input type="text" name="name" class="form-control" id="signupName" placeholder="Your name" required>
@@ -186,7 +184,7 @@ $featured_result = $conn->query($query);
     </div>
     <!-- Navbar End -->
 
-    <!-- Top Head/after nav bar Start -->
+    <!-- Top Heading/after nav bar Start -->
     <div class="container-fluid py-5 mb-5 hero-header">
         <div class="container py-5">
             <div class="row g-5 align-items-center">
@@ -229,7 +227,7 @@ $featured_result = $conn->query($query);
             </div>
         </div>
     </div>
-    <!-- Top Head/after nav bar End -->
+    <!-- Top Heading/after nav bar End -->
 
     <!-- Features Section Start -->
     <div class="container-fluid featurs py-5">
@@ -605,13 +603,10 @@ $featured_result = $conn->query($query);
     </div>
     <!-- Copyright End -->
 
-
-
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
 
-
-    <!-- JavaScript Libraries -->
+    <!-- Javascript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../lib/easing/easing.min.js"></script>
@@ -619,23 +614,12 @@ $featured_result = $conn->query($query);
     <script src="../lib/lightbox/js/lightbox.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Cart option message before sign in -->
-    <script>
-        function showLoginMessage() {
-            alert("Please sign in to shop.");
-        }
-    </script>
-
-    <!-- Toggle Script -->
-    <script>
-        function toggleForgotPassword() {
-            var section = document.getElementById("forgotPasswordSection");
-            section.style.display = section.style.display === "none" ? "block" : "none";
-        }
-    </script>
-
-    <!-- Template Javascript -->
+    <!-- main Javascript -->
     <script src="../js/main.js"></script>
+
+    <!--index Javascript-->
+    <script src="../js/index.js"></script>
+
 </body>
 
 </html>
