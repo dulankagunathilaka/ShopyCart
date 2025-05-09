@@ -1,5 +1,4 @@
 <?php
-// Include database connection
 include '../HTML/db_connection.php';
 
 // Fetch categories from the database
