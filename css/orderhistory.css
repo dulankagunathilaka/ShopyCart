@@ -1,0 +1,99 @@
+/* Order Card Styling */
+.order-card {
+    border-left: 5px solid #81c408;
+    transition: all 0.3s ease;
+    border-radius: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+/* Hover effect for order card */
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Inner card body padding */
+.order-card .card-body {
+    padding: 20px;
+}
+
+/* Order card heading styling */
+.order-card h5 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #81c408;
+}
+
+/* Paragraph styling inside card */
+.order-card p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Button transition effect */
+.order-card .btn {
+    transition: all 0.3s ease;
+}
+
+/* Button hover colors for different variants */
+.order-card .btn-warning:hover {
+    background-color: #ffcc00;
+    border-color: #ffcc00;
+}
+
+.order-card .btn-success:hover {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.order-card .btn-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.order-card .btn-dark:hover {
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+/* Light button styling */
+.order-card .btn-light {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+/* Order status badge styling */
+.order-card .order-status {
+    font-weight: bold;
+    color: #81c408;
+    background-color: #e8f5e9;
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+}
+
+/* Prevent content overlap with fixed navbar */
+.order-history-section {
+    margin-top: 80px;
+}
+
+/* "Continue Shopping" Button Styling */
+.continue-shopping-btn {
+    background-color: white;
+    border: 2px solid #81c408;
+    color: #81c408;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Hover effect for "Continue Shopping" button */
+.continue-shopping-btn:hover {
+    background-color: #81c408;
+    color: white;
+}
