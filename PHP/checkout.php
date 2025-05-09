@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../HTML/db_connection.php'; // Ensure this file connects to your DB
+include '../HTML/db_connection.php'; 
 
 $cart = $_SESSION['cart'] ?? [];
 $total = 0;

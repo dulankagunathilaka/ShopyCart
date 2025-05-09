@@ -1,5 +1,4 @@
 <?php
-// Include the database connection
 require_once '../HTML/db_connection.php';
 
 // Fetch the total number of products from the database

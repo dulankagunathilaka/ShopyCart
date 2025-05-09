@@ -1,5 +1,5 @@
 <?php
-require '../HTML/db_connection.php'; // Make sure this path is correct and points to the above file
+require '../HTML/db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];

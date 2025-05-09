@@ -27,12 +27,10 @@ $fullName = $_SESSION['full_name'] ?? "Customer";
         .thankyou-icon {
             font-size: 60px;
             color: #81c408;
-            /* Updated green color */
         }
 
         .card-title {
             color: #81c408;
-            /* Updated green color */
         }
 
         .btn-continue {
@@ -65,7 +63,6 @@ $fullName = $_SESSION['full_name'] ?? "Customer";
         </div>
     </div>
 
-    <!-- Font Awesome for icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 

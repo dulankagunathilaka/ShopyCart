@@ -1,7 +1,7 @@
 <?php
-session_start();  // Start the session
+session_start(); 
 
-require_once '../HTML/db_connection.php';  // Include database connection file
+require_once '../HTML/db_connection.php';
 
 // Check if the product ID is passed through POST
 if (isset($_POST['product_id'])) {

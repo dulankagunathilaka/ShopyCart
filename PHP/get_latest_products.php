@@ -1,5 +1,5 @@
 <?php
-include '../HTML/db_connection.php'; // Include your database connection
+include '../HTML/db_connection.php';
 
 // Fetch latest 5 products
 $query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";

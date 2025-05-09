@@ -5,7 +5,6 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../HTML/index.php");
     exit;
 }
-
 include '../PHP/dashboard_stats.php';
 
 $fullName = $_SESSION['full_name'];
@@ -30,114 +29,22 @@ $fullName = $_SESSION['full_name'];
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
+    <!-- Bootstrap & Font Awesome -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Libraries Stylesheet -->
     <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
-    <!-- Customized Bootstrap Stylesheet -->
+    <!-- Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-
-    <!-- Template Stylesheet -->
+    <!-- Main CSS Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
 
-        .sidebar {
-            background-color: #81c408;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 220px;
-            padding-top: 20px;
-        }
+    <!-- admin CSS Stylesheet -->
+    <link href="../css/admin.css" rel="stylesheet">
 
-        .sidebar a {
-            color: #fff;
-            padding: 12px;
-            display: block;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .sidebar a:hover,
-        .sidebar a.active {
-            background-color: #6aa304;
-        }
-
-        .main-content {
-            margin-left: 230px;
-            padding: 30px;
-        }
-
-        .card-header {
-            background-color: #81c408;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .btn-primary,
-        .btn-success,
-        .btn-warning,
-        .btn-danger {
-            background-color: #81c408;
-            border: none;
-        }
-
-        .btn-primary:hover,
-        .btn-success:hover,
-        .btn-warning:hover,
-        .btn-danger:hover {
-            background-color: #6aa304;
-        }
-
-        .btn {
-            border-radius: 10px;
-        }
-
-        .btn-instock {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .btn-outofstock {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-status {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-status:hover,
-        .btn-instock:hover,
-        .btn-outofstock:hover {
-            opacity: 0.8;
-        }
-
-        @media (max-width: 992px) {
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-        }
-
-        .img-thumbnail {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-        }
-    </style>
 </head>
 
 <body>
@@ -193,6 +100,7 @@ $fullName = $_SESSION['full_name'];
         </div>
     </div>
     <!-- Navbar End -->
+
     <!-- Sidebar -->
     <section style="padding-top: 100px;">
         <div class="sidebar">
@@ -208,6 +116,7 @@ $fullName = $_SESSION['full_name'];
 
     <!-- Main Content -->
     <div class="main-content">
+
         <!-- Dashboard Overview -->
         <section id="dashboard" class="container py-8">
             <h2 class="mb-4 text-center text-success">Welcome, Admin!</h2>
@@ -445,9 +354,6 @@ $fullName = $_SESSION['full_name'];
             </div>
         </div>
 
-        <!-- Bootstrap JS (Make sure it's included) -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
         <!-- Edit Button Script -->
         <script>
             document.querySelectorAll('.edit-btn').forEach(button => {
@@ -466,11 +372,11 @@ $fullName = $_SESSION['full_name'];
         </script>
         </section>
 
-
         <section id="orders" class="mt-5">
             <div class="card">
                 <div class="card-header">Order Table</div>
                 <div class="card-body">
+
                     <!-- Responsive Table -->
                     <div class="table-responsive">
                         <table class="table table-bordered text-center align-middle">
@@ -584,9 +490,6 @@ $fullName = $_SESSION['full_name'];
             </div>
         </section>
 
-
-
-
         <!-- Settings -->
         <section id="settings" class="mt-5">
             <div class="card border-0">
@@ -606,6 +509,7 @@ $fullName = $_SESSION['full_name'];
                 </div>
             </div>
         </section>
+
         <!-- Reset Password Modal -->
         <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -630,15 +534,10 @@ $fullName = $_SESSION['full_name'];
                 </form>
             </div>
         </div>
-
     </div>
-
-    <!-- Bootstrap & Font Awesome -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
-
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -648,8 +547,11 @@ $fullName = $_SESSION['full_name'];
     <script src="../lib/lightbox/js/lightbox.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
+    <!-- main Javascript -->
     <script src="../js/main.js"></script>
+
+    <!-- admin Javascript -->
+    <script src="../js/admin.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -674,52 +576,6 @@ $fullName = $_SESSION['full_name'];
             <?php endif; ?>
         });
     </script>
-
-    <script>
-        // JavaScript function to handle order status updates
-        function updateStatus(status, orderId) {
-            if (status === 'accept') {
-                if (confirm('Are you sure you want to accept this order?')) {
-                    // Send a request to the server to update the order status
-                    window.location.href = `update_order_status.php?status=accept&order_id=${orderId}`;
-                }
-            } else if (status === 'delivered') {
-                if (confirm('Are you sure this order is delivered?')) {
-                    // Send a request to the server to update the order status
-                    window.location.href = `update_order_status.php?status=delivered&order_id=${orderId}`;
-                }
-            }
-        }
-    </script>
-    <script>
-        function updateStatus(button, status, orderId) {
-            fetch('../PHP/update_order_status.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `order_id=${orderId}&status=${status}`
-                })
-                .then(res => res.text())
-                .then(response => {
-                    if (status === 'accept') {
-                        button.classList.remove('btn-warning');
-                        button.classList.add('btn-secondary');
-                        button.innerText = "Packing";
-                    } else if (status === 'delivered') {
-                        button.classList.remove('btn-success');
-                        button.classList.add('btn-dark');
-                        button.innerText = "Out for Delivery";
-                    }
-                    button.disabled = true;
-                })
-                .catch(err => {
-                    alert("Error updating order status");
-                    console.error(err);
-                });
-        }
-    </script>
-
 
 </body>
 

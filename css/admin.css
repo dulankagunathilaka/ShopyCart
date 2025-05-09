@@ -1,0 +1,109 @@
+body {
+    background-color: #f8f9fa;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: #81c408;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    padding-top: 20px;
+}
+
+/* Sidebar links styling */
+.sidebar a {
+    color: #fff;
+    padding: 12px;
+    display: block;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Active and hover effect for sidebar links */
+.sidebar a:hover,
+.sidebar a.active {
+    background-color: #6aa304;
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: 230px;
+    padding: 30px;
+}
+
+/* Card Header Styling */
+.card-header {
+    background-color: #81c408;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Button Styles */
+.btn-primary,
+.btn-success,
+.btn-warning,
+.btn-danger {
+    background-color: #81c408;
+    border: none;
+}
+
+/* Hover effect for all primary-type buttons */
+.btn-primary:hover,
+.btn-success:hover,
+.btn-warning:hover,
+.btn-danger:hover {
+    background-color: #6aa304;
+}
+
+/* Rounded corners for all buttons */
+.btn {
+    border-radius: 10px;
+}
+
+/* Status buttons for stock management */
+.btn-instock {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-outofstock {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-status {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Hover effects for status buttons */
+.btn-status:hover,
+.btn-instock:hover,
+.btn-outofstock:hover {
+    opacity: 0.8;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    /* Adjust sidebar for smaller screens */
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    /* Remove left margin on main content for smaller screens */
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+/* Image Styling */
+.img-thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
