@@ -108,7 +108,7 @@ $fullName = $_SESSION['full_name'];
                 <a href="#dashboard" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
                 <a href="#products"><i class="fas fa-boxes me-2"></i>Manage Products</a>
                 <a href="#orders"><i class="fas fa-truck me-2"></i>Order Tracking</a>
-                <a href="#settings"><i class="fas fa-cog me-2"></i>Settings</a>
+                <a href="#resetpassword"><i class="fas fa-cog me-2"></i>Reset Password</a>
                 <a href="../PHP/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
             </section>
         </div>
@@ -119,7 +119,7 @@ $fullName = $_SESSION['full_name'];
 
         <!-- Dashboard Overview -->
         <section id="dashboard" class="container py-8">
-            <h2 class="mb-4 text-center text-success">Welcome, Admin!</h2>
+            <h2 class="mb-4 text-center" style="color: #81c408;">Welcome, Admin!</h2>
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="card shadow h-100 text-white" style="background-color: #81c408;">
@@ -490,8 +490,8 @@ $fullName = $_SESSION['full_name'];
             </div>
         </section>
 
-        <!-- Settings -->
-        <section id="settings" class="mt-5">
+        <!-- Reset Password -->
+        <section id="resetpassword" class="mt-5">
             <div class="card border-0">
                 <div class="card-header border-0 text-white" style="background-color: #81c408;">
                     <h5 class="mb-0">Settings</h5>
