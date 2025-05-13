@@ -52,12 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $itemsStr = implode(", ", $items);
     $quantitiesStr = implode(", ", $quantities);
 
-    // Insert into database
     $stmt = $conn->prepare("INSERT INTO order_tracking (customer_name, email, address, contact_number, items, quantities, total_price, payment_method, status, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     // Add a default 'Pending' status and associate the order with the user_id from session
     $status = 'Pending'; // Default status
-    $userId = $_SESSION['user_id']; // Ensure the user is logged in
+    $userId = $_SESSION['user_id'];
 
     // Update bind_param to match the number of placeholders (10 total)
     $stmt->bind_param("ssssssdsis", $customerName, $email, $address, $contactNumber, $itemsStr, $quantitiesStr, $total, $paymentMethod, $status, $userId);

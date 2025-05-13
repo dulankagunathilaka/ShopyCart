@@ -12,7 +12,6 @@ if (isset($_POST['product_id'], $_POST['product_name'], $_POST['category'], $_PO
     $quantity = $_POST['quantity'];
     $stock_status = $_POST['stock_status'];
 
-    // Database connection
     require_once '../HTML/db_connection.php';
 
     // Prepare the update query
