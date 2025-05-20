@@ -50,6 +50,8 @@ $fullName = $_SESSION['full_name'];
 
     <!-- Main CSS Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
+
+    <link href="../css/userpage.css" rel="stylesheet">
 </head>
 
 <body>
@@ -77,6 +79,19 @@ $fullName = $_SESSION['full_name'];
                         <a href="../HTML/contact.php" class="nav-item nav-link">Contact</a>
                     </div>
 
+                    <!-- Expandable Search Bar -->
+                    <div class="d-flex align-items-center mx-3 position-relative" id="searchWrapper">
+                        <button class="btn btn-outline-primary d-flex align-items-center justify-content-center rounded-circle p-0"
+                            type="button" id="searchToggleBtn"
+                            style="width: 40px; height: 40px;">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <form class="ms-2 d-none d-flex align-items-center w-200" id="searchForm" method="GET" action="../PHP/search.php" style="max-width: 300px;">
+                            <input class="form-control form-control-sm rounded-pill w-200" type="search" name="query" id="searchInput" placeholder="Search..." aria-label="Search">
+                        </form>
+                    </div>
+                    <!-- Expandable Search Bar End -->
+                     
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>

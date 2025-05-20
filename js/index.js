@@ -8,3 +8,4 @@ function toggleForgotPassword() {
 function showLoginMessage() {
     alert("Please sign in to shop.");
 }
+

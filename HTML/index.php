@@ -42,6 +42,8 @@ $featured_result = $conn->query($query);
 
     <!-- Main CSS Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
+
+
 </head>
 
 <body>
@@ -68,6 +70,19 @@ $featured_result = $conn->query($query);
                         <a href="#fresh-finds" class="nav-item nav-link">Fresh Finds</a>
                         <a href="#" onclick="showLoginMessage()" class="nav-item nav-link">Contact</a>
                     </div>
+
+                    <!-- Expandable Search Bar -->
+                    <div class="d-flex align-items-center mx-3 position-relative" id="searchWrapper">
+                        <button class="btn btn-outline-primary p-2" type="button" id="searchToggleBtn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <form class="ms-2 d-none d-flex align-items-center" id="searchForm" method="GET" action="../PHP/search.php">
+                            <input class="form-control form-control-sm rounded-pill" type="search" name="query" id="searchInput" placeholder="Search..." aria-label="Search">
+                        </form>
+                    </div>
+
+
+
 
                     <div class="d-flex m-3 me-0">
                         <a href="#" onclick="showLoginMessage()" class="position-relative me-4 my-auto">
@@ -308,7 +323,7 @@ $featured_result = $conn->query($query);
                     </div>
                 </div>
 
-                <div class="tab-content">   
+                <div class="tab-content">
                     <!-- All Products Tab -->
                     <div id="tab-all-products" class="tab-pane fade show active p-0">
                         <div class="row g-4">
@@ -617,6 +632,31 @@ $featured_result = $conn->query($query);
 
     <!--index Javascript-->
     <script src="../js/index.js"></script>
+
+    <script>
+    const searchToggleBtn = document.getElementById("searchToggleBtn");
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+    const searchWrapper = document.getElementById("searchWrapper");
+
+    let expanded = false;
+
+    searchToggleBtn.addEventListener("click", () => {
+        expanded = !expanded;
+        searchForm.classList.toggle("d-none");
+        if (expanded) searchInput.focus();
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!searchWrapper.contains(e.target)) {
+            searchForm.classList.add("d-none");
+            expanded = false;
+        }
+    });
+</script>
+
+
 
 </body>
 
