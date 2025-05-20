@@ -13,8 +13,18 @@ $query = "SELECT DISTINCT category FROM products";
 $category_result = $conn->query($query);
 
 // Fetch all products for the All Products tab
-$all_products_query = "SELECT * FROM products";
-$all_products_result = $conn->query($all_products_query);
+$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+if ($searchTerm !== '') {
+    $stmt = $conn->prepare("SELECT * FROM products WHERE name LIKE CONCAT('%', ?, '%') OR category LIKE CONCAT('%', ?, '%')");
+    $stmt->bind_param("ss", $searchTerm, $searchTerm);
+    $stmt->execute();
+    $all_products_result = $stmt->get_result();
+} else {
+    $all_products_query = "SELECT * FROM products";
+    $all_products_result = $conn->query($all_products_query);
+}
+
 
 $query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";
 $featured_result = $conn->query($query);
@@ -50,8 +60,6 @@ $fullName = $_SESSION['full_name'];
 
     <!-- Main CSS Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
-
-    <link href="../css/userpage.css" rel="stylesheet">
 </head>
 
 <body>
@@ -79,19 +87,26 @@ $fullName = $_SESSION['full_name'];
                         <a href="../HTML/contact.php" class="nav-item nav-link">Contact</a>
                     </div>
 
-                    <!-- Expandable Search Bar -->
-                    <div class="d-flex align-items-center mx-3 position-relative" id="searchWrapper">
-                        <button class="btn btn-outline-primary d-flex align-items-center justify-content-center rounded-circle p-0"
-                            type="button" id="searchToggleBtn"
-                            style="width: 40px; height: 40px;">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <form class="ms-2 d-none d-flex align-items-center w-200" id="searchForm" method="GET" action="../PHP/search.php" style="max-width: 300px;">
-                            <input class="form-control form-control-sm rounded-pill w-200" type="search" name="query" id="searchInput" placeholder="Search..." aria-label="Search">
-                        </form>
-                    </div>
-                    <!-- Expandable Search Bar End -->
-                     
+                    <!-- Search Bar -->
+                    <form method="GET" action="" class="d-flex mx-3" style="flex: 1; max-width: 400px;">
+                        <div class="input-group rounded-pill bg-light overflow-hidden shadow-sm w-100">
+                            <input
+                                type="text"
+                                name="search"
+                                class="form-control border-0 bg-light px-4"
+                                placeholder="Search for products..."
+                                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+                                style="border-radius: 50px 0 0 50px;">
+                            <button
+                                class="btn btn-primary px-4"
+                                type="submit"
+                                style="border-radius: 0 50px 50px 0;">
+                                <i class="fas fa-search text-white"></i>
+                            </button>
+                        </div>
+                    </form>
+
+
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
@@ -253,9 +268,15 @@ $fullName = $_SESSION['full_name'];
                     <!-- All Products Tab -->
                     <div id="tab-all-products" class="tab-pane fade show active p-0">
                         <div class="row g-4">
-                            <?php while ($product = $all_products_result->fetch_assoc()): ?>
-                                <?= renderProductCard($product); ?>
-                            <?php endwhile; ?>
+                            <?php if ($all_products_result->num_rows > 0): ?>
+                                <?php while ($product = $all_products_result->fetch_assoc()): ?>
+                                    <?= renderProductCard($product); ?>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <div class="col-12 text-center">
+                                    <p class="text-muted">No products found for "<?= htmlspecialchars($searchTerm) ?>".</p>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -617,6 +638,23 @@ $fullName = $_SESSION['full_name'];
                     authModal.show();
                 <?php endif; ?>
             <?php endif; ?>
+        });
+    </script>
+    
+    <!--Search Bar-->
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const searchTerm = params.get('search');
+
+            if (searchTerm && searchTerm.trim() !== '') {
+                const freshFindsSection = document.getElementById('fresh-finds');
+                if (freshFindsSection) {
+                    freshFindsSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
         });
     </script>
 

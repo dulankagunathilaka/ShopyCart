@@ -180,20 +180,9 @@
 
 }
 
-/* Styling the search form for smooth animation and appearance */
-#searchForm {
-    max-width: 200px;
-    transition: all 0.3s ease-in-out;
+#searchModal .modal-content {
+    background: rgba(255, 255, 255, .8);
 }
-
-#searchInput {
-    font-size: 0.875rem;
-    padding: 0.375rem 0.75rem;
-    background-color: #f8f9fa;
-    border: 1px solid #ced4da;
-    box-shadow: none;
-}
-
 /*** Navbar End ***/
 
 /*** Hero Header ***/

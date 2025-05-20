@@ -6,8 +6,17 @@ $query = "SELECT DISTINCT category FROM products";
 $category_result = $conn->query($query);
 
 // Fetch all products for the All Products tab
-$all_products_query = "SELECT * FROM products";
-$all_products_result = $conn->query($all_products_query);
+$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+if ($searchTerm !== '') {
+    $stmt = $conn->prepare("SELECT * FROM products WHERE name LIKE CONCAT('%', ?, '%') OR category LIKE CONCAT('%', ?, '%')");
+    $stmt->bind_param("ss", $searchTerm, $searchTerm);
+    $stmt->execute();
+    $all_products_result = $stmt->get_result();
+} else {
+    $all_products_query = "SELECT * FROM products";
+    $all_products_result = $conn->query($all_products_query);
+}
 
 // Fetch featured products
 $query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";
@@ -71,19 +80,25 @@ $featured_result = $conn->query($query);
                         <a href="#" onclick="showLoginMessage()" class="nav-item nav-link">Contact</a>
                     </div>
 
-                    <!-- Expandable Search Bar -->
-                    <div class="d-flex align-items-center mx-3 position-relative" id="searchWrapper">
-                        <button class="btn btn-outline-primary p-2" type="button" id="searchToggleBtn">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <form class="ms-2 d-none d-flex align-items-center" id="searchForm" method="GET" action="../PHP/search.php">
-                            <input class="form-control form-control-sm rounded-pill" type="search" name="query" id="searchInput" placeholder="Search..." aria-label="Search">
-                        </form>
-                    </div>
-
-
-
-
+                    <!-- Search Bar -->
+                    <form method="GET" action="" class="d-flex mx-3" style="flex: 1; max-width: 400px;">
+                        <div class="input-group rounded-pill bg-light overflow-hidden shadow-sm w-100">
+                            <input
+                                type="text"
+                                name="search"
+                                class="form-control border-0 bg-light px-4"
+                                placeholder="Search for products..."
+                                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+                                style="border-radius: 50px 0 0 50px;">
+                            <button
+                                class="btn btn-primary px-4"
+                                type="submit"
+                                style="border-radius: 0 50px 50px 0;">
+                                <i class="fas fa-search text-white"></i>
+                            </button>
+                        </div>
+                    </form>
+                    
                     <div class="d-flex m-3 me-0">
                         <a href="#" onclick="showLoginMessage()" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
@@ -634,27 +649,44 @@ $featured_result = $conn->query($query);
     <script src="../js/index.js"></script>
 
     <script>
-    const searchToggleBtn = document.getElementById("searchToggleBtn");
-    const searchForm = document.getElementById("searchForm");
-    const searchInput = document.getElementById("searchInput");
-    const searchWrapper = document.getElementById("searchWrapper");
+        const searchToggleBtn = document.getElementById("searchToggleBtn");
+        const searchForm = document.getElementById("searchForm");
+        const searchInput = document.getElementById("searchInput");
+        const searchWrapper = document.getElementById("searchWrapper");
 
-    let expanded = false;
+        let expanded = false;
 
-    searchToggleBtn.addEventListener("click", () => {
-        expanded = !expanded;
-        searchForm.classList.toggle("d-none");
-        if (expanded) searchInput.focus();
-    });
+        searchToggleBtn.addEventListener("click", () => {
+            expanded = !expanded;
+            searchForm.classList.toggle("d-none");
+            if (expanded) searchInput.focus();
+        });
 
-    // Close when clicking outside
-    document.addEventListener("click", (e) => {
-        if (!searchWrapper.contains(e.target)) {
-            searchForm.classList.add("d-none");
-            expanded = false;
-        }
-    });
-</script>
+        // Close when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!searchWrapper.contains(e.target)) {
+                searchForm.classList.add("d-none");
+                expanded = false;
+            }
+        });
+    </script>
+
+    <!--Search Bar-->
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const searchTerm = params.get('search');
+
+            if (searchTerm && searchTerm.trim() !== '') {
+                const freshFindsSection = document.getElementById('fresh-finds');
+                if (freshFindsSection) {
+                    freshFindsSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    </script>
 
 
 

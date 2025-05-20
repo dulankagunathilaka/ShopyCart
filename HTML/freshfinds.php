@@ -11,10 +11,24 @@ include '../HTML/db_connection.php';
 $query = "SELECT DISTINCT category FROM products";
 $category_result = $conn->query($query);
 
-// Fetch all products for the All Products tab
-$all_products_query = "SELECT * FROM products";
+$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+$selectedCategory = isset($_GET['category']) ? trim($_GET['category']) : '';
+
+$all_products_query = "SELECT * FROM products WHERE 1=1";
+
+if ($searchTerm !== '') {
+    $escaped = $conn->real_escape_string($searchTerm);
+    $all_products_query .= " AND name LIKE '%$escaped%'";
+}
+
+if ($selectedCategory !== '') {
+    $escapedCategory = $conn->real_escape_string($selectedCategory);
+    $all_products_query .= " AND category = '$escapedCategory'";
+}
+
 $all_products_result = $conn->query($all_products_query);
 
+// Fetch featured products (latest 5 products)
 $query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";
 $featured_result = $conn->query($query);
 
@@ -73,8 +87,38 @@ $fullName = $_SESSION['full_name'];
                     <div class="navbar-nav mx-auto">
                         <a href="../HTML/userpage.php" class="nav-item nav-link">Home</a>
                         <a href="#fresh-finds" class="nav-item nav-link active">Fresh Finds</a>
-
                     </div>
+
+                    <form method="GET" action="" class="d-flex mx-3" style="flex: 1; max-width: 600px;">
+                        <div class="input-group w-100 shadow-sm rounded-pill overflow-hidden bg-light">
+                            <!-- Category Filter -->
+                            <select name="category" class="form-select border-0 bg-light text-secondary" style="max-width: 160px;">
+                                <option value="">All Categories</option>
+                                <?php
+                                $categories = ['Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
+                                foreach ($categories as $cat) {
+                                    $selected = (isset($_GET['category']) && $_GET['category'] === $cat) ? 'selected' : '';
+                                    echo "<option value=\"$cat\" $selected>$cat</option>";
+                                }
+                                ?>
+                            </select>
+
+                            <!-- Search Input -->
+                            <input
+                                type="text"
+                                name="search"
+                                class="form-control border-0 bg-light px-3"
+                                placeholder="Search for products..."
+                                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+
+                            <!-- Search Button -->
+                            <button class="btn btn-primary px-4" type="submit">
+                                <i class="fas fa-search text-white"></i>
+                            </button>
+                        </div>
+                    </form>
+
+
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
@@ -279,7 +323,24 @@ $fullName = $_SESSION['full_name'];
 
     <!-- freshfinds Javascript -->
     <script src="../js/freshfinds.js"></script>
-    
+
+    <!--Search Bar-->
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const searchTerm = params.get('search');
+
+            if (searchTerm && searchTerm.trim() !== '') {
+                const freshFindsSection = document.getElementById('fresh-finds');
+                if (freshFindsSection) {
+                    freshFindsSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    </script>
+
 </body>
 
 </html>

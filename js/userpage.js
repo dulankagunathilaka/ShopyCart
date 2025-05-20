@@ -62,27 +62,3 @@ function showSuccessMessage() {
         successMessage.remove();
     }, 3000);
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    const searchToggleBtn = document.getElementById("searchToggleBtn");
-    const searchForm = document.getElementById("searchForm");
-    const searchInput = document.getElementById("searchInput");
-    const searchWrapper = document.getElementById("searchWrapper");
-
-    let expanded = false;
-
-    if (searchToggleBtn && searchForm && searchInput && searchWrapper) {
-        searchToggleBtn.addEventListener("click", () => {
-            expanded = !expanded;
-            searchForm.classList.toggle("d-none");
-            if (expanded) searchInput.focus();
-        });
-
-        document.addEventListener("click", (e) => {
-            if (!searchWrapper.contains(e.target)) {
-                searchForm.classList.add("d-none");
-                expanded = false;
-            }
-        });
-    }
-});
