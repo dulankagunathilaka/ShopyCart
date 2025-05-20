@@ -89,35 +89,24 @@ $fullName = $_SESSION['full_name'];
                         <a href="#fresh-finds" class="nav-item nav-link active">Fresh Finds</a>
                     </div>
 
-                    <form method="GET" action="" class="d-flex mx-3" style="flex: 1; max-width: 600px;">
-                        <div class="input-group w-100 shadow-sm rounded-pill overflow-hidden bg-light">
-                            <!-- Category Filter -->
-                            <select name="category" class="form-select border-0 bg-light text-secondary" style="max-width: 160px;">
-                                <option value="">All Categories</option>
-                                <?php
-                                $categories = ['Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
-                                foreach ($categories as $cat) {
-                                    $selected = (isset($_GET['category']) && $_GET['category'] === $cat) ? 'selected' : '';
-                                    echo "<option value=\"$cat\" $selected>$cat</option>";
-                                }
-                                ?>
-                            </select>
-
-                            <!-- Search Input -->
+                    <!-- Search Bar -->
+                    <form method="GET" action="" class="d-flex mx-3" style="flex: 1; max-width: 400px;">
+                        <div class="input-group rounded-pill bg-light overflow-hidden shadow-sm w-100">
                             <input
                                 type="text"
                                 name="search"
-                                class="form-control border-0 bg-light px-3"
+                                class="form-control border-0 bg-light px-4"
                                 placeholder="Search for products..."
-                                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
-
-                            <!-- Search Button -->
-                            <button class="btn btn-primary px-4" type="submit">
+                                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+                                style="border-radius: 50px 0 0 50px;">
+                            <button
+                                class="btn btn-primary px-4"
+                                type="submit"
+                                style="border-radius: 0 50px 50px 0;">
                                 <i class="fas fa-search text-white"></i>
                             </button>
                         </div>
                     </form>
-
 
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
