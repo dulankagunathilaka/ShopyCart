@@ -17,7 +17,6 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $stmt->close();
 
-// Handle profile update
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['full_name'], $_POST['email'], $_POST['address'])) {
         $full_name = $_POST['full_name'];
@@ -27,35 +26,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql_update = "UPDATE users SET full_name = ?, email = ?, address = ? WHERE user_id = ?";
         $stmt_update = $conn->prepare($sql_update);
         $stmt_update->bind_param("sssi", $full_name, $email, $address, $userId);
-
-        if ($stmt_update->execute()) {
-            echo "<script>alert('Profile updated successfully!'); window.location.href = '../HTML/myaccount.php';</script>";
-        } else {
-            echo "<script>alert('Error updating profile: " . $conn->error . "');</script>";
-        }
+        $stmt_update->execute();
         $stmt_update->close();
     }
 
-    // Handle profile picture upload
     if (isset($_FILES['profilePic']) && $_FILES['profilePic']['error'] == 0) {
         $target_dir = "../uploads/";
-        $filename = basename($_FILES["profilePic"]["name"]);
+        $ext = pathinfo($_FILES["profilePic"]["name"], PATHINFO_EXTENSION);
+        $filename = "user_" . $userId . "_" . time() . "." . $ext;  // unique filename
         $target_file = $target_dir . $filename;
 
+        // Move uploaded file
         if (move_uploaded_file($_FILES["profilePic"]["tmp_name"], $target_file)) {
+            // Update DB
             $sql_pic = "UPDATE users SET profile_picture = ? WHERE user_id = ?";
             $stmt_pic = $conn->prepare($sql_pic);
             $stmt_pic->bind_param("si", $filename, $userId);
             $stmt_pic->execute();
             $stmt_pic->close();
-
-            echo "Profile picture updated successfully!";
         } else {
-            echo "Failed to upload image.";
+            echo "<script>alert('Image upload failed!');</script>";
         }
-        exit;
     }
+
+    echo "<script>alert('Profile updated successfully!'); window.location.href = '../HTML/myaccount.php';</script>";
+    exit;
 }
+
+
 $fullName = $_SESSION['full_name'];
 $conn->close();
 ?>
@@ -131,7 +129,7 @@ $conn->close();
                                         data-bs-toggle="modal" data-bs-target="#authModal">
 
                                         <h6><?php echo htmlspecialchars($fullName); ?></h6>
-                                        
+
                                     </a>
                                     <hr class="dropdown-divider">
                                     <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>
@@ -148,17 +146,29 @@ $conn->close();
     <!-- Navbar End -->
 
     <!-- Profile Form Section Start -->
-    <section style="padding-top: 120px;">
+    <section style="padding-top: 120px; background-color: #f8f9fa;">
         <div class="container d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 120px);">
             <div class="row w-100 justify-content-center">
                 <div class="col-md-6">
-                    <div class="card p-4 shadow">
-                        <div class="card-body text-center">
-                            <img id="profileImage" src="<?php echo isset($user['profile_picture']) ? '../uploads/' . $user['profile_picture'] : '../img/avatar.jpg'; ?>" alt="Profile Picture">
-                            <input type="file" id="fileInput" class="form-control mt-2">
-                        </div>
-                        <div class="card-body">
-                            <form method="POST" action="" enctype="multipart/form-data">
+                    <div class="card p-4 shadow-lg border-0 rounded-4">
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            <div class="card-body text-center">
+                                <div class="position-relative mb-3">
+                                    <img
+                                        id="profileImage"
+                                        src="<?php echo (!empty($user['profile_picture']) && file_exists("../uploads/" . $user['profile_picture'])) ? '../uploads/' . $user['profile_picture'] : '../img/avatar.jpg'; ?>"
+                                        alt="Profile Picture"
+                                        class="rounded-circle shadow"
+                                        style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #fff;">
+
+                                    <label for="fileInput" class="btn btn-sm btn-outline-secondary mt-2">
+                                        Change Picture
+                                    </label>
+                                    <input type="file" name="profilePic" id="fileInput" class="form-control d-none" onchange="document.getElementById('saveButton').style.display = 'inline-block';">
+                                </div>
+                            </div>
+
+                            <div class="card-body">
                                 <div class="form-group mb-3">
                                     <label for="full_name">Full Name</label>
                                     <input type="text" id="full_name" class="form-control" name="full_name" value="<?php echo htmlspecialchars($user['full_name']); ?>" readonly>
@@ -177,8 +187,8 @@ $conn->close();
                                     <button type="submit" class="btn" id="saveButton" style="background-color: green; color: white; display: none;">Save</button>
                                     <a href="../PHP/logout.php" class="btn" style="background-color: #81c408; color: white;"><i class="fas fa-sign-out-alt"></i> Logout</a>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -186,6 +196,7 @@ $conn->close();
     </section>
     <!-- Profile Form Section End -->
 
+    <!-- Footer Start -->
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
 
