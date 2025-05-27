@@ -327,7 +327,9 @@ $cartCount = $totalQuantity;
     ?>
         <div class="col-md-6 col-lg-4 col-xl-3">
             <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning">
-                <a href="product-details.php?product_id=<?= $product['product_id'] ?>" class="d-flex flex-column h-100 text-decoration-none">
+
+                <!-- Only image, badges, name, and description are clickable -->
+                <a href="product-details.php?product_id=<?= $product['product_id'] ?>" class="text-decoration-none flex-grow-1 d-flex flex-column">
                     <div class="fruite-img">
                         <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
                     </div>
@@ -342,29 +344,27 @@ $cartCount = $totalQuantity;
                         <div class="text-dark px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.7); font-weight: bold;">
                             Out of Stock
                         </div>
-
                     <?php endif; ?>
 
                     <div class="p-4 border-top-0 rounded-bottom d-flex flex-column justify-content-between flex-grow-1">
                         <h4><?= htmlspecialchars($product['name']) ?></h4>
                         <p><?= htmlspecialchars($product['description']) ?></p>
-                        <div class="d-flex justify-content-between flex-wrap mt-auto">
-                            <p class="text-dark fs-5 fw-bold mb-0">
-                                Rs.<?php echo htmlspecialchars($product['price']); ?> /
-                                <?php echo htmlspecialchars($product['quantity']); ?>
-                            </p>
-
-                            <!-- Add to cart form -->
-                            <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
-                                <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-                                <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary"
-                                    onclick="addToCart(<?= $product['product_id'] ?>)" <?= $isOutOfStock ? 'disabled' : '' ?>>
-                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                </button>
-                            </form>
-                        </div>
+                        <p class="text-dark fs-5 fw-bold mb-0">
+                            Rs.<?= htmlspecialchars($product['price']) ?> / <?= htmlspecialchars($product['quantity']) ?>
+                        </p>
                     </div>
                 </a>
+
+                <!-- Add to cart button outside the link -->
+                <div class="p-3 pt-0">
+                    <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
+                        <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+                        <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary w-100"
+                            onclick="addToCart(<?= $product['product_id'] ?>)" <?= $isOutOfStock ? 'disabled' : '' ?>>
+                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     <?php
