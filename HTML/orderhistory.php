@@ -1,12 +1,27 @@
 <?php
 session_start();
 
+// Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../HTML/index.php");
     exit;
 }
-$fullName = $_SESSION['full_name'];
+
+// Get user name
+$fullName = $_SESSION['full_name'] ?? 'Guest';
+
+// Get cart items from session
+$cart = $_SESSION['cart'] ?? [];
+
+// ✅ Updated: Count cart items for navbar (total quantity)
+$cartCount = 0;
+foreach ($cart as $item) {
+    if (isset($item['quantity'])) {
+        $cartCount += $item['quantity'];
+    }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +77,9 @@ $fullName = $_SESSION['full_name'];
                         <div class="d-flex m-3 me-0">
                             <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                <?php echo htmlspecialchars($cartCount); ?>
+                            </span>
                             </a>
                             <a href="#" class="my-auto">
                                 <div class="nav-item dropdown">

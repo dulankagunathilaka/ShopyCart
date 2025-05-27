@@ -5,10 +5,28 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../HTML/index.php");
     exit;
 }
+
 include '../PHP/dashboard_stats.php';
 
+$userId = $_SESSION['user_id'];
 $fullName = $_SESSION['full_name'];
+
+// Fetch total cart count for logged-in user
+$cartCount = 0;
+if (isset($conn)) { // Assuming $conn is available in dashboard_stats.php
+    $stmt = $conn->prepare("SELECT COALESCE(SUM(quantity), 0) AS total_quantity FROM cart_items WHERE user_id = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->bind_result($totalQuantity);
+    $stmt->fetch();
+    $stmt->close();
+    $cartCount = $totalQuantity;
+} else {
+    // Handle case when $conn is not defined, maybe include db_connection here if needed
+}
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +92,9 @@ $fullName = $_SESSION['full_name'];
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
-                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                <?php echo htmlspecialchars($cartCount); ?>
+                            </span>
                         </a>
                         <a href="#" class="my-auto">
                             <div class="nav-item dropdown">

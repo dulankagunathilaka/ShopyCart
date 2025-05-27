@@ -7,14 +7,18 @@ if (!isset($_SESSION['user_id'])) {
 }
 include '../HTML/db_connection.php';
 
+$userId = $_SESSION['user_id'];
+$fullName = $_SESSION['full_name'];
+
 // Fetch categories from the database (to ensure the products can be filtered)
-$query = "SELECT DISTINCT category FROM products";
-$category_result = $conn->query($query);
+$category_query = "SELECT DISTINCT category FROM products";
+$category_result = $conn->query($category_query);
+
+// Prepare base query
+$all_products_query = "SELECT * FROM products WHERE 1=1";
 
 $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 $selectedCategory = isset($_GET['category']) ? trim($_GET['category']) : '';
-
-$all_products_query = "SELECT * FROM products WHERE 1=1";
 
 if ($searchTerm !== '') {
     $escaped = $conn->real_escape_string($searchTerm);
@@ -29,11 +33,20 @@ if ($selectedCategory !== '') {
 $all_products_result = $conn->query($all_products_query);
 
 // Fetch featured products (latest 5 products)
-$query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";
-$featured_result = $conn->query($query);
+$featured_query = "SELECT * FROM products ORDER BY created_at DESC LIMIT 5";
+$featured_result = $conn->query($featured_query);
 
-$fullName = $_SESSION['full_name'];
+// Fetch total cart count for logged-in user
+$cartCount = 0;
+$stmt = $conn->prepare("SELECT COALESCE(SUM(quantity), 0) AS total_quantity FROM cart_items WHERE user_id = ?");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$stmt->bind_result($totalQuantity);
+$stmt->fetch();
+$stmt->close();
+$cartCount = $totalQuantity;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -111,7 +124,9 @@ $fullName = $_SESSION['full_name'];
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
-                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                <?php echo htmlspecialchars($cartCount); ?>
+                            </span>
                         </a>
                         <a href="#" class="my-auto">
                             <div class="nav-item dropdown">
@@ -312,23 +327,6 @@ $fullName = $_SESSION['full_name'];
 
     <!-- freshfinds Javascript -->
     <script src="../js/freshfinds.js"></script>
-
-    <!--Search Bar-->
-    <script>
-        window.addEventListener('DOMContentLoaded', function() {
-            const params = new URLSearchParams(window.location.search);
-            const searchTerm = params.get('search');
-
-            if (searchTerm && searchTerm.trim() !== '') {
-                const freshFindsSection = document.getElementById('fresh-finds');
-                if (freshFindsSection) {
-                    freshFindsSection.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    </script>
 
 </body>
 

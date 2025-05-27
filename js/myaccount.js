@@ -23,7 +23,7 @@ function editProfile() {
     editButton.style.display = 'none';
     saveButton.style.display = 'inline-block';
 
-    // Optionally disable edit button to prevent multiple clicks (not needed since hidden)
+    // Optionally disable edit button to prevent multiple clicks
     editButton.disabled = true;
 }
 

@@ -5,6 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../HTML/index.php");
     exit;
 }
+
 $userId = $_SESSION['user_id'];
 require_once '../HTML/db_connection.php';
 
@@ -36,9 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $filename = "user_" . $userId . "_" . time() . "." . $ext;  // unique filename
         $target_file = $target_dir . $filename;
 
-        // Move uploaded file
         if (move_uploaded_file($_FILES["profilePic"]["tmp_name"], $target_file)) {
-            // Update DB
             $sql_pic = "UPDATE users SET profile_picture = ? WHERE user_id = ?";
             $stmt_pic = $conn->prepare($sql_pic);
             $stmt_pic->bind_param("si", $filename, $userId);
@@ -53,10 +52,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 
+// Full name
+$fullName = $_SESSION['full_name'] ?? 'Guest';
 
-$fullName = $_SESSION['full_name'];
+// Cart count
+$cart = $_SESSION['cart'] ?? [];
+$cartCount = 0;
+foreach ($cart as $item) {
+    $cartCount += $item['quantity'];
+}
+
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -117,7 +125,9 @@ $conn->close();
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
-                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                <?php echo htmlspecialchars($cartCount); ?>
+                            </span>
                         </a>
                         <a href="#" class="my-auto">
                             <div class="nav-item dropdown">
