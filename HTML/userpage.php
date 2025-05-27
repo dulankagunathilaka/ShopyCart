@@ -327,7 +327,7 @@ $cartCount = $totalQuantity;
     ?>
         <div class="col-md-6 col-lg-4 col-xl-3">
             <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning">
-                <a href="#" onclick="showLoginMessage()" class="d-flex flex-column h-100 text-decoration-none">
+                <a href="product-details.php?product_id=<?= $product['product_id'] ?>" class="d-flex flex-column h-100 text-decoration-none">
                     <div class="fruite-img">
                         <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
                     </div>

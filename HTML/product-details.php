@@ -1,12 +1,40 @@
 <?php
 session_start();
 
+require_once '../HTML/db_connection.php';
+
 if (!isset($_SESSION['user_id'])) {
-    // Optional: redirect to login if not logged in
     header("Location: ../HTML/index.php");
     exit;
 }
+
+if (!isset($_GET['product_id']) || empty($_GET['product_id'])) {
+    // Redirect back if no product_id is provided
+    header("Location: ../HTML/freshfinds.php");
+    exit;
+}
+
+$product_id = intval($_GET['product_id']); // sanitize input
+
+
+// Prepare and execute the query to get the product details
+$stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
+$stmt->bind_param("i", $product_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows !== 1) {
+    // No product found or multiple found, redirect or show error
+    header("Location: ../HTML/freshfinds.php");
+    exit;
+}
+
+$product = $result->fetch_assoc();
+
+$stmt->close();
+$conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -84,6 +112,36 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </div>
     <!-- Navbar End -->
+
+    <div class="container py-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid rounded shadow" alt="<?= htmlspecialchars($product['name']) ?>">
+        </div>
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h1 class="mb-3"><?= htmlspecialchars($product['name']) ?></h1>
+            <p><strong>Category:</strong> <span class="badge bg-info text-dark"><?= htmlspecialchars($product['category']) ?></span></p>
+            <p class="mb-4"><?= htmlspecialchars($product['description']) ?></p>
+            <h4 class="text-primary mb-3">Rs. <?= htmlspecialchars($product['price']) ?> / <?= htmlspecialchars($product['quantity']) ?></h4>
+            <p><strong>Status:</strong> 
+                <?php if (strtolower($product['stock_status']) == 'in stock'): ?>
+                    <span class="text-success"><?= htmlspecialchars($product['stock_status']) ?></span>
+                <?php else: ?>
+                    <span class="text-danger"><?= htmlspecialchars($product['stock_status']) ?></span>
+                <?php endif; ?>
+            </p>
+            <div class="mt-4">
+                <button class="btn btn-success btn-lg me-3" type="button" id="addToCartBtn">
+                    <i class="fas fa-cart-plus me-2"></i> Add to Cart
+                </button>
+                <button class="btn btn-primary btn-lg" type="button" id="buyNowBtn">
+                    <i class="fas fa-bolt me-2"></i> Buy Now
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>

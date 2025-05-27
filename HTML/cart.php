@@ -193,7 +193,10 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
 
                         <form action="../HTML/checkout.php" method="post">
                             <div class="px-4 pb-4">
-                                <button type="submit" class="btn btn-primary w-100 py-3 rounded">Proceed to Checkout</button>
+                                <button type="submit" class="btn btn-primary w-100 py-3 rounded"
+                                    <?php if ($cartCount === 0) echo 'disabled'; ?>>
+                                    Proceed to Checkout
+                                </button>
                             </div>
                         </form>
                     </div>
