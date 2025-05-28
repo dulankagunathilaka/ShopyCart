@@ -16,17 +16,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id'])) {
             $_SESSION['cart'] = [];
         }
 
-        // Add or update cart in session
+        $quantity = isset($_POST['quantity']) ? max(1, (int)$_POST['quantity']) : 1;
+
         if (isset($_SESSION['cart'][$productId])) {
-            $_SESSION['cart'][$productId]['quantity'] += 1;
+            $_SESSION['cart'][$productId]['quantity'] += $quantity;
         } else {
             $_SESSION['cart'][$productId] = [
                 'name' => $product['name'],
                 'price' => $product['price'],
                 'image' => $product['image_url'],
-                'quantity' => 1
+                'quantity' => $quantity
             ];
         }
+
 
         // Update cart_items in DB if user is logged in
         if (isset($_SESSION['user_id']) && $_SESSION['user_id'] !== "admin") {

@@ -8,30 +8,36 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-if (!isset($_GET['product_id']) || empty($_GET['product_id'])) {
-    // Redirect back if no product_id is provided
-    header("Location: ../HTML/freshfinds.php");
-    exit;
-}
+$userId = $_SESSION['user_id'];
+$cartCount = 0;
 
-$product_id = intval($_GET['product_id']); // sanitize input
-
-
-// Prepare and execute the query to get the product details
-$stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
-$stmt->bind_param("i", $product_id);
+// Get cart count
+$stmt = $conn->prepare("SELECT COALESCE(SUM(quantity), 0) AS total_quantity FROM cart_items WHERE user_id = ?");
+$stmt->bind_param("i", $userId);
 $stmt->execute();
-$result = $stmt->get_result();
+$stmt->bind_result($totalQuantity);
+$stmt->fetch();
+$stmt->close();
+$cartCount = $totalQuantity;
 
-if ($result->num_rows !== 1) {
-    // No product found or multiple found, redirect or show error
-    header("Location: ../HTML/freshfinds.php");
-    exit;
+// Product loading logic
+$product = null;
+
+if (isset($_GET['product_id']) && !empty($_GET['product_id'])) {
+    $product_id = intval($_GET['product_id']);
+
+    $stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $product = $result->fetch_assoc();
+    }
+
+    $stmt->close();
 }
 
-$product = $result->fetch_assoc();
-
-$stmt->close();
 $conn->close();
 ?>
 
@@ -43,38 +49,25 @@ $conn->close();
     <meta charset="utf-8">
     <title>ShopyCart Super Market</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
-
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
     <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Main CSS Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 </head>
 
 <body>
-
     <!-- Spinner Start -->
     <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
         <div class="spinner-grow text-primary" role="status"></div>
     </div>
     <!-- Spinner End -->
 
-    <!-- Navbar start -->
+    <!-- Navbar Start -->
     <div class="container-fluid fixed-top">
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
@@ -86,15 +79,17 @@ $conn->close();
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="../HTML/userpage.php" class="nav-item nav-link ">Home</a>
+                        <a href="../HTML/userpage.php" class="nav-item nav-link">Home</a>
                         <a href="../HTML/freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
                         <a href="../HTML/product-details.php" class="nav-item nav-link active">Product Details</a>
                     </div>
                     <div class="d-flex m-3 me-0">
                         <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                        <a href="./HTML/cart.php" class="position-relative me-4 my-auto">
+                        <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
-                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                <?php echo htmlspecialchars($cartCount); ?>
+                            </span>
                         </a>
                         <a href="#" class="my-auto">
                             <div class="nav-item dropdown">
@@ -113,35 +108,72 @@ $conn->close();
     </div>
     <!-- Navbar End -->
 
-    <div class="container py-5">
-    <div class="row">
-        <div class="col-md-6">
-            <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid rounded shadow" alt="<?= htmlspecialchars($product['name']) ?>">
-        </div>
-        <div class="col-md-6 d-flex flex-column justify-content-center">
-            <h1 class="mb-3"><?= htmlspecialchars($product['name']) ?></h1>
-            <p><strong>Category:</strong> <span class="badge bg-info text-dark"><?= htmlspecialchars($product['category']) ?></span></p>
-            <p class="mb-4"><?= htmlspecialchars($product['description']) ?></p>
-            <h4 class="text-primary mb-3">Rs. <?= htmlspecialchars($product['price']) ?> / <?= htmlspecialchars($product['quantity']) ?></h4>
-            <p><strong>Status:</strong> 
-                <?php if (strtolower($product['stock_status']) == 'in stock'): ?>
-                    <span class="text-success"><?= htmlspecialchars($product['stock_status']) ?></span>
-                <?php else: ?>
-                    <span class="text-danger"><?= htmlspecialchars($product['stock_status']) ?></span>
-                <?php endif; ?>
-            </p>
-            <div class="mt-4">
-                <button class="btn btn-success btn-lg me-3" type="button" id="addToCartBtn">
-                    <i class="fas fa-cart-plus me-2"></i> Add to Cart
-                </button>
-                <button class="btn btn-primary btn-lg" type="button" id="buyNowBtn">
-                    <i class="fas fa-bolt me-2"></i> Buy Now
-                </button>
+    <!-- Product Card Start -->
+    <div class="container" style="margin-top: 120px; padding-top: 50px;">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden position-relative">
+
+                    <!-- Category badge at top-right -->
+                    <span class="position-absolute top-0 end-0 m-3 badge px-3 py-2 text-truncate"
+                        style="background-color: #eafbe5; color: var(--bs-primary); max-width: 150px; font-size: 0.85rem;"
+                        title="<?= htmlspecialchars($product['category']) ?>">
+                        <?= htmlspecialchars($product['category']) ?>
+                    </span>
+
+                    <div class="row g-0">
+                        <!-- Image Side -->
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-3">
+                            <img src="<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="img-fluid rounded-3 shadow-sm" style="max-height: 300px; object-fit: contain;">
+                        </div>
+
+                        <!-- Details Side -->
+                        <div class="col-md-7 p-4 d-flex flex-column">
+                            <h2 class="fw-bold mb-1" style="color: #81c408;"><?= htmlspecialchars($product['name']) ?></h2>
+
+                            <p class="text-muted mb-3" style="font-size: 0.95rem;"><?= htmlspecialchars($product['description']) ?></p>
+
+                            <h4 class="text-dark mb-2">
+                                Rs. <?= htmlspecialchars($product['price']) ?>
+                                <small class="text-muted"> / <?= htmlspecialchars($product['quantity']) ?></small>
+                            </h4>
+
+                            <p id="totalPrice<?= $product['product_id'] ?>" class="fw-semibold text-success mb-2">
+                                Total: Rs. <?= htmlspecialchars($product['price']) ?>
+                            </p>
+
+                            <p class="mb-3">
+                                <strong>Status:</strong>
+                                <?php if (strtolower($product['stock_status']) === 'in stock'): ?>
+                                    <span class="text-success fw-semibold">In Stock</span>
+                                <?php else: ?>
+                                    <span class="text-danger fw-semibold">Out of Stock</span>
+                                <?php endif; ?>
+                            </p>
+
+                            <div class="mb-3">
+                                <label for="quantity<?= $product['product_id'] ?>" class="form-label">Quantity</label>
+                                <input type="number" name="quantity" id="quantity<?= $product['product_id'] ?>"
+                                    class="form-control form-control-sm w-50" min="1" value="1"
+                                    onchange="updateTotalPrice(<?= $product['product_id'] ?>, <?= $product['price'] ?>)">
+                            </div>
+
+                            <div class="mt-auto d-flex flex-wrap gap-2">
+                                <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
+                                    <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+                                    <button type="button" class="btn btn-sm text-white px-4" style="background-color: #81c408; border: none;"
+                                        onclick="addToCart(<?= $product['product_id'] ?>)" <?= strtolower($product['stock_status']) !== 'in stock' ? 'disabled' : '' ?>>
+                                        <i class="fas fa-cart-plus me-1"></i> Add to Cart
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /card -->
             </div>
         </div>
     </div>
-</div>
-
+    <!-- Product Card End -->
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
@@ -153,9 +185,16 @@ $conn->close();
     <script src="../lib/waypoints/waypoints.min.js"></script>
     <script src="../lib/lightbox/js/lightbox.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- main Javascript -->
     <script src="../js/main.js"></script>
+    <script src="../js/product-details.js"></script>
+    <script>
+        function syncQuantityBeforeSubmit(productId) {
+            var quantity = document.getElementById("quantity" + productId).value;
+            document.getElementById("hiddenQuantity" + productId).value = quantity;
+        }
+    </script>
+
+
 </body>
 
 </html>
