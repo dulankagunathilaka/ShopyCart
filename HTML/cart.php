@@ -114,6 +114,7 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                 <table class="table">
                     <thead>
                         <tr>
+                            <th><input type="checkbox" id="select-all"></th>
                             <th scope="col">Products</th>
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
@@ -125,9 +126,15 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                     <tbody>
                         <?php foreach ($cart as $id => $item): ?>
                             <tr>
+                                <td>
+                                    <input type="checkbox" class="item-checkbox"
+                                        data-total="<?= $item['price'] * $item['quantity'] ?>">
+                                </td>
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
-                                        <img src="<?= htmlspecialchars($item['image']) ?>" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                        <img src="<?= htmlspecialchars($item['image']) ?>"
+                                            class="img-fluid me-5 rounded-circle"
+                                            style="width: 80px; height: 80px;" alt="">
                                     </div>
                                 </th>
                                 <td>
@@ -140,7 +147,8 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                                     <div class="input-group quantity mt-4" style="width: 100px;">
                                         <form method="POST" action="../PHP/update_cart.php" style="display: flex;">
                                             <input type="hidden" name="product_id" value="<?= $id ?>">
-                                            <input type="number" name="quantity" value="<?= $item['quantity'] ?>" class="form-control form-control-sm text-center border-0">
+                                            <input type="number" name="quantity" value="<?= $item['quantity'] ?>"
+                                                class="form-control form-control-sm text-center border-0">
                                         </form>
                                     </div>
                                 </td>
@@ -161,7 +169,7 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                 </table>
             </div>
 
-            <!-- Totals -->
+            <!-- Totals Section -->
             <div class="row g-4 justify-content-end">
                 <div class="col-8"></div>
                 <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
@@ -169,32 +177,35 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                         <div class="p-4">
                             <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
 
-                            <!-- Subtotal -->
+                            <!-- Static Subtotal (all items) -->
                             <div class="d-flex justify-content-between mb-4">
                                 <h5 class="mb-0 me-4">Subtotal:</h5>
                                 <p class="mb-0">Rs.<?= number_format($total, 2) ?></p>
                             </div>
 
-                            <!-- Shipping -->
+                            <!-- Selected Total (JavaScript updated) -->
+                            <div class="d-flex justify-content-between mb-2">
+                                <h5 class="mb-0 me-4">Selected Total:</h5>
+                                <p class="mb-0" id="selected-total">Rs.0.00</p>
+                            </div>
+
+                            <!-- Shipping Info -->
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-0 me-4">Shipping</h5>
-                                <div class="">
-                                    <p class="mb-0">Delivery Charge: Rs.250</p>
-                                </div>
+                                <p class="mb-0">Rs.250</p>
                             </div>
-                            <p class="mb-0 text-end">Shipping From Colombo, Sri Lanka</p>
+                            <p class="mb-0 text-end">From Colombo, Sri Lanka</p>
                         </div>
 
-                        <!-- Total -->
+                        <!-- Final Total (Selected + Shipping) -->
                         <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
-                            <h5 class="mb-0 ps-4 me-4">Total</h5>
-                            <p class="mb-0 pe-4">Rs.<?= number_format($total + 250.00, 2) ?></p>
+                            <h5 class="mb-0 ps-4 me-4">Final Total</h5>
+                            <p class="mb-0 pe-4" id="final-total">Rs.0.00</p>
                         </div>
-
+                        <!-- Remove PHP-based disabling -->
                         <form action="../HTML/checkout.php" method="post">
                             <div class="px-4 pb-4">
-                                <button type="submit" class="btn btn-primary w-100 py-3 rounded"
-                                    <?php if ($cartCount === 0) echo 'disabled'; ?>>
+                                <button id="checkout-btn" type="submit" class="btn btn-primary w-100 py-3 rounded" disabled>
                                     Proceed to Checkout
                                 </button>
                             </div>
@@ -219,6 +230,47 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
 
     <!-- main Javascript -->
     <script src="../js/main.js"></script>
+
+    <!-- JavaScript for Handling Selection and Totals -->
+    <script>
+        const checkboxes = document.querySelectorAll('.item-checkbox');
+        const selectAll = document.getElementById('select-all');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const selectedTotalEl = document.getElementById('selected-total');
+        const finalTotalEl = document.getElementById('final-total');
+        const shipping = 250;
+
+        function updateTotalsAndButton() {
+            let total = 0;
+            let selectedCount = 0;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    total += parseFloat(cb.dataset.total);
+                    selectedCount++;
+                }
+            });
+
+            selectedTotalEl.textContent = `Rs.${total.toFixed(2)}`;
+            finalTotalEl.textContent = selectedCount > 0 ?
+                `Rs.${(total + shipping).toFixed(2)}` :
+                'Rs.0.00';
+
+            checkoutBtn.disabled = selectedCount === 0;
+        }
+
+        // Listen to checkbox changes
+        checkboxes.forEach(cb => cb.addEventListener('change', updateTotalsAndButton));
+
+        // Handle "Select All"
+        selectAll.addEventListener('change', function() {
+            checkboxes.forEach(cb => cb.checked = this.checked);
+            updateTotalsAndButton();
+        });
+
+        // Run on page load
+        updateTotalsAndButton();
+    </script>
 
 </body>
 
