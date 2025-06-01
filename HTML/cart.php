@@ -1,22 +1,16 @@
 <?php
 session_start();
-
 // Check if the user is logged in
 $cart = $_SESSION['cart'] ?? [];
 
-// Get cart count for navbar
-$cartCount = count($cart);
-
 // Reset total
 $total = 0;
+
+// Loop to calculate total once
 foreach ($cart as $item) {
     $total += $item['price'] * $item['quantity'];
 }
-
-// Get user's full name
-$fullName = $_SESSION['full_name'] ?? 'Guest';
-
-
+$fullName = $_SESSION['full_name'];
 ?>
 
 <!DOCTYPE html>
@@ -77,9 +71,7 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
-                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
-                                <?php echo htmlspecialchars($cartCount); ?>
-                            </span>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                         </a>
                         <a href="#" class="my-auto">
                             <div class="nav-item dropdown">
@@ -114,7 +106,6 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                 <table class="table">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" id="select-all"></th>
                             <th scope="col">Products</th>
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
@@ -126,15 +117,9 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                     <tbody>
                         <?php foreach ($cart as $id => $item): ?>
                             <tr>
-                                <td>
-                                    <input type="checkbox" class="item-checkbox"
-                                        data-total="<?= $item['price'] * $item['quantity'] ?>">
-                                </td>
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
-                                        <img src="<?= htmlspecialchars($item['image']) ?>"
-                                            class="img-fluid me-5 rounded-circle"
-                                            style="width: 80px; height: 80px;" alt="">
+                                        <img src="<?= htmlspecialchars($item['image']) ?>" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
                                     </div>
                                 </th>
                                 <td>
@@ -147,8 +132,7 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                                     <div class="input-group quantity mt-4" style="width: 100px;">
                                         <form method="POST" action="../PHP/update_cart.php" style="display: flex;">
                                             <input type="hidden" name="product_id" value="<?= $id ?>">
-                                            <input type="number" name="quantity" value="<?= $item['quantity'] ?>"
-                                                class="form-control form-control-sm text-center border-0">
+                                            <input type="number" name="quantity" value="<?= $item['quantity'] ?>" class="form-control form-control-sm text-center border-0">
                                         </form>
                                     </div>
                                 </td>
@@ -169,7 +153,7 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                 </table>
             </div>
 
-            <!-- Totals Section -->
+            <!-- Totals -->
             <div class="row g-4 justify-content-end">
                 <div class="col-8"></div>
                 <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
@@ -177,37 +161,31 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
                         <div class="p-4">
                             <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
 
-                            <!-- Static Subtotal (all items) -->
+                            <!-- Subtotal -->
                             <div class="d-flex justify-content-between mb-4">
                                 <h5 class="mb-0 me-4">Subtotal:</h5>
                                 <p class="mb-0">Rs.<?= number_format($total, 2) ?></p>
                             </div>
 
-                            <!-- Selected Total (JavaScript updated) -->
-                            <div class="d-flex justify-content-between mb-2">
-                                <h5 class="mb-0 me-4">Selected Total:</h5>
-                                <p class="mb-0" id="selected-total">Rs.0.00</p>
-                            </div>
-
-                            <!-- Shipping Info -->
+                            <!-- Shipping -->
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-0 me-4">Shipping</h5>
-                                <p class="mb-0">Rs.250</p>
+                                <div class="">
+                                    <p class="mb-0">Delivery Charge: Rs.250</p>
+                                </div>
                             </div>
                             <p class="mb-0 text-end">From Colombo, Sri Lanka</p>
                         </div>
 
-                        <!-- Final Total (Selected + Shipping) -->
+                        <!-- Total -->
                         <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
-                            <h5 class="mb-0 ps-4 me-4">Final Total</h5>
-                            <p class="mb-0 pe-4" id="final-total">Rs.0.00</p>
+                            <h5 class="mb-0 ps-4 me-4">Total</h5>
+                            <p class="mb-0 pe-4">Rs.<?= number_format($total + 250.00, 2) ?></p>
                         </div>
-                        <!-- Remove PHP-based disabling -->
+
                         <form action="../HTML/checkout.php" method="post">
                             <div class="px-4 pb-4">
-                                <button id="checkout-btn" type="submit" class="btn btn-primary w-100 py-3 rounded" disabled>
-                                    Proceed to Checkout
-                                </button>
+                                <button type="submit" class="btn btn-primary w-100 py-3 rounded">Proceed to Checkout</button>
                             </div>
                         </form>
                     </div>
@@ -230,9 +208,6 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
 
     <!-- main Javascript -->
     <script src="../js/main.js"></script>
-
-    <!-- cart Javascript -->
-    <script src="../js/cart.js"></script>
 
 </body>
 
