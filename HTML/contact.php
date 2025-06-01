@@ -1,11 +1,35 @@
 <?php
 session_start();
+include '../HTML/db_connection.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../HTML/index.php");
     exit;
 }
-$fullName = $_SESSION['full_name'];
+
+$fullName = $_SESSION['full_name'] ?? 'Guest';
+$cart = $_SESSION['cart'] ?? [];
+$cartCount = 0;
+
+// Logged-in user: count items from database
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+
+    if ($conn) {
+        $stmt = $conn->prepare("SELECT COALESCE(SUM(quantity), 0) AS total_quantity FROM cart_items WHERE user_id = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $stmt->bind_result($totalQuantity);
+        $stmt->fetch();
+        $stmt->close();
+        $cartCount = $totalQuantity;
+    }
+} else {
+    // Guest user: count from session cart
+    foreach ($cart as $item) {
+        $cartCount += $item['quantity'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -62,11 +86,13 @@ $fullName = $_SESSION['full_name'];
                         <a href="../HTML/freshfinds.php" class="nav-item nav-link">Fresh Finds</a>
                         <a href="../HTML/contact.php" class="nav-item nav-link active">Contact</a>
                     </div>
-                    
+
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
-                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                <?php echo htmlspecialchars($cartCount); ?>
+                            </span>
                         </a>
                         <a href="#" class="my-auto">
                             <div class="nav-item dropdown">
@@ -78,7 +104,7 @@ $fullName = $_SESSION['full_name'];
                                         data-bs-toggle="modal" data-bs-target="#authModal">
 
                                         <h6><?php echo htmlspecialchars($fullName); ?></h6>
-                                        
+
                                     </a>
                                     <hr class="dropdown-divider">
                                     <a href="../HTML/cart.php" class="dropdown-item">Ready to Checkout</a>

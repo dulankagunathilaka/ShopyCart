@@ -203,12 +203,12 @@ if (isset($conn)) { // Assuming $conn is available in dashboard_stats.php
                             <select name="category" class="form-select" required>
                                 <option value="">Select Category</option>
                                 <option value="All Products">All Products</option>
-                                <option value="Vegetables">Vegetables</option>
-                                <option value="Fruits">Fruits</option>
+                                <option value="Fresh Produce">Fresh Produce</option>
+                                <option value="Meat & Seafood">Meat & Seafood</option>
+                                <option value="Dairy & Eggs">Dairy & Eggs</option>
                                 <option value="Bakery">Bakery</option>
-                                <option value="Meat">Meat</option>
-                                <option value="Snacks">Snacks</option>
-                                <option value="Drinks">Drinks</option>
+                                <option value="Beverages">Beverages</option>
+                                <option value="Packaged Foods">Packaged Foods</option>
                             </select>
                         </div>
                         <div class="col-md-2">

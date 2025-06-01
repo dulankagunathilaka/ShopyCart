@@ -1,17 +1,39 @@
 <?php
 session_start();
-// Check if the user is logged in
+include '../HTML/db_connection.php';
+
+// Get session cart (for guest users)
 $cart = $_SESSION['cart'] ?? [];
 
 // Reset total
 $total = 0;
-
-// Loop to calculate total once
 foreach ($cart as $item) {
     $total += $item['price'] * $item['quantity'];
 }
-$fullName = $_SESSION['full_name'];
+
+$fullName = $_SESSION['full_name'] ?? 'Guest';
+$cartCount = 0;
+
+// If user is logged in, fetch cart count from database
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+
+    $stmt = $conn->prepare("SELECT COALESCE(SUM(quantity), 0) AS total_quantity FROM cart_items WHERE user_id = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->bind_result($totalQuantity);
+    $stmt->fetch();
+    $stmt->close();
+
+    $cartCount = $totalQuantity;
+} else {
+    // Guest user: use session cart
+    foreach ($cart as $item) {
+        $cartCount += $item['quantity'];
+    }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +93,9 @@ $fullName = $_SESSION['full_name'];
                     <div class="d-flex m-3 me-0">
                         <a href="../HTML/cart.php" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
-                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                <?php echo htmlspecialchars($cartCount); ?>
+                            </span>
                         </a>
                         <a href="#" class="my-auto">
                             <div class="nav-item dropdown">

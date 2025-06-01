@@ -98,7 +98,7 @@ $featured_result = $conn->query($query);
                             </button>
                         </div>
                     </form>
-                    
+
                     <div class="d-flex m-3 me-0">
                         <a href="#" onclick="showLoginMessage()" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
@@ -311,6 +311,14 @@ $featured_result = $conn->query($query);
     <!-- Features Section End -->
 
     <!-- Shop Start -->
+    <?php
+    function cleanTabId($name)
+    {
+        // Lowercase and replace any non-alphanumeric with hyphens
+        return strtolower(preg_replace('/[^a-z0-9]+/', '-', $name));
+    }
+    ?>
+
     <div id="fresh-finds" class="container-fluid fruite py-5">
         <div class="container py-5">
             <div class="tab-class text-center">
@@ -324,13 +332,13 @@ $featured_result = $conn->query($query);
                     <div class="col-lg-12 text-center">
                         <ul class="nav nav-pills d-inline-flex text-center mb-5">
                             <?php
-                            $categories = ['All Products', 'Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
+                            $categories = ['All Products', 'Fresh Produce', 'Meat & Seafood', 'Dairy & Eggs', 'Bakery', 'Beverages', 'Packaged Foods'];
                             foreach ($categories as $index => $category):
-                                $id = strtolower(str_replace(' ', '-', $category));
+                                $id = cleanTabId($category);
                             ?>
                                 <li class="nav-item">
-                                    <a class="d-flex m-2 py-2 bg-light rounded-pill <?= $index === 0 ? 'active' : '' ?>" data-bs-toggle="pill" href="#tab-<?= $id ?>">
-                                        <span class="text-dark" style="width: 130px;"><?= $category ?></span>
+                                    <a class="d-flex m-2 px-1 py-2 bg-light rounded-pill <?= $index === 0 ? 'active' : '' ?>" data-bs-toggle="pill" href="#tab-<?= $id ?>">
+                                        <span class="text-dark" style="width: 130px;"><?= htmlspecialchars($category) ?></span>
                                     </a>
                                 </li>
                             <?php endforeach; ?>
@@ -340,7 +348,7 @@ $featured_result = $conn->query($query);
 
                 <div class="tab-content">
                     <!-- All Products Tab -->
-                    <div id="tab-all-products" class="tab-pane fade show active p-0">
+                    <div id="tab-<?= cleanTabId('All Products') ?>" class="tab-pane fade show active p-0">
                         <div class="row g-4">
                             <?php while ($product = $all_products_result->fetch_assoc()): ?>
                                 <?= renderProductCard($product); ?>
@@ -350,14 +358,14 @@ $featured_result = $conn->query($query);
 
                     <!-- Individual Category Tabs -->
                     <?php
-                    $categoryNames = ['Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
-                    foreach ($categoryNames as $categoryName):
+                    foreach ($categories as $categoryName):
+                        $tabId = cleanTabId($categoryName);
                         $stmt = $conn->prepare("SELECT * FROM products WHERE category = ?");
                         $stmt->bind_param("s", $categoryName);
                         $stmt->execute();
                         $result = $stmt->get_result();
                     ?>
-                        <div id="tab-<?= strtolower($categoryName) ?>" class="tab-pane fade p-0">
+                        <div id="tab-<?= $tabId ?>" class="tab-pane fade p-0">
                             <div class="row g-4">
                                 <?php while ($product = $result->fetch_assoc()): ?>
                                     <?= renderProductCard($product); ?>
@@ -389,8 +397,8 @@ $featured_result = $conn->query($query);
                         <p><?= htmlspecialchars($product['description']) ?></p>
                         <div class="d-flex justify-content-between flex-wrap mt-auto">
                             <p class="text-dark fs-5 fw-bold mb-0">
-                                Rs.<?php echo htmlspecialchars($product['price']); ?> /
-                                <?php echo htmlspecialchars($product['quantity']); ?>
+                                Rs.<?= htmlspecialchars($product['price']); ?> /
+                                <?= htmlspecialchars($product['quantity']); ?>
                             </p>
                             <span class="btn border border-secondary rounded-pill px-3 text-primary">
                                 <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
@@ -403,7 +411,7 @@ $featured_result = $conn->query($query);
     <?php return ob_get_clean();
     }
     ?>
-    <!--Shop End-->
+    <!-- Shop End -->
 
     <!-- Features Start -->
     <div class="container-fluid service py-5">

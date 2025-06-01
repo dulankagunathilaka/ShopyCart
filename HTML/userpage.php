@@ -252,6 +252,14 @@ $cartCount = $totalQuantity;
     <!-- Features Section End -->
 
     <!-- Shop Start -->
+    <?php
+    // Define tab ID cleaner function
+    function cleanTabId($name)
+    {
+        return strtolower(preg_replace('/[^a-z0-9]+/', '-', $name)); // replace non-alphanumeric with hyphens
+    }
+    ?>
+
     <div id="fresh-finds" class="container-fluid fruite py-5">
         <div class="container py-5">
             <div class="tab-class text-center">
@@ -265,12 +273,12 @@ $cartCount = $totalQuantity;
                     <div class="col-lg-12 text-center">
                         <ul class="nav nav-pills d-inline-flex text-center mb-5">
                             <?php
-                            $categories = ['All Products', 'Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
+                            $categories = ['All Products', 'Fresh Produce', 'Meat & Seafood', 'Dairy & Eggs', 'Bakery', 'Beverages', 'Packaged Foods'];
                             foreach ($categories as $index => $category):
-                                $id = strtolower(str_replace(' ', '-', $category));
+                                $id = cleanTabId($category);
                             ?>
                                 <li class="nav-item">
-                                    <a class="d-flex m-2 py-2 bg-light rounded-pill <?= $index === 0 ? 'active' : '' ?>" data-bs-toggle="pill" href="#tab-<?= $id ?>">
+                                    <a class="d-flex m-2 px-1 py-2 bg-light rounded-pill <?= $index === 0 ? 'active' : '' ?>" data-bs-toggle="pill" href="#tab-<?= $id ?>">
                                         <span class="text-dark" style="width: 130px;"><?= $category ?></span>
                                     </a>
                                 </li>
@@ -281,7 +289,7 @@ $cartCount = $totalQuantity;
 
                 <div class="tab-content">
                     <!-- All Products Tab -->
-                    <div id="tab-all-products" class="tab-pane fade show active p-0">
+                    <div id="tab-<?= cleanTabId('All Products') ?>" class="tab-pane fade show active p-0">
                         <div class="row g-4">
                             <?php if ($all_products_result->num_rows > 0): ?>
                                 <?php while ($product = $all_products_result->fetch_assoc()): ?>
@@ -289,7 +297,7 @@ $cartCount = $totalQuantity;
                                 <?php endwhile; ?>
                             <?php else: ?>
                                 <div class="col-12 text-center">
-                                    <p class="text-muted">No products found for "<?= htmlspecialchars($searchTerm) ?>".</p>
+                                    <p class="text-muted">No products found<?= htmlspecialchars($searchTerm) ?></p>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -297,18 +305,24 @@ $cartCount = $totalQuantity;
 
                     <!-- Individual Category Tabs -->
                     <?php
-                    $categoryNames = ['Fruits', 'Drinks', 'Meat', 'Snacks', 'Bakery', 'Vegetables'];
-                    foreach ($categoryNames as $categoryName):
+                    foreach ($categories as $categoryName):
+                        $tabId = cleanTabId($categoryName);
                         $stmt = $conn->prepare("SELECT * FROM products WHERE category = ?");
                         $stmt->bind_param("s", $categoryName);
                         $stmt->execute();
                         $result = $stmt->get_result();
                     ?>
-                        <div id="tab-<?= strtolower($categoryName) ?>" class="tab-pane fade p-0">
+                        <div id="tab-<?= $tabId ?>" class="tab-pane fade p-0">
                             <div class="row g-4">
-                                <?php while ($product = $result->fetch_assoc()): ?>
-                                    <?= renderProductCard($product); ?>
-                                <?php endwhile; ?>
+                                <?php if ($result->num_rows > 0): ?>
+                                    <?php while ($product = $result->fetch_assoc()): ?>
+                                        <?= renderProductCard($product); ?>
+                                    <?php endwhile; ?>
+                                <?php else: ?>
+                                    <div class="col-12 text-center">
+                                        <p class="text-muted">No products found in <?= htmlspecialchars($categoryName) ?></p>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -317,6 +331,7 @@ $cartCount = $totalQuantity;
         </div>
     </div>
     <!-- Shop End -->
+
 
     <?php
     // Reusable product card rendering function
@@ -427,14 +442,19 @@ $cartCount = $totalQuantity;
             <h1 class="mb-0">Featured Products</h1>
             <div class="owl-carousel vegetable-carousel justify-content-center">
                 <?php while ($product = $featured_result->fetch_assoc()):
-                    $isOutOfStock = $product['stock_status'] === 'Out of Stock'; // Check if product is out of stock
+                    $isOutOfStock = $product['stock_status'] === 'Out of Stock';
                 ?>
                     <div class="border border-primary rounded position-relative vesitable-item <?= $isOutOfStock ? 'opacity-50 pointer-events-none' : '' ?>">
+
+                        <!-- ✅ Product Image Wrapped in <a> -->
                         <div class="vesitable-img">
-                            <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
+                            <a href="product-details.php?product_id=<?= $product['product_id'] ?>">
+                                <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
+                            </a>
                         </div>
+
                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                            <?php echo htmlspecialchars($product['category']); ?>
+                            <?= htmlspecialchars($product['category']) ?>
                         </div>
 
                         <!-- Out of Stock Badge -->
@@ -445,18 +465,19 @@ $cartCount = $totalQuantity;
                         <?php endif; ?>
 
                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                            <h4><?php echo htmlspecialchars($product['name']); ?></h4>
-                            <p><?php echo htmlspecialchars($product['description']); ?></p>
+                            <h4><?= htmlspecialchars($product['name']) ?></h4>
+                            <p><?= htmlspecialchars($product['description']) ?></p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
                                 <p class="text-dark fs-5 fw-bold mb-0">
-                                    Rs.<?php echo htmlspecialchars($product['price']); ?> /
-                                    <?php echo htmlspecialchars($product['quantity']); ?>
+                                    Rs.<?= htmlspecialchars($product['price']) ?> /
+                                    <?= htmlspecialchars($product['quantity']) ?>
                                 </p>
 
                                 <!-- Add to cart form with AJAX -->
                                 <form id="addToCartForm<?= $product['product_id'] ?>" class="add-to-cart-form" data-product-id="<?= $product['product_id'] ?>" method="POST">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-                                    <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary" onclick="addToCart(<?= $product['product_id'] ?>)" <?= $isOutOfStock ? 'disabled' : '' ?>>
+                                    <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary"
+                                        onclick="addToCart(<?= $product['product_id'] ?>)" <?= $isOutOfStock ? 'disabled' : '' ?>>
                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                     </button>
                                 </form>
