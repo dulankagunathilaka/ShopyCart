@@ -386,9 +386,10 @@ $featured_result = $conn->query($query);
         <div class="col-md-6 col-lg-4 col-xl-3">
             <div class="rounded position-relative fruite-item h-100 d-flex flex-column border border-warning">
                 <a href="#" onclick="showLoginMessage()" class="d-flex flex-column h-100 text-decoration-none">
-                    <div class="fruite-img">
-                        <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
+                    <div class="fruite-img" style="height: 200px; overflow: hidden;">
+                        <img src="<?= htmlspecialchars($product['image_url']) ?>" class="w-100 h-100 object-fit-cover rounded-top" alt="">
                     </div>
+
                     <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                         <?= htmlspecialchars($product['category']) ?>
                     </div>
@@ -468,9 +469,13 @@ $featured_result = $conn->query($query);
             <div class="owl-carousel vegetable-carousel justify-content-center">
                 <?php while ($product = $featured_result->fetch_assoc()): ?>
                     <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="<?php echo htmlspecialchars($product['image_url']); ?>" class="img-fluid w-100 rounded-top" alt="">
+
+                        <div class="vesitable-img" style="height: 200px; overflow: hidden;">
+                            <a href="product-details.php?product_id=<?= $product['product_id'] ?>">
+                                <img src="<?= htmlspecialchars($product['image_url']) ?>" class="w-100 h-100 object-fit-cover rounded-top" alt="">
+                            </a>
                         </div>
+                        
                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                             <?php echo htmlspecialchars($product['category']); ?>
                         </div>

@@ -242,8 +242,8 @@ $cartCount = $totalQuantity;
 
                 <!-- Only image, badges, name, and description are clickable -->
                 <a href="product-details.php?product_id=<?= $product['product_id'] ?>" class="text-decoration-none flex-grow-1 d-flex flex-column">
-                    <div class="fruite-img">
-                        <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
+                    <div class="fruite-img" style="height: 200px; overflow: hidden;">
+                        <img src="<?= htmlspecialchars($product['image_url']) ?>" class="w-100 h-100 object-fit-cover rounded-top" alt="">
                     </div>
 
                     <!-- Category Badge -->
@@ -297,9 +297,9 @@ $cartCount = $totalQuantity;
                     <div class="border border-primary rounded position-relative vesitable-item <?= $isOutOfStock ? 'opacity-50 pointer-events-none' : '' ?>">
 
                         <!-- ✅ Product Image Wrapped in <a> -->
-                        <div class="vesitable-img">
+                        <div class="vesitable-img" style="height: 200px; overflow: hidden;">
                             <a href="product-details.php?product_id=<?= $product['product_id'] ?>">
-                                <img src="<?= htmlspecialchars($product['image_url']) ?>" class="img-fluid w-100 rounded-top" alt="">
+                                <img src="<?= htmlspecialchars($product['image_url']) ?>" class="w-100 h-100 object-fit-cover rounded-top" alt="">
                             </a>
                         </div>
 
