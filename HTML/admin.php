@@ -128,6 +128,7 @@ if (isset($conn)) { // Assuming $conn is available in dashboard_stats.php
                 <a href="#dashboard" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
                 <a href="#products"><i class="fas fa-boxes me-2"></i>Manage Products</a>
                 <a href="#orders"><i class="fas fa-truck me-2"></i>Order Tracking</a>
+                <a href="#messages"><i class="fas fa-envelope me-2"></i>Contact Messages</a>
                 <a href="#resetpassword"><i class="fas fa-cog me-2"></i>Reset Password</a>
                 <a href="../PHP/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
             </section>
@@ -509,6 +510,49 @@ if (isset($conn)) { // Assuming $conn is available in dashboard_stats.php
                 </div>
             </div>
         </section>
+
+        <section id="messages" class="mt-5">
+            <div class="card">
+                <div class="card-header bg-primary text-white">User Contact Messages</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Message</th>
+                                    <th>Submitted At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                include '../HTML/db_connection.php';
+                                $result = $conn->query("SELECT * FROM contact_messages ORDER BY submitted_at DESC");
+                                if ($result->num_rows > 0):
+                                    while ($row = $result->fetch_assoc()):
+                                ?>
+                                        <tr>
+                                            <td><?= $row['id']; ?></td>
+                                            <td><?= htmlspecialchars($row['name']); ?></td>
+                                            <td><?= htmlspecialchars($row['email']); ?></td>
+                                            <td><?= nl2br(htmlspecialchars($row['message'])); ?></td>
+                                            <td><?= $row['submitted_at']; ?></td>
+                                        </tr>
+                                <?php
+                                    endwhile;
+                                else:
+                                    echo "<tr><td colspan='5'>No messages found.</td></tr>";
+                                endif;
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <!-- Reset Password -->
         <section id="resetpassword" class="mt-5">

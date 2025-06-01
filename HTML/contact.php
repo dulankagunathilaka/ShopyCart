@@ -30,6 +30,22 @@ if (isset($_SESSION['user_id'])) {
         $cartCount += $item['quantity'];
     }
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = htmlspecialchars($_POST['name']);
+    $email = htmlspecialchars($_POST['email']);
+    $message = htmlspecialchars($_POST['message']);
+
+    $stmt = $conn->prepare("INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $name, $email, $message);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Message sent successfully!');</script>";
+    } else {
+        echo "<script>alert('Failed to send message.');</script>";
+    }
+    $stmt->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -138,11 +154,11 @@ if (isset($_SESSION['user_id'])) {
                         </div>
                     </div>
                     <div class="col-lg-7">
-                        <form action="" class="">
-                            <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name">
-                            <input type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email">
-                            <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message"></textarea>
-                            <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
+                        <form action="" method="POST">
+                            <input type="text" name="name" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name" required>
+                            <input type="email" name="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email" required>
+                            <textarea name="message" class="w-100 form-control border-0 mb-4" rows="5" placeholder="Your Message" required></textarea>
+                            <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary" type="submit">Submit</button>
                         </form>
                     </div>
                     <div class="col-lg-5">
@@ -164,7 +180,7 @@ if (isset($_SESSION['user_id'])) {
                             <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
                             <div>
                                 <h4>Telephone</h4>
-                                <p class="mb-2">+94 70 123 4567</p>
+                                <p class="mb-2">+94 70 528 3688</p>
                             </div>
                         </div>
                     </div>
