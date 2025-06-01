@@ -294,23 +294,25 @@ if (isset($conn)) { // Assuming $conn is available in dashboard_stats.php
                                     </td>
                                     <td><img src="<?php echo htmlspecialchars($row['image_url']); ?>" class="img-thumbnail" style="width: 70px; height: 70px;"></td>
                                     <td>
-                                        <!-- Edit Button -->
-                                        <button class="btn btn-sm btn-primary edit-btn"
-                                            data-id="<?php echo $row['product_id']; ?>"
-                                            data-name="<?php echo htmlspecialchars($row['name']); ?>"
-                                            data-category="<?php echo htmlspecialchars($row['category']); ?>"
-                                            data-description="<?php echo htmlspecialchars($row['description']); ?>"
-                                            data-price="<?php echo htmlspecialchars($row['price']); ?>"
-                                            data-quantity="<?php echo htmlspecialchars($row['quantity']); ?>"
-                                            data-stock_status="<?php echo htmlspecialchars($row['stock_status']); ?>">
-                                            Edit
-                                        </button>
+                                        <div class="d-flex gap-2">
+                                            <!-- Edit Button -->
+                                            <button class="btn btn-sm btn-primary edit-btn"
+                                                data-id="<?php echo $row['product_id']; ?>"
+                                                data-name="<?php echo htmlspecialchars($row['name']); ?>"
+                                                data-category="<?php echo htmlspecialchars($row['category']); ?>"
+                                                data-description="<?php echo htmlspecialchars($row['description']); ?>"
+                                                data-price="<?php echo htmlspecialchars($row['price']); ?>"
+                                                data-quantity="<?php echo htmlspecialchars($row['quantity']); ?>"
+                                                data-stock_status="<?php echo htmlspecialchars($row['stock_status']); ?>">
+                                                Edit
+                                            </button>
 
-                                        <!-- Remove Button -->
-                                        <form method="POST" action="../PHP/remove_product.php" style="display:inline;">
-                                            <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this product?');">Remove</button>
-                                        </form>
+                                            <!-- Remove Button -->
+                                            <form method="POST" action="../PHP/remove_product.php" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                                <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
+                                                <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
@@ -338,13 +340,14 @@ if (isset($conn)) { // Assuming $conn is available in dashboard_stats.php
                         <div class="col-md-6">
                             <label>Category</label>
                             <select class="form-select" name="category" id="edit-category" required>
+                                <option value="">Select Category</option>
                                 <option value="All Products">All Products</option>
-                                <option value="Vegetables">Vegetables</option>
-                                <option value="Fruits">Fruits</option>
+                                <option value="Fresh Produce">Fresh Produce</option>
+                                <option value="Meat & Seafood">Meat & Seafood</option>
+                                <option value="Dairy & Eggs">Dairy & Eggs</option>
                                 <option value="Bakery">Bakery</option>
-                                <option value="Meat">Meat</option>
-                                <option value="Snacks">Snacks</option>
-                                <option value="Drinks">Drinks</option>
+                                <option value="Beverages">Beverages</option>
+                                <option value="Packaged Foods">Packaged Foods</option>
                             </select>
                         </div>
                         <div class="col-md-12">

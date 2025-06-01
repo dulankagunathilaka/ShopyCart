@@ -253,7 +253,7 @@ $cartCount = $totalQuantity;
 
                     <!-- Out of Stock Badge -->
                     <?php if ($isOutOfStock): ?>
-                        <div class="text-dark px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.7); font-weight: bold;">
+                        <div class="text-dark px-3 py-1 rounded position-absolute" style="top: 210px; right: 10px; background-color: rgba(255, 255, 255, 0.7); font-weight: bold;">
                             Out of Stock
                         </div>
                     <?php endif; ?>
@@ -309,7 +309,7 @@ $cartCount = $totalQuantity;
 
                         <!-- Out of Stock Badge -->
                         <?php if ($isOutOfStock): ?>
-                            <div class="text-dark px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px; background-color: rgba(255, 255, 255, 0.7); font-weight: bold;">
+                            <div class="text-dark px-3 py-1 rounded position-absolute" style="top: 210px; right: 10px; background-color: rgba(255, 255, 255, 0.7); font-weight: bold;">
                                 Out of Stock
                             </div>
                         <?php endif; ?>
