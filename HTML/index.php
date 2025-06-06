@@ -475,7 +475,7 @@ $featured_result = $conn->query($query);
                                 <img src="<?= htmlspecialchars($product['image_url']) ?>" class="w-100 h-100 object-fit-cover rounded-top" alt="">
                             </a>
                         </div>
-                        
+
                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                             <?php echo htmlspecialchars($product['category']); ?>
                         </div>

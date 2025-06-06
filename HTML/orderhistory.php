@@ -13,7 +13,7 @@ $fullName = $_SESSION['full_name'] ?? 'Guest';
 // Get cart items from session
 $cart = $_SESSION['cart'] ?? [];
 
-// ✅ Updated: Count cart items for navbar (total quantity)
+// Updated: Count cart items for navbar (total quantity)
 $cartCount = 0;
 foreach ($cart as $item) {
     if (isset($item['quantity'])) {

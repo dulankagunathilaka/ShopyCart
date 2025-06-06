@@ -296,7 +296,7 @@ $cartCount = $totalQuantity;
                 ?>
                     <div class="border border-primary rounded position-relative vesitable-item <?= $isOutOfStock ? 'opacity-50 pointer-events-none' : '' ?>">
 
-                        <!-- ✅ Product Image Wrapped in <a> -->
+                        <!-- Product Image Wrapped in <a> -->
                         <div class="vesitable-img" style="height: 200px; overflow: hidden;">
                             <a href="product-details.php?product_id=<?= $product['product_id'] ?>">
                                 <img src="<?= htmlspecialchars($product['image_url']) ?>" class="w-100 h-100 object-fit-cover rounded-top" alt="">
